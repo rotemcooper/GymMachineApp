@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         usbService.write( b );
     }
 
+    
     public void workoutPlus( View view ) {
         byte[] b = { (byte) '*' };
         usbService.write( b );
