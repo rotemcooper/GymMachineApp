@@ -64,15 +64,33 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void weightPrf( View view )
-    {
+    public void weightPrf( View view ) {
         byte[] b = { (byte) 'w' };
         usbService.write( b );
     }
 
-    public void springPrf( View view )
-    {
+    public void springPrf( View view ) {
         byte[] b = { (byte) 's' };
+        usbService.write( b );
+    }
+
+    public void inversePrf( View view ) {
+        byte[] b = { (byte) 'i' };
+        usbService.write( b );
+    }
+
+    public void mtnPrf( View view ) {
+        byte[] b = { (byte) 'm' };
+        usbService.write( b );
+    }
+
+    public void workoutPlus( View view ) {
+        byte[] b = { (byte) '*' };
+        usbService.write( b );
+    }
+
+    public void workoutMinus( View view ) {
+        byte[] b = { (byte) '/' };
         usbService.write( b );
     }
 
