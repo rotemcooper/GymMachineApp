@@ -17,6 +17,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+
 import java.lang.ref.WeakReference;
 import java.util.Set;
 
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         usbService.write( b );
     }
 
-    
+
     public void workoutPlus( View view ) {
         byte[] b = { (byte) '*' };
         usbService.write( b );
@@ -118,6 +122,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+        graph.addSeries(series);
     }
 
     @Override

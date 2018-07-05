@@ -11,6 +11,12 @@
     android:focusableInTouchMode="true"
     tools:context="com.felhr.serialportexample.MainActivity">
 
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="779dp"
+        android:layout_height="200dip"
+        android:layout_centerInParent="true" />
+
     <Button
         android:id="@+id/buttonMtnPref"
         android:layout_width="250dp"
@@ -61,8 +67,8 @@
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="90dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
         android:background="#FFFFFF"
         android:gravity="bottom"
         android:scrollbars="vertical" />
