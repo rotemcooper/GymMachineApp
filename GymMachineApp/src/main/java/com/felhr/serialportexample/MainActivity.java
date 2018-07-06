@@ -21,6 +21,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
+import android.graphics.Color;
 
 import java.lang.ref.WeakReference;
 import java.util.Set;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         usbService.write( b );
 
         series2.resetData( new DataPoint[]{
-                new DataPoint(20, 100)
+                new DataPoint(40, spring_tbl[40])
         });
     }
 
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         usbService.write( b );
 
         series2.resetData( new DataPoint[]{
-                new DataPoint(40, 200)
+                new DataPoint(80, spring_tbl[80])
         });
     }
 
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dp);
         graph.addSeries(series);
+        series.setDrawBackground(true);
 /*
          LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
 
@@ -177,9 +179,10 @@ public class MainActivity extends AppCompatActivity {
 */
         /*PointsGraphSeries<DataPoint>*/
         series2 = new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(20, 100)
+                new DataPoint(40, spring_tbl[40])
         });
         graph.addSeries(series2);
+        series2.setColor(Color.RED);
 
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(200);
