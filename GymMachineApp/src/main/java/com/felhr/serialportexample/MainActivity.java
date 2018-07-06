@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.lang.ref.WeakReference;
@@ -81,11 +82,19 @@ public class MainActivity extends AppCompatActivity {
     public void inversePrf( View view ) {
         byte[] b = { (byte) 'i' };
         usbService.write( b );
+
+        series2.resetData( new DataPoint[]{
+                new DataPoint(20, 100)
+        });
     }
 
     public void mtnPrf( View view ) {
         byte[] b = { (byte) 'm' };
         usbService.write( b );
+
+        series2.resetData( new DataPoint[]{
+                new DataPoint(40, 200)
+        });
     }
 
 
@@ -98,6 +107,26 @@ public class MainActivity extends AppCompatActivity {
         byte[] b = { (byte) '/' };
         usbService.write( b );
     }
+
+    private int[] spring_tbl =
+        {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+            0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
+            10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
+            20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
+            30,  31,  32,  33,  34,  35,  36,  37,  38,  38,
+            40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
+            50,  51,  52,  53,  54,  55,  56,  57,  58,  59,
+            60,  61,  62,  63,  64,  65,  66,  67,  68,  69,
+            70,  71,  72,  73,  74,  75,  76,  77,  78,  79,
+            80,  81,  82,  83,  84,  85,  86,  87,  88,  89,
+            90,  91,  92,  93,  94,  95,  96,  97,  98,  99,
+            100, 101, 102, 103, 104, 105, 106, 107, 108, 109,
+            110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
+            120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
+            130, 131, 132, 133, 134, 135, 136, 137, 138, 139,
+            140, 141, 142, 143, 144, 145, 146, 147, 148, 149 };
+
+    private PointsGraphSeries<DataPoint> series2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,15 +152,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        DataPoint[] dp = new DataPoint[200];
+        for(int i=0; i<200; i++){
+            if(i<spring_tbl.length) {
+                dp[i] = new DataPoint(i, spring_tbl[i]);
+            }
+            else {
+                dp[i] = new DataPoint(i, spring_tbl[spring_tbl.length-1]);
+            }
+        }
+
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dp);
+        graph.addSeries(series);
+/*
+         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),
                 new DataPoint(2, 3),
                 new DataPoint(3, 2),
                 new DataPoint(4, 6)
         });
-        graph.addSeries(series);
+*/
+        /*PointsGraphSeries<DataPoint>*/
+        series2 = new PointsGraphSeries<>(new DataPoint[]{
+                new DataPoint(20, 100)
+        });
+        graph.addSeries(series2);
+
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(200);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(300);
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setXAxisBoundsManual(true);
     }
 
     @Override
