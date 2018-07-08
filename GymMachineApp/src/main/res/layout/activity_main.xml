@@ -12,17 +12,85 @@
     android:keepScreenOn="true"
     tools:context="com.felhr.serialportexample.MainActivity">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonPullPlus"
+        android:layout_alignStart="@+id/buttonSend"
+        android:text="Pull"
+        android:textSize="35sp" />
 
     <Button
-        android:id="@+id/buttonMtnPref"
+        android:id="@+id/buttonReleasePlus"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/textViewRelease"
+        android:layout_alignStart="@+id/buttonReleaseMinus"
+        android:background="@android:color/holo_blue_dark"
+        android:onClick="workoutRelPlus"
+        android:text="+"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/textViewRelease"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/buttonReleaseMinus"
+        android:layout_alignStart="@+id/buttonReleaseMinus"
+        android:background="?attr/colorButtonNormal" />
+
+    <Button
+        android:id="@+id/buttonReleaseMinus"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/buttonMtnPref"
+        android:layout_alignEnd="@+id/textView1"
+        android:layout_marginBottom="50dp"
+        android:background="@android:color/holo_blue_light"
+        android:onClick="workoutRelMinus"
+        android:text="-"
+        android:textSize="60sp" />
+
+    <Button
+        android:id="@+id/buttonSend"
+        style="?borderlessButtonStyle"
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Send" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="159dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_toEndOf="@+id/buttonSend"
+        android:ems="10">
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="837dp"
+        android:layout_height="46dp"
+        android:layout_alignTop="@+id/buttonSend"
+        android:layout_toRightOf="@id/editText1"
+        android:background="#FFFFFF"
+        android:scrollbars="vertical" />
+
+    <Button
+        android:id="@+id/buttonWeightPrf"
         android:layout_width="@dimen/prfButtonWidth"
         android:layout_height="@dimen/prfButtonHight"
-        android:layout_alignTop="@+id/buttonInvSpringPrf"
-        android:layout_marginLeft="50dp"
-        android:layout_toRightOf="@+id/buttonInvSpringPrf"
-        android:onClick="mtnPrf"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="540dp"
+        android:longClickable="false"
+        android:onClick="weightPrf"
         android:soundEffectsEnabled="true"
-        android:text="MTN"
+        android:text="Weight"
         android:textSize="42sp" />
 
     <Button
@@ -50,74 +118,65 @@
         android:text="Inverse"
         android:textSize="42sp" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="837dp"
-        android:layout_height="46dp"
-        android:layout_alignTop="@+id/buttonSend"
-        android:layout_toRightOf="@id/editText1"
-        android:background="#FFFFFF"
-        android:scrollbars="vertical" />
-
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="159dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_toEndOf="@+id/buttonSend"
-        android:ems="10">
-
-    </EditText>
-
     <Button
-        android:id="@+id/buttonSend"
-        style="?borderlessButtonStyle"
-        android:layout_width="154dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="Send" />
-
-    <Button
-        android:id="@+id/buttonWeightPrf"
+        android:id="@+id/buttonMtnPref"
         android:layout_width="@dimen/prfButtonWidth"
         android:layout_height="@dimen/prfButtonHight"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignStart="@+id/textView1"
-        android:longClickable="false"
-        android:onClick="weightPrf"
+        android:layout_alignTop="@+id/buttonInvSpringPrf"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@+id/buttonInvSpringPrf"
+        android:onClick="mtnPrf"
         android:soundEffectsEnabled="true"
-        android:text="Weight"
+        android:text="MTN"
         android:textSize="42sp" />
 
     <Button
-        android:id="@+id/buttonMinus"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignStart="@+id/textView1"
-        android:layout_centerVertical="true"
-        android:onClick="workoutMinus"
+        android:id="@+id/buttonPullMinus"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/buttonMtnPref"
+        android:layout_alignStart="@+id/buttonSend"
+        android:layout_marginBottom="50dp"
+        android:background="@android:color/holo_blue_light"
+        android:onClick="workoutPullMinus"
         android:text="-"
-        android:textSize="80sp" />
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/textViewPull"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/buttonPullMinus"
+        android:layout_alignStart="@+id/buttonPullMinus"
+        android:background="?attr/colorButtonNormal" />
 
     <Button
-        android:id="@+id/buttonPlus"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignEnd="@+id/buttonMtnPref"
-        android:layout_centerVertical="true"
-        android:onClick="workoutPlus"
+        android:id="@+id/buttonPullPlus"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/textViewPull"
+        android:layout_alignStart="@+id/buttonPullMinus"
+        android:background="@android:color/holo_blue_dark"
+        android:onClick="workoutPullPlus"
         android:text="+"
-        android:textSize="80sp" />
+        android:textSize="60sp" />
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
-        android:layout_width="779dp"
-        android:layout_height="407dp"
-        android:layout_alignParentTop="true"
+        android:layout_width="849dp"
+        android:layout_height="463dp"
+        android:layout_above="@+id/buttonMtnPref"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="74dp" />
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonPullPlus"
+        android:layout_alignEnd="@+id/textView1"
+        android:text="Rel"
+        android:textSize="35sp" />
+
 
 </RelativeLayout>

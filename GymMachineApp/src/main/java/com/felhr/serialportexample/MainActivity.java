@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     public void workoutPlus( View view ) {
         byte[] b = { (byte) '*' };
         usbService.write( b );
@@ -108,6 +107,27 @@ public class MainActivity extends AppCompatActivity {
         byte[] b = { (byte) '/' };
         usbService.write( b );
     }
+
+    public void workoutPullPlus( View view ) {
+        byte[] b = { (byte) '*' };
+        usbService.write( b );
+    }
+
+    public void workoutPullMinus( View view ) {
+        byte[] b = { (byte) '/' };
+        usbService.write( b );
+    }
+
+    public void workoutRelPlus( View view ) {
+        byte[] b = { (byte) '*' };
+        usbService.write( b );
+    }
+
+    public void workoutRelMinus( View view ) {
+        byte[] b = { (byte) '/' };
+        usbService.write( b );
+    }
+
 
     private int[] spring_tbl =
         {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
