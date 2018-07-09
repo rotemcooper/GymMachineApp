@@ -71,94 +71,71 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void weightPrf( View view ) {
-        byte[] b = { (byte) 'w' };
+        byte[] buf = { (byte) 'w' };
         prfTbl = weight_tbl;
-        usbService.write( b );
-
-        DataPoint[] dp = new DataPoint[200];
-        for(int i=0; i<200; i++){
-            if(i<prfTbl.length) {
-                dp[i] = new DataPoint(i, prfTbl[i]);
-            }
-            else {
-                dp[i] = new DataPoint(i, prfTbl[prfTbl.length-1]);
-            }
-        }
-        series.resetData( dp );
+        usbService.write( buf );
+        series.resetData( prfDataPoints() );
     }
 
     public void springPrf( View view ) {
-        byte[] b = { (byte) 's' };
+        byte[] buf = { (byte) 's' };
         prfTbl = spring_tbl;
-        usbService.write( b );
-
-        DataPoint[] dp = new DataPoint[200];
-        for(int i=0; i<200; i++){
-            if(i<prfTbl.length) {
-                dp[i] = new DataPoint(i, prfTbl[i]);
-            }
-            else {
-                dp[i] = new DataPoint(i, prfTbl[prfTbl.length-1]);
-            }
-        }
-        series.resetData( dp );
+        usbService.write( buf );
+        series.resetData( prfDataPoints() );
     }
 
     public void inversePrf( View view ) {
         byte[] b = { (byte) 'i' };
         usbService.write( b );
-
-        series2.resetData( new DataPoint[]{
-                new DataPoint(40, prfTbl[40])
-        });
+        series2.resetData( currentPoint(40) );
     }
 
     public void mtnPrf( View view ) {
         byte[] b = { (byte) 'm' };
         usbService.write( b );
-
-        series2.resetData( new DataPoint[]{
-                new DataPoint(80, prfTbl[80])
-        });
+        series2.resetData( currentPoint(80) );
     }
 
     public void workoutPlus( View view ) {
-        byte[] b = { (byte) '*' };
-        usbService.write( b );
+        byte[] buf = { (byte) '*' };
+        usbService.write( buf );
     }
 
     public void workoutMinus( View view ) {
-        byte[] b = { (byte) '/' };
-        usbService.write( b );
+        byte[] buf = { (byte) '/' };
+        usbService.write( buf );
     }
 
     public void workoutPullPlus( View view ) {
-        byte[] b = { (byte) 'p', (byte) '*' };
-        usbService.write( b );
+        multPull += 1;
+        series.resetData( prfDataPoints() );
+        byte[] buf = { (byte) 'p', (byte) '*' };
+        usbService.write( buf );
     }
 
     public void workoutPullMinus( View view ) {
-        byte[] b = { (byte) 'p', (byte) '/' };
-        usbService.write( b );
+        if( multPull>1 ) multPull -= 1;
+        series.resetData( prfDataPoints() );
+        byte[] buf = { (byte) 'p', (byte) '/' };
+        usbService.write( buf );
     }
 
     public void workoutRelPlus( View view ) {
-        byte[] b = { (byte) 'r', (byte) '*' };
-        usbService.write( b );
+        byte[] buf = { (byte) 'r', (byte) '*' };
+        usbService.write( buf );
     }
 
     public void workoutRelMinus( View view ) {
-        byte[] b = { (byte) 'r', (byte) '/' };
-        usbService.write( b );
+        byte[] buf = { (byte) 'r', (byte) '/' };
+        usbService.write( buf );
     }
-
 
     private int[] spring_tbl =
         {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
             0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
             10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
             20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
-            30,  31,  32,  33,  34,  35,  36,  37,  38,  38,
+            30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
             40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
             50,  51,  52,  53,  54,  55,  56,  57,  58,  59,
             60,  61,  62,  63,  64,  65,  66,  67,  68,  69,
@@ -186,7 +163,40 @@ public class MainActivity extends AppCompatActivity {
             W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,
             W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4 };
 
-    private int[] prfTbl;
+    private DataPoint[] prfDataPoints()
+    {
+        DataPoint[] dp = new DataPoint[200];
+        for (int i=0; i < 200; i++) {
+            int len=i;
+            if( len >= prfTbl.length ) {
+                len = prfTbl.length - 1;
+            }
+            dp[i] = new DataPoint(i, prfTbl[len]*multPull);
+        }
+        return dp;
+    }
+
+    private DataPoint[] currentPoint( int point ) {
+        DataPoint[] dp = { new DataPoint(point, prfTbl[point]*multPull) };
+        return dp;
+    }
+
+    /*
+    private class prf {
+        String   name;
+        int     add_pull;
+        int     add_rel;
+        int     mult_pull;
+        int     mult_rel;
+        private int[] tbl = weight_tbl;
+    };
+    */
+    private int[] prfTbl = weight_tbl;
+    int     addPull=0;
+    int     addRel=0;
+    int     multPull=4;
+    int     multRel=4;
+
     private LineGraphSeries<DataPoint> series;
     private PointsGraphSeries<DataPoint> series2;
 
@@ -201,8 +211,6 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText1);
         Button sendButton = (Button) findViewById(R.id.buttonSend);
 
-        //Button weightPrf = (Button) findViewById(R.id.buttonWeightPrf);
-
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,43 +223,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        prfTbl = weight_tbl;
-        DataPoint[] dp = new DataPoint[200];
-        for(int i=0; i<200; i++){
-            if(i<prfTbl.length) {
-                dp[i] = new DataPoint(i, prfTbl[i]);
-            }
-            else {
-                dp[i] = new DataPoint(i, prfTbl[prfTbl.length-1]);
-            }
-        }
-
+        // Draw workout profile line
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        /*LineGraphSeries<DataPoint>*/
-        series = new LineGraphSeries<DataPoint>(dp);
+        series = new LineGraphSeries<DataPoint>( prfDataPoints() );
         graph.addSeries(series);
         series.setDrawBackground(true);
-/*
-         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
 
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
-*/
-        /*PointsGraphSeries<DataPoint>*/
-        series2 = new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(40, prfTbl[40])
-        });
+        // Draw current point
+        series2 = new PointsGraphSeries<>( currentPoint(0) );
         graph.addSeries(series2);
         series2.setColor(Color.RED);
 
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(200);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(300);
+        graph.getViewport().setMaxY(600);
 
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setXAxisBoundsManual(true);
