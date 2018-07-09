@@ -72,14 +72,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void weightPrf( View view ) {
         byte[] buf = { (byte) 'w' };
-        prfTbl = weight_tbl;
+        //prfTbl = weight_tbl;
+        prf = weightPref;
         usbService.write( buf );
         series.resetData( prfDataPoints() );
     }
 
     public void springPrf( View view ) {
         byte[] buf = { (byte) 's' };
-        prfTbl = spring_tbl;
+        //prfTbl = spring_tbl;
+        prf = springPref;
         usbService.write( buf );
         series.resetData( prfDataPoints() );
     }
@@ -107,14 +109,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void workoutPullPlus( View view ) {
-        multPull += 1;
+        prf.multPull += 1;
         series.resetData( prfDataPoints() );
         byte[] buf = { (byte) 'p', (byte) '*' };
         usbService.write( buf );
     }
 
     public void workoutPullMinus( View view ) {
-        if( multPull>1 ) multPull -=  1;
+        if( prf.multPull>1 ) prf.multPull -= 1;
         series.resetData( prfDataPoints() );
         byte[] buf = { (byte) 'p', (byte) '/' };
         usbService.write( buf );
@@ -129,6 +131,28 @@ public class MainActivity extends AppCompatActivity {
         byte[] buf = { (byte) 'r', (byte) '/' };
         usbService.write( buf );
     }
+
+    private class workoutPrf {
+        String  name;
+        int     addPull;
+        int     addRel;
+        int     multPull;
+        int     multRel;
+        int[]   tbl;
+
+        workoutPrf( String Name, int[] Tbl ) {
+            name = Name;
+            addPull = 0;
+            addRel = 0;
+            multPull = 4;
+            multRel = 4;
+            tbl = Tbl;
+        }
+    }
+
+    private workoutPrf springPref;
+    private workoutPrf weightPref;
+    private workoutPrf prf;
 
     private int[] spring_tbl =
         {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -168,34 +192,26 @@ public class MainActivity extends AppCompatActivity {
         DataPoint[] dp = new DataPoint[200];
         for (int i=0; i < 200; i++) {
             int len=i;
-            if( len >= prfTbl.length ) {
-                len = prfTbl.length - 1;
+            if( len >= prf.tbl.length ) {
+                len = prf.tbl.length - 1;
             }
-            dp[i] = new DataPoint(i, prfTbl[len]*multPull);
+            dp[i] = new DataPoint(i, prf.tbl[len]*prf.multPull);
         }
         return dp;
     }
 
     private DataPoint[] currentPoint( int point ) {
-        DataPoint[] dp = { new DataPoint(point, prfTbl[point]*multPull) };
+        DataPoint[] dp = { new DataPoint(point, prf.tbl[point]*prf.multPull) };
         return dp;
     }
 
     /*
-    private class prf {
-        String   name;
-        int     add_pull;
-        int     add_rel;
-        int     mult_pull;
-        int     mult_rel;
-        private int[] tbl = weight_tbl;
-    };
-    */
     private int[] prfTbl = weight_tbl;
     int     addPull=0;
     int     addRel=0;
     int     multPull=4;
     int     multRel=4;
+    */
 
     private LineGraphSeries<DataPoint> series;
     private PointsGraphSeries<DataPoint> series2;
@@ -222,6 +238,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        springPref = new workoutPrf("Spring", spring_tbl);
+        weightPref = new workoutPrf("Weight", weight_tbl);
+        prf = weightPref;
 
         // Draw workout profile line
         GraphView graph = (GraphView) findViewById(R.id.graph);
@@ -292,14 +312,14 @@ public class MainActivity extends AppCompatActivity {
                 String[] val = values[1].split( "/", 2 );
                 int distRight = Integer.parseInt(val[0]);
                 int distLeft = Integer.parseInt(val[1]);
-                if( distRight > prfTbl.length ) {
-                    distRight = prfTbl.length-1;
+                if( distRight >= prf.tbl.length ) {
+                    distRight = prf.tbl.length-1;
                 }
-                if( distLeft > prfTbl.length ) {
-                    distLeft = prfTbl.length-1;
+                if( distLeft >= prf.tbl.length ) {
+                    distLeft = prf.tbl.length-1;
                 }
                 series2.resetData( new DataPoint[]{
-                        new DataPoint(distRight, prfTbl[distRight]) });
+                        new DataPoint(distRight, prf.tbl[distRight]) });
             }
             /*
             if( element.startsWith("prf") ) {
