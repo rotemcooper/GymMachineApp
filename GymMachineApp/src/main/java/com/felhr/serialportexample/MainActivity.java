@@ -72,12 +72,36 @@ public class MainActivity extends AppCompatActivity {
 
     public void weightPrf( View view ) {
         byte[] b = { (byte) 'w' };
+        prfTbl = weight_tbl;
         usbService.write( b );
+
+        DataPoint[] dp = new DataPoint[200];
+        for(int i=0; i<200; i++){
+            if(i<prfTbl.length) {
+                dp[i] = new DataPoint(i, prfTbl[i]);
+            }
+            else {
+                dp[i] = new DataPoint(i, prfTbl[prfTbl.length-1]);
+            }
+        }
+        series.resetData( dp );
     }
 
     public void springPrf( View view ) {
         byte[] b = { (byte) 's' };
+        prfTbl = spring_tbl;
         usbService.write( b );
+
+        DataPoint[] dp = new DataPoint[200];
+        for(int i=0; i<200; i++){
+            if(i<prfTbl.length) {
+                dp[i] = new DataPoint(i, prfTbl[i]);
+            }
+            else {
+                dp[i] = new DataPoint(i, prfTbl[prfTbl.length-1]);
+            }
+        }
+        series.resetData( dp );
     }
 
     public void inversePrf( View view ) {
@@ -85,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         usbService.write( b );
 
         series2.resetData( new DataPoint[]{
-                new DataPoint(40, spring_tbl[40])
+                new DataPoint(40, prfTbl[40])
         });
     }
 
@@ -94,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         usbService.write( b );
 
         series2.resetData( new DataPoint[]{
-                new DataPoint(80, spring_tbl[80])
+                new DataPoint(80, prfTbl[80])
         });
     }
 
@@ -109,22 +133,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void workoutPullPlus( View view ) {
-        byte[] b = { (byte) '*' };
+        byte[] b = { (byte) 'p', (byte) '*' };
         usbService.write( b );
     }
 
     public void workoutPullMinus( View view ) {
-        byte[] b = { (byte) '/' };
+        byte[] b = { (byte) 'p', (byte) '/' };
         usbService.write( b );
     }
 
     public void workoutRelPlus( View view ) {
-        byte[] b = { (byte) '*' };
+        byte[] b = { (byte) 'r', (byte) '*' };
         usbService.write( b );
     }
 
     public void workoutRelMinus( View view ) {
-        byte[] b = { (byte) '/' };
+        byte[] b = { (byte) 'r', (byte) '/' };
         usbService.write( b );
     }
 
@@ -147,6 +171,23 @@ public class MainActivity extends AppCompatActivity {
             130, 131, 132, 133, 134, 135, 136, 137, 138, 139,
             140, 141, 142, 143, 144, 145, 146, 147, 148, 149 };
 
+    private static int W1 = 50;
+    private static int W2 = 50;
+    private static int W3 = 50;
+    private static int W4 = 50;
+    private int[] weight_tbl =
+         {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+            W1,  W1,  W1,  W1,  W1,  W1,  W1,  W1,  W1,  W1,
+            W1,  W1,  W1,  W1,  W1,  W1,  W1,  W1,  W1,  W1,
+            W2,  W2,  W2,  W2,  W2,  W2,  W2,  W2,  W2,  W2,
+            W2,  W2,  W2,  W2,  W2,  W2,  W2,  W2,  W2,  W2,
+            W3,  W3,  W3,  W3,  W3,  W3,  W3,  W3,  W3,  W3,
+            W3,  W3,  W3,  W3,  W3,  W3,  W3,  W3,  W3,  W3,
+            W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,
+            W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4 };
+
+    private int[] prfTbl;
+    private LineGraphSeries<DataPoint> series;
     private PointsGraphSeries<DataPoint> series2;
 
     @Override
@@ -159,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
         display = (TextView) findViewById(R.id.textView1);
         editText = (EditText) findViewById(R.id.editText1);
         Button sendButton = (Button) findViewById(R.id.buttonSend);
+
         //Button weightPrf = (Button) findViewById(R.id.buttonWeightPrf);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -173,18 +215,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        prfTbl = weight_tbl;
         DataPoint[] dp = new DataPoint[200];
         for(int i=0; i<200; i++){
-            if(i<spring_tbl.length) {
-                dp[i] = new DataPoint(i, spring_tbl[i]);
+            if(i<prfTbl.length) {
+                dp[i] = new DataPoint(i, prfTbl[i]);
             }
             else {
-                dp[i] = new DataPoint(i, spring_tbl[spring_tbl.length-1]);
+                dp[i] = new DataPoint(i, prfTbl[prfTbl.length-1]);
             }
         }
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dp);
+        /*LineGraphSeries<DataPoint>*/
+        series = new LineGraphSeries<DataPoint>(dp);
         graph.addSeries(series);
         series.setDrawBackground(true);
 /*
@@ -199,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 */
         /*PointsGraphSeries<DataPoint>*/
         series2 = new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(40, spring_tbl[40])
+                new DataPoint(40, prfTbl[40])
         });
         graph.addSeries(series2);
         series2.setColor(Color.RED);
@@ -252,9 +296,42 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(UsbService.ACTION_USB_PERMISSION_NOT_GRANTED);
         registerReceiver(mUsbReceiver, filter);
     }
+    public void usbRxProc( String data )
+    {
+        String [] params = data.split(",",0);
+        for (String element : params)
+        {
+            if( element.startsWith("dist") ) {
+                String[] values = element.split( "=", 2);
+                String[] val = values[1].split( "/", 2 );
+                int distRight = Integer.parseInt(val[0]);
+                int distLeft = Integer.parseInt(val[1]);
+                if( distRight > prfTbl.length ) {
+                    distRight = prfTbl.length-1;
+                }
+                if( distLeft > prfTbl.length ) {
+                    distLeft = prfTbl.length-1;
+                }
+                series2.resetData( new DataPoint[]{
+                        new DataPoint(distRight, prfTbl[distRight]) });
+            }
+            /*
+            if( element.startsWith("prf") ) {
 
+            }
+            else if( element.startsWith("add") ) {
+
+            }
+            else if( element.startsWith("mult") ) {
+
+            }
+            */
+
+        }
+    }
     /*
-     * This handler will be passed to UsbService. Data received from serial port is displayed through this handler
+     * This handler will be passed to UsbService.
+     * Data received from serial port is displayed through this handler
      */
     private static class MyHandler extends Handler {
         private final WeakReference<MainActivity> mActivity;
@@ -268,6 +345,7 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case UsbService.MESSAGE_FROM_SERIAL_PORT:
                     String data = (String) msg.obj;
+                    mActivity.get().usbRxProc( data );
                     mActivity.get().display.append(data);
                     break;
                 case UsbService.CTS_CHANGE:
