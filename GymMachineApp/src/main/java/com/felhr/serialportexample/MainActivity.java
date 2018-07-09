@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void workoutPullMinus( View view ) {
-        if( multPull>1 ) multPull -= 1;
+        if( multPull>1 ) multPull -=  1;
         series.resetData( prfDataPoints() );
         byte[] buf = { (byte) 'p', (byte) '/' };
         usbService.write( buf );
