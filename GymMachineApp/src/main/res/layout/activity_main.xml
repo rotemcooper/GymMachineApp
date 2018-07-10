@@ -77,7 +77,8 @@
         android:layout_alignTop="@+id/buttonSend"
         android:layout_toRightOf="@id/editText1"
         android:background="#FFFFFF"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:gravity="bottom" />
 
     <Button
         android:id="@+id/buttonWeightPrf"

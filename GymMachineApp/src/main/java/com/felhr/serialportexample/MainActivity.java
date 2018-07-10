@@ -201,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private DataPoint[] currentPoint( int point ) {
+        if( point < 0 ) point = 0;
+        if( point >= prf.tbl.length ) point = prf.tbl.length-1;
         DataPoint[] dp = { new DataPoint(point, prf.tbl[point]*prf.multPull) };
         return dp;
     }
@@ -302,37 +304,31 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(UsbService.ACTION_USB_PERMISSION_NOT_GRANTED);
         registerReceiver(mUsbReceiver, filter);
     }
+
+    //static int updateCntr = 0;
+
     public void usbRxProc( String data )
     {
-        String [] params = data.split(",",0);
+        String [] params = data.split(", ",0);
         for (String element : params)
         {
             if( element.startsWith("dist") ) {
-                String[] values = element.split( "=", 2);
-                String[] val = values[1].split( "/", 2 );
-                int distRight = Integer.parseInt(val[0]);
-                int distLeft = Integer.parseInt(val[1]);
-                if( distRight >= prf.tbl.length ) {
-                    distRight = prf.tbl.length-1;
+                String[] values = element.split( "=", 0);
+                if( values.length > 1 ) {
+                    String[] val = values[1].split( "/", 0 );
+                    if( val.length > 1 ) {
+                        //editText.setText( val[1] );
+                        try {
+                            int distRight = Integer.parseInt(val[0]);
+                            int distLeft = Integer.parseInt(val[1]);
+                            series2.resetData( currentPoint(distRight) );
+                        }
+                        catch( NumberFormatException e) {
+                            // Do nothing
+                        }
+                    }
                 }
-                if( distLeft >= prf.tbl.length ) {
-                    distLeft = prf.tbl.length-1;
-                }
-                series2.resetData( new DataPoint[]{
-                        new DataPoint(distRight, prf.tbl[distRight]) });
             }
-            /*
-            if( element.startsWith("prf") ) {
-
-            }
-            else if( element.startsWith("add") ) {
-
-            }
-            else if( element.startsWith("mult") ) {
-
-            }
-            */
-
         }
     }
     /*
@@ -352,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
                 case UsbService.MESSAGE_FROM_SERIAL_PORT:
                     String data = (String) msg.obj;
                     mActivity.get().usbRxProc( data );
-                    mActivity.get().display.append(data);
+                    //mActivity.get().display.append(data);
                     break;
                 case UsbService.CTS_CHANGE:
                     Toast.makeText(mActivity.get(), "CTS_CHANGE",Toast.LENGTH_LONG).show();
