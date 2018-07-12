@@ -78,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
         pullDisplay.setText(""+prf.multPull);
         relDisplay.setText(""+prf.multRel);
         usbService.write( buf );
-        series.resetData( prfDataPoints() );
+        pointsPull.resetData( prfDataPointsPull() );
+        pointsRel.resetData( prfDataPointsRel() );
     }
 
     public void springPrf( View view ) {
@@ -87,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
         pullDisplay.setText(""+prf.multPull);
         relDisplay.setText(""+prf.multRel);
         usbService.write( buf );
-        series.resetData( prfDataPoints() );
+        pointsPull.resetData( prfDataPointsPull() );
+        pointsRel.resetData( prfDataPointsRel() );
     }
 
     public void inversePrf( View view ) {
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     public void workoutPullPlus( View view ) {
         prf.multPull += 1;
         pullDisplay.setText(""+prf.multPull);
-        series.resetData( prfDataPoints() );
+        pointsPull.resetData( prfDataPointsPull() );
         byte[] buf = { (byte) 'p', (byte) '*' };
         usbService.write( buf );
     }
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     public void workoutPullMinus( View view ) {
         if( prf.multPull>1 ) prf.multPull -= 1;
         pullDisplay.setText(""+prf.multPull);
-        series.resetData( prfDataPoints() );
+        pointsPull.resetData( prfDataPointsPull() );
         byte[] buf = { (byte) 'p', (byte) '/' };
         usbService.write( buf );
     }
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
     public void workoutRelPlus( View view ) {
         prf.multRel += 1;
         relDisplay.setText(""+prf.multRel);
+        pointsRel.resetData( prfDataPointsRel() );
         byte[] buf = { (byte) 'r', (byte) '*' };
         usbService.write( buf );
     }
@@ -138,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
     public void workoutRelMinus( View view ) {
         if( prf.multRel>1 ) prf.multRel -= 1;
         relDisplay.setText(""+prf.multRel);
+        pointsRel.resetData( prfDataPointsRel() );
         byte[] buf = { (byte) 'r', (byte) '/' };
         usbService.write( buf );
     }
@@ -197,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,
             W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4,  W4 };
 
-    private DataPoint[] prfDataPoints()
+    private DataPoint[] prfDataPointsPull()
     {
         DataPoint[] dp = new DataPoint[200];
         for (int i=0; i < 200; i++) {
@@ -209,6 +213,20 @@ public class MainActivity extends AppCompatActivity {
         }
         return dp;
     }
+
+    private DataPoint[] prfDataPointsRel()
+    {
+        DataPoint[] dp = new DataPoint[200];
+        for (int i=0; i < 200; i++) {
+            int len=i;
+            if( len >= prf.tbl.length ) {
+                len = prf.tbl.length - 1;
+            }
+            dp[i] = new DataPoint(i, prf.tbl[len]*prf.multRel);
+        }
+        return dp;
+    }
+
 
     private DataPoint[] currentPoint( int point ) {
         if( point < 0 ) point = 0;
@@ -225,7 +243,8 @@ public class MainActivity extends AppCompatActivity {
     int     multRel=4;
     */
 
-    private LineGraphSeries<DataPoint> series;
+    private LineGraphSeries<DataPoint> pointsPull;
+    private LineGraphSeries<DataPoint> pointsRel;
     private PointsGraphSeries<DataPoint> series2;
 
     @Override
@@ -264,9 +283,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Draw workout profile line
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        series = new LineGraphSeries<DataPoint>( prfDataPoints() );
-        graph.addSeries(series);
-        series.setDrawBackground(true);
+        pointsPull = new LineGraphSeries<DataPoint>( prfDataPointsPull() );
+        graph.addSeries(pointsPull);
+        pointsPull.setDrawBackground(true);
+
+        pointsRel = new LineGraphSeries<DataPoint>( prfDataPointsRel() );
+        graph.addSeries(pointsRel);
+        pointsRel.setDrawBackground(true);
 
         // Draw current point
         series2 = new PointsGraphSeries<>( currentPoint(0) );
