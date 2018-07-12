@@ -73,12 +73,12 @@
     <TextView
         android:id="@+id/textView1"
         android:layout_width="837dp"
-        android:layout_height="46dp"
+        android:layout_height="100dp"
         android:layout_alignTop="@+id/buttonSend"
         android:layout_toRightOf="@id/editText1"
         android:background="#FFFFFF"
-        android:scrollbars="vertical"
-        android:gravity="bottom" />
+        android:gravity="bottom"
+        android:scrollbars="vertical" />
 
     <Button
         android:id="@+id/buttonWeightPrf"
@@ -166,9 +166,9 @@
         android:id="@+id/graph"
         android:layout_width="849dp"
         android:layout_height="463dp"
-        android:layout_above="@+id/buttonMtnPref"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginTop="81dp" />
 
     <TextView
         android:id="@+id/textView2"

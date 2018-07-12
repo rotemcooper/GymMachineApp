@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void workoutPullPlus( View view ) {
         prf.multPull += 1;
+        ((TextView) findViewById(R.id.textViewPull)).setText(""+prf.multPull);
         series.resetData( prfDataPoints() );
         byte[] buf = { (byte) 'p', (byte) '*' };
         usbService.write( buf );
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void workoutPullMinus( View view ) {
         if( prf.multPull>1 ) prf.multPull -= 1;
+        ((TextView) findViewById(R.id.textViewPull)).setText(""+prf.multPull);
         series.resetData( prfDataPoints() );
         byte[] buf = { (byte) 'p', (byte) '/' };
         usbService.write( buf );
@@ -306,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //static int updateCntr = 0;
+    static int mDistRight = 0;
 
     public void usbRxProc( String data )
     {
@@ -318,14 +321,14 @@ public class MainActivity extends AppCompatActivity {
                     String[] val = values[1].split( "/", 0 );
                     if( val.length > 1 ) {
                         //editText.setText( val[1] );
-                        try {
+                        //try {
                             int distRight = Integer.parseInt(val[0]);
                             int distLeft = Integer.parseInt(val[1]);
                             series2.resetData( currentPoint(distRight) );
-                        }
-                        catch( NumberFormatException e) {
+                        //}
+                        //catch( NumberFormatException e) {
                             // Do nothing
-                        }
+                        //}
                     }
                 }
             }
@@ -346,9 +349,10 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UsbService.MESSAGE_FROM_SERIAL_PORT:
+                case UsbService.SYNC_READ:
                     String data = (String) msg.obj;
                     mActivity.get().usbRxProc( data );
-                    //mActivity.get().display.append(data);
+                    mActivity.get().display.append(data);
                     break;
                 case UsbService.CTS_CHANGE:
                     Toast.makeText(mActivity.get(), "CTS_CHANGE",Toast.LENGTH_LONG).show();
