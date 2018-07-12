@@ -22,26 +22,28 @@
         android:textSize="35sp" />
 
     <Button
-        android:id="@+id/buttonReleasePlus"
+        android:id="@+id/buttonRelPlus"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_above="@+id/textViewRelease"
-        android:layout_alignStart="@+id/buttonReleaseMinus"
+        android:layout_above="@+id/textViewRel"
+        android:layout_alignStart="@+id/buttonRelMinus"
         android:background="@android:color/holo_blue_dark"
         android:onClick="workoutRelPlus"
         android:text="+"
         android:textSize="60sp" />
 
     <TextView
-        android:id="@+id/textViewRelease"
+        android:id="@+id/textViewRel"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_above="@+id/buttonReleaseMinus"
-        android:layout_alignStart="@+id/buttonReleaseMinus"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:layout_above="@+id/buttonRelMinus"
+        android:layout_alignStart="@+id/buttonRelMinus"
         android:background="?attr/colorButtonNormal" />
 
     <Button
-        android:id="@+id/buttonReleaseMinus"
+        android:id="@+id/buttonRelMinus"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_above="@+id/buttonMtnPref"
@@ -147,6 +149,8 @@
         android:id="@+id/textViewPull"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:textSize="50sp"
+        android:gravity="center"
         android:layout_above="@+id/buttonPullMinus"
         android:layout_alignStart="@+id/buttonPullMinus"
         android:background="?attr/colorButtonNormal" />
@@ -166,9 +170,8 @@
         android:id="@+id/graph"
         android:layout_width="849dp"
         android:layout_height="463dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="81dp" />
+        android:layout_alignTop="@+id/textView3"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/textView2"

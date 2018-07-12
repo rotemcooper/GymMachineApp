@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     };
     private UsbService usbService;
     private TextView display;
+    private TextView pullDisplay;
+    private TextView relDisplay;
     private EditText editText;
     private MyHandler mHandler;
     private final ServiceConnection usbConnection = new ServiceConnection() {
@@ -72,16 +74,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void weightPrf( View view ) {
         byte[] buf = { (byte) 'w' };
-        //prfTbl = weight_tbl;
         prf = weightPref;
+        pullDisplay.setText(""+prf.multPull);
+        relDisplay.setText(""+prf.multRel);
         usbService.write( buf );
         series.resetData( prfDataPoints() );
     }
 
     public void springPrf( View view ) {
         byte[] buf = { (byte) 's' };
-        //prfTbl = spring_tbl;
         prf = springPref;
+        pullDisplay.setText(""+prf.multPull);
+        relDisplay.setText(""+prf.multRel);
         usbService.write( buf );
         series.resetData( prfDataPoints() );
     }
@@ -110,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void workoutPullPlus( View view ) {
         prf.multPull += 1;
-        ((TextView) findViewById(R.id.textViewPull)).setText(""+prf.multPull);
+        pullDisplay.setText(""+prf.multPull);
         series.resetData( prfDataPoints() );
         byte[] buf = { (byte) 'p', (byte) '*' };
         usbService.write( buf );
@@ -118,18 +122,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void workoutPullMinus( View view ) {
         if( prf.multPull>1 ) prf.multPull -= 1;
-        ((TextView) findViewById(R.id.textViewPull)).setText(""+prf.multPull);
+        pullDisplay.setText(""+prf.multPull);
         series.resetData( prfDataPoints() );
         byte[] buf = { (byte) 'p', (byte) '/' };
         usbService.write( buf );
     }
 
     public void workoutRelPlus( View view ) {
+        prf.multRel += 1;
+        relDisplay.setText(""+prf.multRel);
         byte[] buf = { (byte) 'r', (byte) '*' };
         usbService.write( buf );
     }
 
     public void workoutRelMinus( View view ) {
+        if( prf.multRel>1 ) prf.multRel -= 1;
+        relDisplay.setText(""+prf.multRel);
         byte[] buf = { (byte) 'r', (byte) '/' };
         usbService.write( buf );
     }
@@ -229,6 +237,8 @@ public class MainActivity extends AppCompatActivity {
 
         display = (TextView) findViewById(R.id.textView1);
         editText = (EditText) findViewById(R.id.editText1);
+        pullDisplay = (TextView) findViewById(R.id.textViewPull);
+        relDisplay = (TextView) findViewById(R.id.textViewRel);
         Button sendButton = (Button) findViewById(R.id.buttonSend);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +256,11 @@ public class MainActivity extends AppCompatActivity {
         springPref = new workoutPrf("Spring", spring_tbl);
         weightPref = new workoutPrf("Weight", weight_tbl);
         prf = weightPref;
+
+        pullDisplay = (TextView) findViewById(R.id.textViewPull);
+        pullDisplay.setText(""+prf.multPull);
+        relDisplay = (TextView) findViewById(R.id.textViewRel);
+        relDisplay.setText(""+prf.multRel);
 
         // Draw workout profile line
         GraphView graph = (GraphView) findViewById(R.id.graph);
