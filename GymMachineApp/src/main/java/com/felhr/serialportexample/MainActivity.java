@@ -393,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
                 case UsbService.SYNC_READ:
                     String data = (String) msg.obj;
                     mActivity.get().usbRxProc(data);
-                    mActivity.get().display.append(data);
+                    //mActivity.get().display.append(data);
                     break;
                 case UsbService.CTS_CHANGE:
                     Toast.makeText(mActivity.get(), "CTS_CHANGE", Toast.LENGTH_LONG).show();
