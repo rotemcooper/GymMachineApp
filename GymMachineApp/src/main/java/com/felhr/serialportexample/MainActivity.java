@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     private workoutPrf prf;
 
     private int[] spring_tbl =
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   {/*0, 0, 0, 0, 0, 0, 0, 0, 0, 0,*/
                     0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                     10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
                     20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     private static int W3 = 50;
     private static int W4 = 50;
     private int[] weight_tbl =
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   {/*0, 0, 0, 0, 0, 0, 0, 0,*/ 0, 0,
                     W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
                     W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
                     W2, W2, W2, W2, W2, W2, W2, W2, W2, W2,
@@ -251,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
     private LineGraphSeries<DataPoint> pointsPull;
     private LineGraphSeries<DataPoint> pointsRel;
     private PointsGraphSeries<DataPoint> pointRight;
+    private PointsGraphSeries<DataPoint> pointLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -286,20 +287,25 @@ public class MainActivity extends AppCompatActivity {
         relDisplay = (TextView) findViewById(R.id.textViewRel);
         relDisplay.setText("" + prf.multRel);
 
-        // Draw workout profile line
+        // Draw workout profile line for pull
         GraphView graph = (GraphView) findViewById(R.id.graph);
         pointsPull = new LineGraphSeries<DataPoint>(prfDataPointsPull());
         graph.addSeries(pointsPull);
         pointsPull.setDrawBackground(true);
 
+        // Draw workout profile line for release
         pointsRel = new LineGraphSeries<DataPoint>(prfDataPointsRel());
         graph.addSeries(pointsRel);
         pointsRel.setDrawBackground(true);
 
-        // Draw current point
+        // Draw workout points for right and left cables
         pointRight = new PointsGraphSeries<>(currentPoint(0, 0));
         graph.addSeries(pointRight);
         pointRight.setColor(Color.RED);
+
+        pointLeft = new PointsGraphSeries<>(currentPoint(0, 0));
+        graph.addSeries(pointLeft);
+        pointLeft.setColor(Color.BLUE);
 
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(200);
@@ -363,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
                         int distRight = Integer.parseInt(val[0]);
                         int distLeft = Integer.parseInt(val[1]);
                         pointRight.resetData(currentPoint(distRight, prf.distRight));
+                        pointLeft.resetData(currentPoint(distLeft, prf.distLeft));
                         prf.distRight = distRight;
                         prf.distLeft = distLeft;
                         //}
