@@ -54,12 +54,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
     private UsbService usbService;
     private TextView display;
     private TextView pullDisplay;
     private TextView relDisplay;
     private EditText editText;
     private MyHandler mHandler;
+    private GraphView graph;
+
     private final ServiceConnection usbConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName arg0, IBinder arg1) {
@@ -75,34 +78,48 @@ public class MainActivity extends AppCompatActivity {
 
     public void weightPrf(View view) {
         byte[] buf = {(byte) 'w'};
+        usbService.write(buf);
         prf = weightPref;
+        graph.setTitle( prf.name );
         pullDisplay.setText("" + prf.multPull);
         relDisplay.setText("" + prf.multRel);
-        usbService.write(buf);
         pointsPull.resetData(prfDataPointsPull());
         pointsRel.resetData(prfDataPointsRel());
     }
 
     public void springPrf(View view) {
         byte[] buf = {(byte) 's'};
+        usbService.write(buf);
         prf = springPref;
+        graph.setTitle( prf.name );
         pullDisplay.setText("" + prf.multPull);
         relDisplay.setText("" + prf.multRel);
-        usbService.write(buf);
         pointsPull.resetData(prfDataPointsPull());
         pointsRel.resetData(prfDataPointsRel());
     }
 
     public void inversePrf(View view) {
-        byte[] b = {(byte) 'i'};
-        usbService.write(b);
-        pointRight.resetData(currentPoint(40, 0));
+        byte[] buf = {(byte) 'i'};
+        usbService.write(buf);
+        prf = invSpringPref;
+        graph.setTitle( prf.name );
+        pullDisplay.setText("" + prf.multPull);
+        relDisplay.setText("" + prf.multRel);
+        pointsPull.resetData(prfDataPointsPull());
+        pointsRel.resetData(prfDataPointsRel());
+        //pointRight.resetData(currentPoint(40, 0));
     }
 
     public void mtnPrf(View view) {
-        byte[] b = {(byte) 'm'};
-        usbService.write(b);
-        pointRight.resetData(currentPoint(80, 0));
+        byte[] buf = {(byte) 'm'};
+        usbService.write(buf);
+        prf = mtnPref;
+        graph.setTitle( prf.name );
+        pullDisplay.setText("" + prf.multPull);
+        relDisplay.setText("" + prf.multRel);
+        pointsPull.resetData(prfDataPointsPull());
+        pointsRel.resetData(prfDataPointsRel());
+        //pointRight.resetData(currentPoint(80, 0));
     }
 
     public void workoutPlus(View view) {
@@ -147,6 +164,11 @@ public class MainActivity extends AppCompatActivity {
         usbService.write(buf);
     }
 
+    public enum Direction {
+        PULL,
+        REL
+    }
+
     private class workoutPrf {
         String name;
         int addPull;
@@ -156,6 +178,9 @@ public class MainActivity extends AppCompatActivity {
         int[] tbl;
         int distRight;
         int distLeft;
+        Direction dirRight;
+        Direction dirLeft;
+
 
         workoutPrf(String Name, int[] Tbl) {
             name = Name;
@@ -166,12 +191,28 @@ public class MainActivity extends AppCompatActivity {
             tbl = Tbl;
             distRight = 0;
             distLeft = 0;
+            dirRight = Direction.PULL;
+            dirLeft = Direction.PULL;
         }
     }
 
-    private workoutPrf springPref;
     private workoutPrf weightPref;
+    private workoutPrf springPref;
+    private workoutPrf invSpringPref;
+    private workoutPrf mtnPref;
     private workoutPrf prf;
+
+    private static int W1 = 50;
+    private int[] weight_tbl =
+                   {/*0, 0, 0, 0, 0, 0, 0, 0,*/ 0, 0,
+                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
+                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
+                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
+                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
+                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
+                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
+                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
+                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1};
 
     private int[] spring_tbl =
                    {/*0, 0, 0, 0, 0, 0, 0, 0, 0, 0,*/
@@ -191,20 +232,34 @@ public class MainActivity extends AppCompatActivity {
                     130, 131, 132, 133, 134, 135, 136, 137, 138, 139,
                     140, 141, 142, 143, 144, 145, 146, 147, 148, 149};
 
-    private static int W1 = 50;
-    private static int W2 = 50;
-    private static int W3 = 50;
-    private static int W4 = 50;
-    private int[] weight_tbl =
-                   {/*0, 0, 0, 0, 0, 0, 0, 0,*/ 0, 0,
-                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
-                    W1, W1, W1, W1, W1, W1, W1, W1, W1, W1,
-                    W2, W2, W2, W2, W2, W2, W2, W2, W2, W2,
-                    W2, W2, W2, W2, W2, W2, W2, W2, W2, W2,
-                    W3, W3, W3, W3, W3, W3, W3, W3, W3, W3,
-                    W3, W3, W3, W3, W3, W3, W3, W3, W3, W3,
-                    W4, W4, W4, W4, W4, W4, W4, W4, W4, W4,
-                    W4, W4, W4, W4, W4, W4, W4, W4, W4, W4};
+    private int[] inv_spring_tbl =
+                   {/*  0,  0,  0,  0,  0,  0,  0,  0,*/  0,  0,
+                    149,148,147,146,145,144,143,142,141,140,
+                    139,138,137,136,135,134,133,132,131,130,
+                    129,128,127,126,125,124,123,122,121,120,
+                    119,118,117,116,115,114,113,112,111,110,
+                    109,108,107,106,105,104,103,102,101,100,
+                    99,98,97,96,95,94,93,92,91,90,
+                    89,88,87,86,85,84,83,82,81,80,
+                    79,78,77,76,75,74,73,72,71,70,
+                    69,68,67,66,65,64,63,62,61,60,
+                    59,58,57,56,55,54,53,52,51,50,
+                    49,48,47,46,45,44,43,42,41,40,
+                    39,38,37,36,35,34,33,32,31,30,
+                    29,28,27,26,25,24,23,22,21,20,
+                    19,18,17,16,15,14,13,12,11,10,
+                    9,8,7,6,5,4,3,2,1,0 };
+
+    private int[] mtn_tbl =
+                   {/* 0,   0,   0,   0,   0,   0,   0,   0,*/   0,   0,
+                    50,  52,  54,  56,  58,  60,  62,  64,  66,  68,
+                    70,  72,  74,  76,  78,  80,  82,  84,  86,  88,
+                    90,  92,  94,  96,  98, 100, 102, 104, 106, 108,
+                   110, 112, 114, 116, 118, 120, 122, 124, 126, 128,
+                   128, 126, 124, 122, 120, 118, 116, 114, 112, 110,
+                   108, 106, 104, 102, 100,  98,  96,  94,  92,  90,
+                    88,  86,  84,  82,  80,  78,  76,  74,  72,  70,
+                    68,  66,  64,  62,  60,  58,  56,  54,  52,  50 };
 
     private DataPoint[] prfDataPointsPull() {
         DataPoint[] dp = new DataPoint[200];
@@ -230,12 +285,11 @@ public class MainActivity extends AppCompatActivity {
         return dp;
     }
 
-
-    private DataPoint[] currentPoint(int point, int pointPrev) {
+    private DataPoint[] currentPoint(int point, Direction dir) {
         if (point < 0) point = 0;
         if (point >= prf.tbl.length) point = prf.tbl.length - 1;
         int mult = prf.multPull;
-        if (point < pointPrev) mult = prf.multRel;
+        if ( dir == Direction.REL ) mult = prf.multRel;
         DataPoint[] dp = {new DataPoint(point, prf.tbl[point] * mult)};
         return dp;
     }
@@ -278,8 +332,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        springPref = new workoutPrf("Spring", spring_tbl);
         weightPref = new workoutPrf("Weight", weight_tbl);
+        springPref = new workoutPrf("Spring", spring_tbl);
+        invSpringPref = new workoutPrf("Inverse Spring", inv_spring_tbl);
+        mtnPref = new workoutPrf("Mountain", mtn_tbl);
+
         prf = weightPref;
 
         pullDisplay = (TextView) findViewById(R.id.textViewPull);
@@ -287,8 +344,12 @@ public class MainActivity extends AppCompatActivity {
         relDisplay = (TextView) findViewById(R.id.textViewRel);
         relDisplay.setText("" + prf.multRel);
 
+         // Create and title the graph
+        graph = (GraphView) findViewById(R.id.graph);
+        graph.setTitle( prf.name );
+        graph.setTitleTextSize( 60 );
+
         // Draw workout profile line for pull
-        GraphView graph = (GraphView) findViewById(R.id.graph);
         pointsPull = new LineGraphSeries<DataPoint>(prfDataPointsPull());
         graph.addSeries(pointsPull);
         pointsPull.setDrawBackground(true);
@@ -299,11 +360,11 @@ public class MainActivity extends AppCompatActivity {
         pointsRel.setDrawBackground(true);
 
         // Draw workout points for right and left cables
-        pointRight = new PointsGraphSeries<>(currentPoint(0, 0));
+        pointRight = new PointsGraphSeries<>(currentPoint(0, Direction.PULL));
         graph.addSeries(pointRight);
         pointRight.setColor(Color.RED);
 
-        pointLeft = new PointsGraphSeries<>(currentPoint(0, 0));
+        pointLeft = new PointsGraphSeries<>(currentPoint(0, Direction.PULL));
         graph.addSeries(pointLeft);
         pointLeft.setColor(Color.BLUE);
 
@@ -367,9 +428,23 @@ public class MainActivity extends AppCompatActivity {
                         //editText.setText( val[1] );
                         //try {
                         int distRight = Integer.parseInt(val[0]);
+                        if( distRight > prf.distRight ) {
+                            prf.dirRight = Direction.PULL;
+                        }
+                        else if( distRight < prf.distRight ) {
+                            prf.dirRight = Direction.REL;
+                        }
+
                         int distLeft = Integer.parseInt(val[1]);
-                        pointRight.resetData(currentPoint(distRight, prf.distRight));
-                        pointLeft.resetData(currentPoint(distLeft, prf.distLeft));
+                        if( distLeft > prf.distLeft ) {
+                            prf.dirLeft = Direction.PULL;
+                        }
+                        else if( distLeft < prf.distLeft ) {
+                            prf.dirLeft = Direction.REL;
+                        }
+
+                        pointRight.resetData(currentPoint(distRight, prf.dirRight));
+                        pointLeft.resetData(currentPoint(distLeft, prf.dirLeft));
                         prf.distRight = distRight;
                         prf.distLeft = distLeft;
                         //}
