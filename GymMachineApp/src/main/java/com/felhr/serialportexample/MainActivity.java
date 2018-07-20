@@ -457,10 +457,10 @@ public class MainActivity extends AppCompatActivity {
             String[] params = data.split("test torque=", 0);
             if( params.length == 2 ) {
                 try {
-                int torque = Integer.parseInt(params[1]);
-                prf.multPull = torque/10; //+= 1;
-                pullDisplay.setText("" + prf.multPull);
-                pointsPull.resetData(prfDataPointsPull());
+                  int torque = Integer.parseInt(params[1].trim());
+                  prf.multPull = torque/10;
+                  pullDisplay.setText("" + prf.multPull);
+                  pointsPull.resetData(prfDataPointsPull());
                 }
                 catch( NumberFormatException e) {
                   //Do nothing
@@ -475,32 +475,29 @@ public class MainActivity extends AppCompatActivity {
                     if (values.length > 1) {
                         String[] val = values[1].split("/", 0);
                         if (val.length > 1) {
-                            //editText.setText( val[1] );
-                            //try {
-                            int distRight = Integer.parseInt(val[0]);
-                            if( distRight > prf.distRight ) {
-                                prf.dirRight = Direction.PULL;
+                            try {
+                                int distRight = Integer.parseInt(val[0]);
+                                if( distRight > prf.distRight ) {
+                                    prf.dirRight = Direction.PULL;
+                                }
+                                else if( distRight < prf.distRight ) {
+                                    prf.dirRight = Direction.REL;
+                                }
+                                int distLeft = Integer.parseInt(val[1]);
+                                if( distLeft > prf.distLeft ) {
+                                    prf.dirLeft = Direction.PULL;
+                                }
+                                else if( distLeft < prf.distLeft ) {
+                                    prf.dirLeft = Direction.REL;
+                                }
+                                pointRight.resetData(currentPoint(distRight, prf.dirRight));
+                                pointLeft.resetData(currentPoint(distLeft, prf.dirLeft));
+                                prf.distRight = distRight;
+                                prf.distLeft = distLeft;
                             }
-                            else if( distRight < prf.distRight ) {
-                                prf.dirRight = Direction.REL;
+                            catch( NumberFormatException e) {
+                                // Do nothing
                             }
-
-                            int distLeft = Integer.parseInt(val[1]);
-                            if( distLeft > prf.distLeft ) {
-                                prf.dirLeft = Direction.PULL;
-                            }
-                            else if( distLeft < prf.distLeft ) {
-                                prf.dirLeft = Direction.REL;
-                            }
-
-                            pointRight.resetData(currentPoint(distRight, prf.dirRight));
-                            pointLeft.resetData(currentPoint(distLeft, prf.dirLeft));
-                            prf.distRight = distRight;
-                            prf.distLeft = distLeft;
-                            //}
-                            //catch( NumberFormatException e) {
-                            // Do nothing
-                            //}
                         }
                     }
                 }
