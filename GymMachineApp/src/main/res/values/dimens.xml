@@ -6,5 +6,8 @@
     <dimen name="prfButtonWidth">250dp</dimen>
     <dimen name="prfButtonHight">125dp</dimen>
     <dimen name="prfButtonSpace">25dp</dimen>
+    <dimen name="topButtonWidth">200dp</dimen>
+    <dimen name="topButtonHight">80dp</dimen>
+    <dimen name="topButtonSpace">25dp</dimen>
 
 </resources>

@@ -76,6 +76,20 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+
+    public void strengthTest(View view) {
+        byte[] buf = {(byte) 't'};
+        usbService.write(buf);
+        prf = strengthTestPrf;
+        prf.multPull = 15;
+        prf.multRel = 15;
+        graph.setTitle( prf.name );
+        pullDisplay.setText("" + prf.multPull);
+        relDisplay.setText("" + prf.multRel);
+        pointsPull.resetData(prfDataPointsPull());
+        pointsRel.resetData(prfDataPointsRel());
+    }
+
     public void weightPrf(View view) {
         byte[] buf = {(byte) 'w'};
         usbService.write(buf);
@@ -200,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
     private workoutPrf springPref;
     private workoutPrf invSpringPref;
     private workoutPrf mtnPref;
+    private workoutPrf strengthTestPrf;
     private workoutPrf prf;
 
     private static int W1 = 50;
@@ -260,6 +275,25 @@ public class MainActivity extends AppCompatActivity {
                    108, 106, 104, 102, 100,  98,  96,  94,  92,  90,
                     88,  86,  84,  82,  80,  78,  76,  74,  72,  70,
                     68,  66,  64,  62,  60,  58,  56,  54,  52,  50 };
+
+    private int[] strength_test_tbl =
+                   { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                    10,  10,  10,  10,  10,  10,  10,  10,  10,  10,
+                    10,  10,  10,  10,  10,  10,  10,  10,  10,  10,
+                    10,  10,  10,  10,  10,  10,  10,  10,  10,  10,
+                    10,  10,  10,  10,  10,  10,  10,  10,  10,  10,
+                    10,  10,  10,  10,  10,  10,  10,  10,  10,  10,
+                    10,  10,  10,  10,  10,  10,  10,  10,  10,  10,
+                    10,  10,  10,  10,  10,  10,  10,  10,  10,  10,
+                    10,  10,  10,  10,  10,  10,  10,  10,  10,  10,
+                     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                    };
 
     private DataPoint[] prfDataPointsPull() {
         DataPoint[] dp = new DataPoint[200];
@@ -336,6 +370,7 @@ public class MainActivity extends AppCompatActivity {
         springPref = new workoutPrf("Spring", spring_tbl);
         invSpringPref = new workoutPrf("Inverse Spring", inv_spring_tbl);
         mtnPref = new workoutPrf("Mountain", mtn_tbl);
+        strengthTestPrf = new workoutPrf("Strength Test", strength_test_tbl);
 
         prf = weightPref;
 
@@ -418,39 +453,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void usbRxProc(String data) {
-        String[] params = data.split(", ", 0);
-        for (String element : params) {
-            if (element.startsWith("dist")) {
-                String[] values = element.split("=", 0);
-                if (values.length > 1) {
-                    String[] val = values[1].split("/", 0);
-                    if (val.length > 1) {
-                        //editText.setText( val[1] );
-                        //try {
-                        int distRight = Integer.parseInt(val[0]);
-                        if( distRight > prf.distRight ) {
-                            prf.dirRight = Direction.PULL;
-                        }
-                        else if( distRight < prf.distRight ) {
-                            prf.dirRight = Direction.REL;
-                        }
+        if( prf == strengthTestPrf ) {
+            String[] params = data.split("test torque=", 0);
+            if( params.length == 2 ) {
+                try {
+                int torque = Integer.parseInt(params[1]);
+                prf.multPull = torque/10; //+= 1;
+                pullDisplay.setText("" + prf.multPull);
+                pointsPull.resetData(prfDataPointsPull());
+                }
+                catch( NumberFormatException e) {
+                  //Do nothing
+                }
+            }
+        }
+        else {
+            String[] params = data.split(", ", 0);
+            for (String element : params) {
+                if (element.startsWith("dist")) {
+                    String[] values = element.split("=", 0);
+                    if (values.length > 1) {
+                        String[] val = values[1].split("/", 0);
+                        if (val.length > 1) {
+                            //editText.setText( val[1] );
+                            //try {
+                            int distRight = Integer.parseInt(val[0]);
+                            if( distRight > prf.distRight ) {
+                                prf.dirRight = Direction.PULL;
+                            }
+                            else if( distRight < prf.distRight ) {
+                                prf.dirRight = Direction.REL;
+                            }
 
-                        int distLeft = Integer.parseInt(val[1]);
-                        if( distLeft > prf.distLeft ) {
-                            prf.dirLeft = Direction.PULL;
-                        }
-                        else if( distLeft < prf.distLeft ) {
-                            prf.dirLeft = Direction.REL;
-                        }
+                            int distLeft = Integer.parseInt(val[1]);
+                            if( distLeft > prf.distLeft ) {
+                                prf.dirLeft = Direction.PULL;
+                            }
+                            else if( distLeft < prf.distLeft ) {
+                                prf.dirLeft = Direction.REL;
+                            }
 
-                        pointRight.resetData(currentPoint(distRight, prf.dirRight));
-                        pointLeft.resetData(currentPoint(distLeft, prf.dirLeft));
-                        prf.distRight = distRight;
-                        prf.distLeft = distLeft;
-                        //}
-                        //catch( NumberFormatException e) {
-                        // Do nothing
-                        //}
+                            pointRight.resetData(currentPoint(distRight, prf.dirRight));
+                            pointLeft.resetData(currentPoint(distLeft, prf.dirLeft));
+                            prf.distRight = distRight;
+                            prf.distLeft = distLeft;
+                            //}
+                            //catch( NumberFormatException e) {
+                            // Do nothing
+                            //}
+                        }
                     }
                 }
             }
