@@ -328,10 +328,11 @@ public class MainActivity extends AppCompatActivity {
 
     private DataPoint[] currentPoint(int point, Direction dir) {
         if (point < 0) point = 0;
-        if (point >= prf.tbl.length) point = prf.tbl.length - 1;
+        int pointChart = point;
+        if (pointChart >= prf.tbl.length) pointChart = prf.tbl.length - 1;
         int mult = prf.multPull;
         if ( dir == Direction.REL ) mult = prf.multRel;
-        DataPoint[] dp = {new DataPoint(point, torqueToPound(prf.tbl[point] * mult))};
+        DataPoint[] dp = {new DataPoint(point, torqueToPound(prf.tbl[pointChart] * mult))};
         return dp;
     }
 
