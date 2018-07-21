@@ -198,5 +198,15 @@
         android:textSize="32sp"
         android:background="@android:color/holo_green_light" />
 
+    <Button
+        android:id="@+id/buttonCycle"
+        android:layout_width="@dimen/topButtonWidth"
+        android:layout_height="@dimen/topButtonHight"
+        android:layout_alignParentTop="true"
+        android:onClick="buttonCycle"
+        android:soundEffectsEnabled="true"
+        android:text="0 Cycles"
+        android:textSize="32sp"
+        android:background="@android:color/holo_green_light" />
 
 </RelativeLayout>

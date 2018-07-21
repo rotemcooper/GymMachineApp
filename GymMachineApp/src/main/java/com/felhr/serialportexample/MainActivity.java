@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editText;
     private MyHandler mHandler;
     private GraphView graph;
+    private Button cycle;
 
     private final ServiceConnection usbConnection = new ServiceConnection() {
         @Override
@@ -90,50 +91,61 @@ public class MainActivity extends AppCompatActivity {
         pointsRel.resetData(prfDataPointsRel());
     }
 
-    public void weightPrf(View view) {
-        byte[] buf = {(byte) 'w'};
-        usbService.write(buf);
-        prf = weightPref;
+    public void buttonCycle(View view) {
+        cycleCnt++;
+        if( cycleCnt > 5 ) {
+            cycleCnt = 0;
+        }
+        cycle.setText( Integer.toString(cycleCnt) +  " Cycles" );
+        cycleCurr = 0;
+    }
+
+    private void prfRightDirChange( Direction dir ) {
+        if( prf.dirRight == Direction.REL && dir == Direction.PULL ) {
+            if( cycleCnt != 0 ) {
+                cycleCurr++;
+                if( cycleCurr >= cycleCnt ) {
+                    cycleCurr = 0;
+                }
+
+            }
+        }
+        prf.dirRight = dir;
+    }
+
+    private void prfChange( workoutPrf prfPrm ) {
+        prf = prfPrm;
         graph.setTitle( prf.name );
         pullDisplay.setText("" + prf.multPull);
         relDisplay.setText("" + prf.multRel);
         pointsPull.resetData(prfDataPointsPull());
         pointsRel.resetData(prfDataPointsRel());
+        cycleCnt = 0;
+        cycle.setText( Integer.toString(cycleCnt) +  " Cycles" );
+    }
+
+    public void weightPrf(View view) {
+        byte[] buf = {(byte) 'w'};
+        usbService.write(buf);
+        prfChange( weightPref );
     }
 
     public void springPrf(View view) {
         byte[] buf = {(byte) 's'};
         usbService.write(buf);
-        prf = springPref;
-        graph.setTitle( prf.name );
-        pullDisplay.setText("" + prf.multPull);
-        relDisplay.setText("" + prf.multRel);
-        pointsPull.resetData(prfDataPointsPull());
-        pointsRel.resetData(prfDataPointsRel());
+        prfChange( springPref );
     }
 
     public void inversePrf(View view) {
         byte[] buf = {(byte) 'i'};
         usbService.write(buf);
-        prf = invSpringPref;
-        graph.setTitle( prf.name );
-        pullDisplay.setText("" + prf.multPull);
-        relDisplay.setText("" + prf.multRel);
-        pointsPull.resetData(prfDataPointsPull());
-        pointsRel.resetData(prfDataPointsRel());
-        //pointRight.resetData(currentPoint(40, 0));
+        prfChange( invSpringPref );
     }
 
     public void mtnPrf(View view) {
         byte[] buf = {(byte) 'm'};
         usbService.write(buf);
-        prf = mtnPref;
-        graph.setTitle( prf.name );
-        pullDisplay.setText("" + prf.multPull);
-        relDisplay.setText("" + prf.multRel);
-        pointsPull.resetData(prfDataPointsPull());
-        pointsRel.resetData(prfDataPointsRel());
-        //pointRight.resetData(currentPoint(80, 0));
+        prfChange( mtnPref );
     }
 
     public void workoutPlus(View view) {
@@ -146,36 +158,78 @@ public class MainActivity extends AppCompatActivity {
         usbService.write(buf);
     }
 
-    public void workoutPullPlus(View view) {
-        prf.multPull += 1;
+    private void workoutPullPlus( int val ) {
+        prf.multPull += val;
         pullDisplay.setText("" + prf.multPull);
         pointsPull.resetData(prfDataPointsPull());
         byte[] buf = {(byte) 'p', (byte) '*'};
         usbService.write(buf);
     }
+    public void workoutPullPlus(View view) {
+        workoutPullPlus( 1 );
+        /*
+        prf.multPull += 1;
+        pullDisplay.setText("" + prf.multPull);
+        pointsPull.resetData(prfDataPointsPull());
+        byte[] buf = {(byte) 'p', (byte) '*'};
+        usbService.write(buf);
+        */
+    }
 
-    public void workoutPullMinus(View view) {
-        if (prf.multPull > 1) prf.multPull -= 1;
+    private void workoutPullMinus( int val ) {
+        prf.multPull -= val;
+        if (prf.multPull < 1) prf.multPull = 1;
         pullDisplay.setText("" + prf.multPull);
         pointsPull.resetData(prfDataPointsPull());
         byte[] buf = {(byte) 'p', (byte) '/'};
         usbService.write(buf);
     }
+    public void workoutPullMinus(View view) {
+        workoutPullMinus( 1 );
+        /*
+        if (prf.multPull > 1) prf.multPull -= 1;
+        pullDisplay.setText("" + prf.multPull);
+        pointsPull.resetData(prfDataPointsPull());
+        byte[] buf = {(byte) 'p', (byte) '/'};
+        usbService.write(buf);
+        */
+    }
 
-    public void workoutRelPlus(View view) {
-        prf.multRel += 1;
+    private void workoutRelPlus( int val ) {
+        prf.multRel += val;
         relDisplay.setText("" + prf.multRel);
         pointsRel.resetData(prfDataPointsRel());
         byte[] buf = {(byte) 'r', (byte) '*'};
         usbService.write(buf);
     }
+    public void workoutRelPlus(View view) {
+        workoutRelPlus( 1 );
+        /*
+        prf.multRel += 1;
+        relDisplay.setText("" + prf.multRel);
+        pointsRel.resetData(prfDataPointsRel());
+        byte[] buf = {(byte) 'r', (byte) '*'};
+        usbService.write(buf);
+        */
+    }
 
+    private void workoutRelMinus( int val ) {
+        prf.multRel -= val;
+        if (prf.multRel < 1) prf.multRel = 1;
+        relDisplay.setText("" + prf.multRel);
+        pointsRel.resetData(prfDataPointsRel());
+        byte[] buf = {(byte) 'r', (byte) '/'};
+        usbService.write(buf);
+    }
     public void workoutRelMinus(View view) {
+        workoutRelMinus( 1 );
+        /*
         if (prf.multRel > 1) prf.multRel -= 1;
         relDisplay.setText("" + prf.multRel);
         pointsRel.resetData(prfDataPointsRel());
         byte[] buf = {(byte) 'r', (byte) '/'};
         usbService.write(buf);
+        */
     }
 
     public enum Direction {
@@ -216,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
     private workoutPrf mtnPref;
     private workoutPrf strengthTestPrf;
     private workoutPrf prf;
+    private int        cycleCnt;
+    private int        cycleCurr;
 
     private static int W1 = 50;
     private int[] weight_tbl =
@@ -381,6 +437,9 @@ public class MainActivity extends AppCompatActivity {
         strengthTestPrf = new workoutPrf("Strength Test", strength_test_tbl);
 
         prf = weightPref;
+        cycleCnt = 0;
+        cycleCurr = 0;
+        cycle = (Button) findViewById(R.id.buttonCycle);
 
         pullDisplay = (TextView) findViewById(R.id.textViewPull);
         pullDisplay.setText("" + prf.multPull);
@@ -466,7 +525,6 @@ public class MainActivity extends AppCompatActivity {
         if( prf == strengthTestPrf ) {
             if( data.contains("test torque=") ) {
                 testFinished = false;
-                //graph.setTitle( data );
                 String[] params = data.split("test torque=", 0);
                 if( params.length == 2 ) {
                     try {
@@ -488,15 +546,7 @@ public class MainActivity extends AppCompatActivity {
                     testFinished = true;
                     graph.setTitle( str );
                     graph.setTitle( str );
-                //params = data.split("lb=", 0);
-                //if( params.length == 2 ) {
-                    //int torque = Integer.parseInt(params[1].trim());
-                    //graph.setTitle( data );
-                    //pullDisplay.setText("" + prf.multPull);
-                    //pointsPull.resetData(prfDataPointsPull());
-                //}
                 }
-
             }
         }
         else {
