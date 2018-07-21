@@ -295,6 +295,13 @@ public class MainActivity extends AppCompatActivity {
                      0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
                     };
 
+    private double torqueToPound( int x ) {
+        //double y = 0.0707x + 15.886
+        double y = 0.09*x + 5.0;
+        //double y = -(8E-05)*x*x + 0.1494*x - 1.1517;
+        return y;
+    }
+
     private DataPoint[] prfDataPointsPull() {
         DataPoint[] dp = new DataPoint[200];
         for (int i = 0; i < 200; i++) {
@@ -302,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
             if (len >= prf.tbl.length) {
                 len = prf.tbl.length - 1;
             }
-            dp[i] = new DataPoint(i, prf.tbl[len] * prf.multPull);
+            dp[i] = new DataPoint(i, torqueToPound(prf.tbl[len] * prf.multPull));
         }
         return dp;
     }
@@ -314,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
             if (len >= prf.tbl.length) {
                 len = prf.tbl.length - 1;
             }
-            dp[i] = new DataPoint(i, prf.tbl[len] * prf.multRel);
+            dp[i] = new DataPoint(i, torqueToPound(prf.tbl[len] * prf.multRel));
         }
         return dp;
     }
@@ -324,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
         if (point >= prf.tbl.length) point = prf.tbl.length - 1;
         int mult = prf.multPull;
         if ( dir == Direction.REL ) mult = prf.multRel;
-        DataPoint[] dp = {new DataPoint(point, prf.tbl[point] * mult)};
+        DataPoint[] dp = {new DataPoint(point, torqueToPound(prf.tbl[point] * mult))};
         return dp;
     }
 
@@ -406,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(200);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(600);
+        graph.getViewport().setMaxY(80);
 
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setXAxisBoundsManual(true);
@@ -452,19 +459,43 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(mUsbReceiver, filter);
     }
 
+    boolean testFinished = false;
     public void usbRxProc(String data) {
+
         if( prf == strengthTestPrf ) {
-            String[] params = data.split("test torque=", 0);
-            if( params.length == 2 ) {
-                try {
-                  int torque = Integer.parseInt(params[1].trim());
-                  prf.multPull = torque/10;
-                  pullDisplay.setText("" + prf.multPull);
-                  pointsPull.resetData(prfDataPointsPull());
+            if( data.contains("test torque=") ) {
+                testFinished = false;
+                //graph.setTitle( data );
+                String[] params = data.split("test torque=", 0);
+                if( params.length == 2 ) {
+                    try {
+                      int torque = Integer.parseInt(params[1].trim());
+                      prf.multPull = torque/10;
+                      pullDisplay.setText("" + prf.multPull);
+                      pointsPull.resetData(prfDataPointsPull());
+                      graph.setTitle( "Strength Test, " + Integer.toString(prf.multPull) + "lb" );
+                    }
+                    catch( NumberFormatException e) {
+                      //Do nothing
+                    }
                 }
-                catch( NumberFormatException e) {
-                  //Do nothing
+            }
+            else if( data.contains("Strength test done") ) {
+                if( !testFinished ) {
+                    String str = new String( "Test Done");
+                    Toast.makeText(this, str, Toast.LENGTH_LONG).show();
+                    testFinished = true;
+                    graph.setTitle( str );
+                    graph.setTitle( str );
+                //params = data.split("lb=", 0);
+                //if( params.length == 2 ) {
+                    //int torque = Integer.parseInt(params[1].trim());
+                    //graph.setTitle( data );
+                    //pullDisplay.setText("" + prf.multPull);
+                    //pointsPull.resetData(prfDataPointsPull());
+                //}
                 }
+
             }
         }
         else {
