@@ -105,9 +105,14 @@ public class MainActivity extends AppCompatActivity {
             if( cycleCnt != 0 ) {
                 cycleCurr++;
                 if( cycleCurr >= cycleCnt ) {
+                    workoutPullMinus( cycleCurr-1 );
+                    workoutRelMinus( cycleCurr-1 );
                     cycleCurr = 0;
                 }
-
+                else {
+                    workoutPullPlus( 1 );
+                    workoutRelPlus( 1 );
+                }
             }
         }
         prf.dirRight = dir;
@@ -121,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         pointsPull.resetData(prfDataPointsPull());
         pointsRel.resetData(prfDataPointsRel());
         cycleCnt = 0;
+        cycleCurr = 0;
         cycle.setText( Integer.toString(cycleCnt) +  " Cycles" );
     }
 
@@ -167,32 +173,24 @@ public class MainActivity extends AppCompatActivity {
     }
     public void workoutPullPlus(View view) {
         workoutPullPlus( 1 );
-        /*
-        prf.multPull += 1;
-        pullDisplay.setText("" + prf.multPull);
-        pointsPull.resetData(prfDataPointsPull());
-        byte[] buf = {(byte) 'p', (byte) '*'};
-        usbService.write(buf);
-        */
     }
 
     private void workoutPullMinus( int val ) {
+        byte[] buf = new byte[val+1];
+        buf[0] = 'p';
+        //{(byte) 'p', (byte) '/'};
+        //usbService.write(buf);
+        for( int i=0; i<val; i++ ) {
+            buf[i+1] = '/';
+        }
+        usbService.write(buf);
         prf.multPull -= val;
         if (prf.multPull < 1) prf.multPull = 1;
         pullDisplay.setText("" + prf.multPull);
         pointsPull.resetData(prfDataPointsPull());
-        byte[] buf = {(byte) 'p', (byte) '/'};
-        usbService.write(buf);
     }
     public void workoutPullMinus(View view) {
         workoutPullMinus( 1 );
-        /*
-        if (prf.multPull > 1) prf.multPull -= 1;
-        pullDisplay.setText("" + prf.multPull);
-        pointsPull.resetData(prfDataPointsPull());
-        byte[] buf = {(byte) 'p', (byte) '/'};
-        usbService.write(buf);
-        */
     }
 
     private void workoutRelPlus( int val ) {
@@ -204,32 +202,26 @@ public class MainActivity extends AppCompatActivity {
     }
     public void workoutRelPlus(View view) {
         workoutRelPlus( 1 );
-        /*
-        prf.multRel += 1;
-        relDisplay.setText("" + prf.multRel);
-        pointsRel.resetData(prfDataPointsRel());
-        byte[] buf = {(byte) 'r', (byte) '*'};
-        usbService.write(buf);
-        */
     }
 
     private void workoutRelMinus( int val ) {
+        byte[] buf = new byte[val+1];
+        buf[0] = 'r';
+        for( int i=0; i<val; i++ ) {
+            buf[i+1] = '/';
+        }
+        usbService.write(buf);
+        //byte[] buf = {(byte) 'r', (byte) '/'};
+        //for( int i=0; i<val; i++ ) {
+        //    usbService.write(buf);
+        //}
         prf.multRel -= val;
         if (prf.multRel < 1) prf.multRel = 1;
         relDisplay.setText("" + prf.multRel);
         pointsRel.resetData(prfDataPointsRel());
-        byte[] buf = {(byte) 'r', (byte) '/'};
-        usbService.write(buf);
     }
     public void workoutRelMinus(View view) {
         workoutRelMinus( 1 );
-        /*
-        if (prf.multRel > 1) prf.multRel -= 1;
-        relDisplay.setText("" + prf.multRel);
-        pointsRel.resetData(prfDataPointsRel());
-        byte[] buf = {(byte) 'r', (byte) '/'};
-        usbService.write(buf);
-        */
     }
 
     public enum Direction {
@@ -560,11 +552,14 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 int distRight = Integer.parseInt(val[0]);
                                 if( distRight > prf.distRight ) {
-                                    prf.dirRight = Direction.PULL;
+                                    //prf.dirRight = Direction.PULL;
+                                    prfRightDirChange( Direction.PULL );
                                 }
                                 else if( distRight < prf.distRight ) {
-                                    prf.dirRight = Direction.REL;
+                                    //prf.dirRight = Direction.REL;
+                                    prfRightDirChange( Direction.REL );
                                 }
+
                                 int distLeft = Integer.parseInt(val[1]);
                                 if( distLeft > prf.distLeft ) {
                                     prf.dirLeft = Direction.PULL;

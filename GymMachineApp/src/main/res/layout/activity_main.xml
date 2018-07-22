@@ -77,10 +77,11 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:visibility="gone"
-        android:layout_width="837dp"
+
+        android:layout_width="700dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/buttonSend"
+        android:layout_marginLeft="220dp"
         android:layout_toRightOf="@id/editText1"
         android:background="#FFFFFF"
         android:gravity="bottom"
