@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private UsbService usbService;
-    private TextView display;
+    private TextView dbgDisplay;
+    private boolean dbgDisplayOn;
     private TextView pullDisplay;
     private TextView relDisplay;
     private EditText editText;
@@ -230,6 +231,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class workoutPrf {
+        private final int addPullInit;
+        private final int addRelInit;
+        private final int multPullInit;
+        private final int multRelInit;
+
         String name;
         int addPull;
         int addRel;
@@ -242,17 +248,30 @@ public class MainActivity extends AppCompatActivity {
         Direction dirLeft;
 
 
-        workoutPrf(String Name, int[] Tbl) {
+        workoutPrf( String Name,
+                    int addPullInitPrm,
+                    int addRelInitPrm,
+                    int multPullInitPrm,
+                    int multRelInitPrm,
+                    int[] Tbl) {
             name = Name;
-            addPull = 0;
-            addRel = 0;
-            multPull = 4;
-            multRel = 4;
+            addPullInit = addPullInitPrm;
+            addRelInit = addRelInitPrm;
+            multPullInit = multPullInitPrm;
+            multRelInit = multRelInitPrm;
             tbl = Tbl;
             distRight = 0;
             distLeft = 0;
             dirRight = Direction.PULL;
             dirLeft = Direction.PULL;
+            reset();
+        }
+
+        void reset() {
+            addPull = addPullInit;
+            addRel = addRelInit;
+            multPull = multPullInit;
+            multRel = multRelInit;
         }
     }
 
@@ -309,9 +328,9 @@ public class MainActivity extends AppCompatActivity {
                     59,58,57,56,55,54,53,52,51,50,
                     49,48,47,46,45,44,43,42,41,40,
                     39,38,37,36,35,34,33,32,31,30,
-                    29,28,27,26,25,24,23,22,21,20,
+                    29,28,27,26,25,24,23,22,21,20 /*,
                     19,18,17,16,15,14,13,12,11,10,
-                    9,8,7,6,5,4,3,2,1,0 };
+                    9,8,7,6,5,4,3,2,1,0*/ };
 
     private int[] mtn_tbl =
                    {/* 0,   0,   0,   0,   0,   0,   0,   0,*/   0,   0,
@@ -404,7 +423,15 @@ public class MainActivity extends AppCompatActivity {
 
         mHandler = new MyHandler(this);
 
-        display = (TextView) findViewById(R.id.textView1);
+        dbgDisplay = (TextView) findViewById(R.id.textView1);
+        dbgDisplayOn = false;
+        dbgDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbgDisplayOn = !dbgDisplayOn;
+            }
+        });
+
         editText = (EditText) findViewById(R.id.editText1);
         pullDisplay = (TextView) findViewById(R.id.textViewPull);
         relDisplay = (TextView) findViewById(R.id.textViewRel);
@@ -422,11 +449,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        weightPref = new workoutPrf("Weight", weight_tbl);
-        springPref = new workoutPrf("Spring", spring_tbl);
-        invSpringPref = new workoutPrf("Inverse Spring", inv_spring_tbl);
-        mtnPref = new workoutPrf("Mountain", mtn_tbl);
-        strengthTestPrf = new workoutPrf("Strength Test", strength_test_tbl);
+        weightPref = new workoutPrf("Weight", 0,0,4,4, weight_tbl);
+        springPref = new workoutPrf("Spring", 0,0,4,4, spring_tbl);
+        invSpringPref = new workoutPrf("Inverse Spring", 0,0,2,2, inv_spring_tbl);
+        mtnPref = new workoutPrf("Mountain", 0,0,4,4, mtn_tbl);
+        strengthTestPrf = new workoutPrf("Strength Test", 0,0,4,4, strength_test_tbl);
 
         prf = weightPref;
         cycleCnt = 0;
@@ -513,6 +540,12 @@ public class MainActivity extends AppCompatActivity {
 
     boolean testFinished = false;
     public void usbRxProc(String data) {
+        if( dbgDisplayOn ) {
+            if( dbgDisplay.getText().length() > 1000 ) {
+                dbgDisplay.setText(dbgDisplay.getText().subSequence(0,500));
+            }
+            dbgDisplay.append(data);
+        }
 
         if( prf == strengthTestPrf ) {
             if( data.contains("test torque=") ) {
@@ -582,6 +615,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     /*
      * This handler will be passed to UsbService.
      * Data received from serial port is displayed through this handler
@@ -600,7 +635,7 @@ public class MainActivity extends AppCompatActivity {
                 case UsbService.SYNC_READ:
                     String data = (String) msg.obj;
                     mActivity.get().usbRxProc(data);
-                    //mActivity.get().display.append(data);
+                    //mActivity.get().dbgDisplay.append(data);
                     break;
                 case UsbService.CTS_CHANGE:
                     Toast.makeText(mActivity.get(), "CTS_CHANGE", Toast.LENGTH_LONG).show();
