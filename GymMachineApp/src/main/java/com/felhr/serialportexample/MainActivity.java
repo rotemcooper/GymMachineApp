@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private MyHandler mHandler;
     private GraphView graph;
     private Button cycle;
+    private Button reps;
 
     private final ServiceConnection usbConnection = new ServiceConnection() {
         @Override
@@ -93,26 +94,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttonCycle(View view) {
-        cycleCnt++;
-        if( cycleCnt > 5 ) {
-            cycleCnt = 0;
+        cyclesMax++;
+        if( cyclesMax > 8 ) {
+            cyclesMax = 1;
         }
-        cycle.setText( Integer.toString(cycleCnt) +  " Cycles" );
-        cycleCurr = 0;
+        cycle.setText( Integer.toString(cyclesMax) +  " Cycles" );
+        cycleCnt = 1;
+    }
+    
+    public void buttonReps(View view) {
+        repsMax++;
+        if( repsMax > 10 ) {
+            repsMax = 1;
+        }
+        reps.setText( Integer.toString(repsMax) +  " Reps" );
+        repCnt = 0;
     }
 
     private void prfRightDirChange( Direction dir ) {
         if( prf.dirRight == Direction.REL && dir == Direction.PULL ) {
-            if( cycleCnt != 0 ) {
-                cycleCurr++;
-                if( cycleCurr >= cycleCnt ) {
-                    workoutPullMinus( cycleCurr-1 );
-                    workoutRelMinus( cycleCurr-1 );
-                    cycleCurr = 0;
-                }
-                else {
-                    workoutPullPlus( 1 );
-                    workoutRelPlus( 1 );
+            if( cyclesMax > 1 ) {
+                repCnt++;
+                if( repCnt > repsMax ) {
+                    repCnt = 1;
+                    cycleCnt++;
+                    if( cycleCnt > cyclesMax ) {
+                        workoutPullMinus( cycleCnt-2 );
+                        workoutRelMinus( cycleCnt-2 );
+                        cycleCnt = 1;
+                    }
+                    else {
+                        workoutPullPlus( 1 );
+                        workoutRelPlus( 1 );
+                    }
                 }
             }
         }
@@ -126,9 +140,12 @@ public class MainActivity extends AppCompatActivity {
         relDisplay.setText("" + prf.multRel);
         pointsPull.resetData(prfDataPointsPull());
         pointsRel.resetData(prfDataPointsRel());
-        cycleCnt = 0;
-        cycleCurr = 0;
-        cycle.setText( Integer.toString(cycleCnt) +  " Cycles" );
+        cyclesMax = 1;
+        cycleCnt = 1;
+        repsMax = 1;
+        repCnt = 0;
+        cycle.setText( Integer.toString(cyclesMax) +  " Cycles" );
+        reps.setText( Integer.toString(cyclesMax) +  " Reps" );
     }
 
     public void weightPrf(View view) {
@@ -281,8 +298,10 @@ public class MainActivity extends AppCompatActivity {
     private workoutPrf mtnPref;
     private workoutPrf strengthTestPrf;
     private workoutPrf prf;
+    private int        cyclesMax;
     private int        cycleCnt;
-    private int        cycleCurr;
+    private int        repsMax;
+    private int        repCnt;
 
     private static int W1 = 50;
     private int[] weight_tbl =
@@ -456,9 +475,14 @@ public class MainActivity extends AppCompatActivity {
         strengthTestPrf = new workoutPrf("Strength Test", 0,0,4,4, strength_test_tbl);
 
         prf = weightPref;
-        cycleCnt = 0;
-        cycleCurr = 0;
+
+        cyclesMax = 1;
+        cycleCnt = 1;
         cycle = (Button) findViewById(R.id.buttonCycle);
+
+        repsMax = 1;
+        repCnt = 0;
+        reps = (Button) findViewById(R.id.buttonReps);
 
         pullDisplay = (TextView) findViewById(R.id.textViewPull);
         pullDisplay.setText("" + prf.multPull);
@@ -585,11 +609,9 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 int distRight = Integer.parseInt(val[0]);
                                 if( distRight > prf.distRight ) {
-                                    //prf.dirRight = Direction.PULL;
                                     prfRightDirChange( Direction.PULL );
                                 }
                                 else if( distRight < prf.distRight ) {
-                                    //prf.dirRight = Direction.REL;
                                     prfRightDirChange( Direction.REL );
                                 }
 
