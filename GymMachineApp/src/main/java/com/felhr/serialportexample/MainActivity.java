@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         if( cyclesMax > 8 ) {
             cyclesMax = 1;
         }
-        cycle.setText( Integer.toString(cyclesMax) +  " Cycles" );
+        cycle.setText( Integer.toString(cyclesMax) +  " Sets" );
         cycleCnt = 1;
     }
     
@@ -109,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
         }
         reps.setText( Integer.toString(repsMax) +  " Reps" );
         repCnt = 0;
+    }
+
+    public void buttonSelector(View view) {
+        Intent intent = new Intent(this, WorkoutSelector.class);
+        startActivity(intent);
     }
 
     private void prfRightDirChange( Direction dir ) {
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         cycleCnt = 1;
         repsMax = 1;
         repCnt = 0;
-        cycle.setText( Integer.toString(cyclesMax) +  " Cycles" );
+        cycle.setText( Integer.toString(cyclesMax) +  " Sets" );
         reps.setText( Integer.toString(cyclesMax) +  " Reps" );
     }
 

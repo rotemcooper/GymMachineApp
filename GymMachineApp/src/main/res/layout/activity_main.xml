@@ -13,6 +13,19 @@
     android:keepScreenOn="true"
     tools:context="com.felhr.serialportexample.MainActivity">
 
+    <Button
+        android:id="@+id/buttonReps2"
+        android:layout_width="@dimen/topButtonWidth"
+        android:layout_height="@dimen/topButtonHight"
+        android:layout_alignTop="@+id/buttonCycle"
+        android:layout_marginStart="24dp"
+        android:layout_toEndOf="@+id/buttonReps"
+        android:background="@android:color/darker_gray"
+        android:onClick="buttonSelector"
+        android:soundEffectsEnabled="true"
+        android:text="Workout Selector"
+        android:textSize="22sp" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="120dp"
@@ -78,10 +91,10 @@
     <TextView
         android:id="@+id/textView1"
 
-        android:layout_width="510dp"
+        android:layout_width="210dp"
         android:layout_height="100dp"
         android:layout_alignTop="@+id/buttonSend"
-        android:layout_marginLeft="420dp"
+        android:layout_marginLeft="720dp"
         android:layout_toRightOf="@id/editText1"
         android:background="#FFFFFF"
         android:gravity="bottom"
@@ -204,11 +217,11 @@
         android:layout_width="@dimen/topButtonWidth"
         android:layout_height="@dimen/topButtonHight"
         android:layout_alignParentTop="true"
+        android:background="@android:color/holo_green_dark"
         android:onClick="buttonCycle"
         android:soundEffectsEnabled="true"
-        android:text="1 Cycles"
-        android:textSize="32sp"
-        android:background="@android:color/holo_green_dark" />
+        android:text="1 Sets"
+        android:textSize="32sp" />
 
     <Button
         android:id="@+id/buttonReps"

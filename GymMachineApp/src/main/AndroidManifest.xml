@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.felhr.serialportexample"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.felhr.serialportexample">
 
-    <uses-feature android:name="android.hardware.usb.host"
-                  android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -14,14 +15,23 @@
             android:name=".MainActivity"
             android:label="Gym Machine">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
-            android:name="com.felhr.serialportexample.UsbService"
-            android:enabled="true">
-        </service>
+            android:name=".UsbService"
+            android:enabled="true"></service>
+
+        <activity
+            android:name=".WorkoutSelector">
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
+
 </manifest>
