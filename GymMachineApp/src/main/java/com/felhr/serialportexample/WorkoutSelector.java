@@ -21,7 +21,7 @@ public class WorkoutSelector extends AppCompatActivity {
                 R.array.activityTypes, R.layout.workout_selector_spinner);
 
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.workout_selector_spinner);//android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.workout_selector_spinner_dropdown);
         // Apply the adapter to the spinner
         activityTypeSpinner.setAdapter(adapter);
     }
