@@ -8,9 +8,17 @@
     <string name="weight_prf">Weight</string>
 
     <string-array name="activityTypes">
-        <item>Strength Development</item>
-        <item>Aerobic Development</item>
+        <item><i>Select Activity...</i></item>
+        <item>Strength Exercise</item>
+        <item>Aerobic Exercise</item>
         <item>Physical Therapy</item>
+    </string-array>
+
+    <string-array name="workoutAreas">
+        <item><i>Select Area...</i></item>
+        <item>Upper Body</item>
+        <item>Abdomen</item>
+        <item>Lower Body</item>
     </string-array>
 
 </resources>

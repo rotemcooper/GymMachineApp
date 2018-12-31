@@ -4,8 +4,11 @@
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxLines="1"
-    android:textSize="42sp"
-    android:paddingTop="40dp"
-    android:paddingBottom="40dp"
-    android:background="#ffc500" />
+    android:background="#ffc500"
+    android:minWidth="400dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:singleLine="true"
+    android:textSize="40sp"
+    android:gravity="center"
+    />
