@@ -7,4 +7,10 @@
     <string name="serial_port">Serial Port</string>
     <string name="weight_prf">Weight</string>
 
+    <string-array name="activityTypes">
+        <item>Strength Development</item>
+        <item>Aerobic Development</item>
+        <item>Physical Therapy</item>
+    </string-array>
+
 </resources>

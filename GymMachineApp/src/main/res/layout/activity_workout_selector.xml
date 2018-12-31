@@ -7,9 +7,12 @@
     tools:context=".WorkoutSelector">
 
     <Spinner
-        android:id="@+id/activityTypes"
-        android:layout_width="1264dp"
+        android:id="@+id/activityTypeSpinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="281dp" />
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
