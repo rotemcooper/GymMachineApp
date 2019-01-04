@@ -24,4 +24,5 @@
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/activityTypeSpinner"
         app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
