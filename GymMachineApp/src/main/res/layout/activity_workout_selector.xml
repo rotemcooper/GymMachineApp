@@ -13,8 +13,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/workoutAreaSpinner"
@@ -24,5 +23,24 @@
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/activityTypeSpinner"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="161dp"
+        android:layout_height="151dp"
+        android:layout_marginStart="1100dp"
+        android:layout_marginLeft="1100dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/trainer01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/trainerRecycler"
+        android:layout_width="1264dp"
+        android:layout_height="476dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="179dp" />
+
 
 </android.support.constraint.ConstraintLayout>
