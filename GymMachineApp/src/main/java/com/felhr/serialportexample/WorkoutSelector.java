@@ -28,6 +28,7 @@ public class WorkoutSelector extends AppCompatActivity {
         activityTypeSpinner = (Spinner) findViewById(R.id.activityTypeSpinner);
         activityTypeSpinner.setAdapter(activityTypeAdapter);
 
+
         //-----------------------------------------------------------------------
 
         // Load workout data with ArrayAdapter using the string array and a spinner layout
