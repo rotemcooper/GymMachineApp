@@ -2,6 +2,8 @@ package com.felhr.serialportexample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -9,6 +11,9 @@ public class WorkoutSelector extends AppCompatActivity {
 
     private Spinner activityTypeSpinner;
     private Spinner workoutAreaSpinner;
+    private RecyclerView trainerRecyclerView;
+    private RecyclerView.Adapter trainerAdapter;
+    private RecyclerView.LayoutManager trainerLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,23 @@ public class WorkoutSelector extends AppCompatActivity {
         // Apply the adapter to the spinner
         workoutAreaSpinner = (Spinner) findViewById(R.id.workoutAreaSpinner);
         workoutAreaSpinner.setAdapter(workoutAreaAdapter);
+
+        //-----------------------------------------------------------------------
+
+        trainerRecyclerView = (RecyclerView) findViewById(R.id.trainerRecycler);
+
+        // Improve performance (if changes in content do not change the layout
+        // size of the RecyclerView)
+        trainerRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        trainerLayoutManager = new LinearLayoutManager(this);
+        trainerRecyclerView.setLayoutManager(trainerLayoutManager);
+
+        // specify an adapter (see also next example)
+        String[] str = {"Hello", "World"};
+        trainerAdapter = new TrainerAdapter( str );
+        trainerRecyclerView.setAdapter(trainerAdapter);
 
     }
 
