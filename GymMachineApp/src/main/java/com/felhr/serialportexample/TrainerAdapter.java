@@ -74,8 +74,19 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
     };
 
     private static final String[] trainerText = {
-            "This is a great upper body workout routine." +
-                    " It starts with warm-up and then get really intense."
+            "This is a great upper body workout routine. It starts with warm-up and then get really intense.",
+            "HI there, are you ready for a fun upper-body workout? Come on and join me for a great 30 minutes session.",
+            "Let's get together for a serious upper-body workout, where we will focus on your chest, back and arms.",
+            "The Best Upper-Body Workout. Pack on lean size across your torso in just 16 workouts over the next four weeks with this laser-focused muscle-building programme.",
+            "Do you want to add a serious amount of lean muscle mass in just 28 days? Then you’ve come to the right place because this four-week, 16-session training plan will do exactly that by pushing your body harder than it’s ever been pushed before.",
+            "Are you ready to get out of your comfort zone? Let's do something you’ve not done before and make rapid progress towards stronger upper-body!",
+            "Let's add significant muscle mass across your torso with this high-intensity upper-body workouts while also stripping away excess body fat.",
+            "This workout designed to add as much lean muscle mass as possible over the next 28 days, while also stripping off body fat.",
+            "This custom upper-body workout has been designed to tax your major muscle groups, especially your chest and back, to radically transform how you look shirtless.",
+            "Work your major upper-body muscles either directly or indirectly twice a week, and it’s this big increase in training volume that will stimulate these muscles into growing bigger quickly.",
+            "Upper-body workout that which will not only keep your muscles stimulated for longer but also keep your heart rate high to increase the rate of fat burn.",
+            "Tempo training for upper-body. The accumulated time under tension increases your heart rate to burn body fat and break down muscle tissue so it’s rebuilt bigger and stronger.",
+
     };
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -85,7 +96,7 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
         // - replace the contents of the view with that element
         holder.trainerPhoto.setImageResource( trainerImages[position] );
         holder.trainerName.setText( trainerName[position] );
-        holder.trainerText.setText( trainerText[0] );
+        holder.trainerText.setText( trainerText[position%trainerText.length] );
     }
 
     // Return the size of your dataset (invoked by the layout manager)
