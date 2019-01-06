@@ -63,13 +63,18 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
             R.drawable.trainer01
     };
 
+    private static final String[] trainerText = {
+            "Joe\n This is a great upper body workout routine." +
+                    " It starts with warm-up and then get really intense."
+    };
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mImageView.setImageResource( trainerImages[position] );
-        holder.mTextView.setText( "Brandon " + (position+1) );
+        holder.mTextView.setText( trainerText[0] );
     }
 
     // Return the size of your dataset (invoked by the layout manager)
