@@ -6,16 +6,22 @@
 
     <ImageView
         android:id="@+id/trainerImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="180dp"
+        android:layout_marginLeft="12dp"
         android:layout_weight="1"
-        android:src="@mipmap/ic_launcher" />
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:src="@drawable/trainer01" />
 
     <TextView
         android:id="@+id/trainerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="4"
+        android:textSize="36sp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:text="TextView" />
 
 </LinearLayout>

@@ -38,18 +38,43 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
         return new MyViewHolder(v);
     }
 
+    private static final Integer[] trainerImages = {
+            R.drawable.trainer01,
+            R.drawable.trainer02,
+            R.drawable.trainer03,
+            R.drawable.trainer04,
+            R.drawable.trainer05,
+            R.drawable.trainer06,
+            R.drawable.trainer07,
+            R.drawable.trainer08,
+            R.drawable.trainer09,
+            R.drawable.trainer10,
+            R.drawable.trainer11,
+            R.drawable.trainer12,
+            R.drawable.trainer13,
+            R.drawable.trainer14,
+            R.drawable.trainer15,
+            R.drawable.trainer16,
+            R.drawable.trainer17,
+            R.drawable.trainer18,
+            R.drawable.trainer19,
+            R.drawable.trainer20,
+            R.drawable.trainer21,
+            R.drawable.trainer01
+    };
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mImageView.setImageResource( R.drawable.trainer01 );
-        holder.mTextView.setText( "Brandon " + position /*mDataset[position]*/);
+        holder.mImageView.setImageResource( trainerImages[position] );
+        holder.mTextView.setText( "Brandon " + (position+1) );
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return 40 /*mDataset.length*/;
+        return trainerImages.length;
     }
 }
