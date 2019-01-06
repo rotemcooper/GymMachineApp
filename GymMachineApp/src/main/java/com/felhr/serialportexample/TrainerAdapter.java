@@ -13,13 +13,15 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
     // Provide a reference to the views for each data item
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public ImageView mImageView;
-        public TextView mTextView;
+        public ImageView trainerPhoto;
+        public TextView trainerName;
+        public TextView trainerText;
 
         public MyViewHolder(View v) {
             super(v);
-            mImageView =  (ImageView) v.findViewById(R.id.trainerImage);
-            mTextView =  (TextView) v.findViewById(R.id.trainerText);
+            trainerPhoto =  (ImageView) v.findViewById(R.id.trainerImage);
+            trainerName =  (TextView) v.findViewById(R.id.trainerName);
+            trainerText =  (TextView) v.findViewById(R.id.trainerText);
         }
     }
 
@@ -63,8 +65,16 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
             R.drawable.trainer01
     };
 
+    private static final String[] trainerName = {
+            "James", "Maria", "David", "Patricia", "Michael",
+            "Robert", "Jennifer", "Ryan", "Nicole", "Jessica",
+            "William", "Sarah", "Daniel and Karen", "Lisa", "Ashley",
+            "Mark", "Andrew and Donna", "Paul", "Kimberly", "Carol and Ryan",
+            "Stephanie", "James"
+    };
+
     private static final String[] trainerText = {
-            "Joe\n This is a great upper body workout routine." +
+            "This is a great upper body workout routine." +
                     " It starts with warm-up and then get really intense."
     };
 
@@ -73,8 +83,9 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mImageView.setImageResource( trainerImages[position] );
-        holder.mTextView.setText( trainerText[0] );
+        holder.trainerPhoto.setImageResource( trainerImages[position] );
+        holder.trainerName.setText( trainerName[position] );
+        holder.trainerText.setText( trainerText[0] );
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -13,13 +13,27 @@
         android:paddingBottom="20dp"
         android:src="@drawable/trainer01" />
 
-    <TextView
-        android:id="@+id/trainerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="36sp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:text="TextView" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/trainerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="36sp"
+            android:paddingTop="20dp"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/trainerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:paddingBottom="20dp"
+            android:text="TextView" />
+    </LinearLayout>
 
 </LinearLayout>
