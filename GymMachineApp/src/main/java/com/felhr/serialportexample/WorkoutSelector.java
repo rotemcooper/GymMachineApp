@@ -48,6 +48,7 @@ public class WorkoutSelector extends AppCompatActivity {
 
         //-----------------------------------------------------------------------
 
+        // Trainer RecyclerView
         trainerRecyclerView = (RecyclerView) findViewById(R.id.trainerRecycler);
 
         // Improve performance (if changes in content do not change the layout

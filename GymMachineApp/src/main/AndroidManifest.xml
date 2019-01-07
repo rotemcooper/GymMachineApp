@@ -9,13 +9,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Gym Machine"
+        android:icon="@drawable/xometrics_app_icon3"
+        android:label="XOMETRICS"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"
-            android:label="Gym Machine"
+            android:label="XOMETRICS"
             android:screenOrientation="landscape">
 
             <intent-filter>
