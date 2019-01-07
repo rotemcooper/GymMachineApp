@@ -15,11 +15,9 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".StartupActivity"
-            android:label="XOMETRICS"
-            android:screenOrientation="landscape">
+            android:label="XOMETRICS">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,7 +27,6 @@
             android:enabled="true" />
 
         <activity android:name=".WorkoutSelector">
-            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

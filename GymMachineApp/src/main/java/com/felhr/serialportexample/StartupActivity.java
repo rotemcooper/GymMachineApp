@@ -17,4 +17,9 @@ public class StartupActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+    public void buttonGuidedWorkout(View view) {
+        Intent intent = new Intent(this, WorkoutSelector.class);
+        startActivity(intent);
+    }
 }
