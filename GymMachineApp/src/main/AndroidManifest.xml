@@ -14,10 +14,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".MainActivity"
+            android:name=".StartupActivity"
             android:label="XOMETRICS"
             android:screenOrientation="landscape">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,12 +28,16 @@
             android:name=".UsbService"
             android:enabled="true" />
 
-        <activity
-            android:name=".WorkoutSelector">
+        <activity android:name=".WorkoutSelector">
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartupActivity" />
         </activity>
     </application>
 

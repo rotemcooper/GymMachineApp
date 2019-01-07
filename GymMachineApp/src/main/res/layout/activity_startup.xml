@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartupActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="728dp"
+        android:layout_height="199dp"
+        android:src="@drawable/xometrics_logo8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.22000003" />
+
+    <Button
+        android:id="@+id/buttonSelf"
+        android:layout_width="337dp"
+        android:layout_height="111dp"
+        android:layout_marginStart="276dp"
+        android:layout_marginLeft="276dp"
+        android:layout_marginTop="88dp"
+        android:onClick="buttonSelfWorkout"
+        android:text="Self Training"
+        android:textSize="42sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView2" />
+
+    <Button
+        android:id="@+id/buttonGuided"
+        android:layout_width="337dp"
+        android:layout_height="111dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:onClick="buttonSelfWorkout"
+        android:text="Guided Training"
+        android:textSize="42sp"
+        app:layout_constraintStart_toEndOf="@id/buttonSelf"
+        app:layout_constraintTop_toTopOf="@id/buttonSelf" />
+
+</android.support.constraint.ConstraintLayout>
