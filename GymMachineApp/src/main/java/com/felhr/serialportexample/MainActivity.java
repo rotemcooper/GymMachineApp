@@ -537,6 +537,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        if( usbService != null ) {
+            usbService.setHandler( null );
+        }
         unregisterReceiver(mUsbReceiver);
         unbindService(usbConnection);
     }
@@ -673,5 +676,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
 }

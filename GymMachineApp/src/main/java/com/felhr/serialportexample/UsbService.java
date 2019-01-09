@@ -301,7 +301,9 @@ public class UsbService extends Service {
                     byte[] received = new byte[n];
                     System.arraycopy(buffer, 0, received, 0, n);
                     String receivedStr = new String(received);
-                    mHandler.obtainMessage(SYNC_READ, receivedStr).sendToTarget();
+                    if (mHandler != null) {
+                        mHandler.obtainMessage(SYNC_READ, receivedStr).sendToTarget();
+                    }
                 }
             }
         }
