@@ -71,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName arg0, IBinder arg1) {
             usbService = ((UsbService.UsbBinder) arg1).getService();
             usbService.setHandler(mHandler);
+            // Zero out arduino profile settings.
+            byte[] buf = {(byte) 's', (byte) '0', (byte) 'i', (byte) '0',
+                          (byte) 'm', (byte) '0', (byte) 'w', (byte) '0' };
+            usbService.write(buf);
         }
 
         @Override

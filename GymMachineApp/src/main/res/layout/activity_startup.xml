@@ -29,8 +29,11 @@
         android:onClick="buttonSelfWorkout"
         android:text="Self\nTraining"
         android:textSize="42sp"
+        android:textColor="#ff6700"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageLogo" />
+        app:layout_constraintTop_toBottomOf="@id/imageLogo"
+        android:background="@drawable/btn_rounded"
+        />
 
     <Button
         android:id="@+id/buttonGuided"
@@ -42,7 +45,10 @@
         android:onClick="buttonGuidedWorkout"
         android:text="Guided\nTraining"
         android:textSize="42sp"
+        android:textColor="#ff6700"
         app:layout_constraintEnd_toEndOf="@id/imageLogo"
-        app:layout_constraintTop_toTopOf="@id/buttonSelf" />
+        app:layout_constraintTop_toTopOf="@id/buttonSelf"
+        android:background="@drawable/btn_rounded"
+        />
 
 </android.support.constraint.ConstraintLayout>
