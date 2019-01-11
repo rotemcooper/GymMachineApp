@@ -4,16 +4,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-public class WorkoutSelector extends AppCompatActivity {
+public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter.ItemClickListener {
 
     private Spinner activityTypeSpinner;
     private Spinner workoutAreaSpinner;
     private RecyclerView trainerRecyclerView;
-    private RecyclerView.Adapter trainerAdapter;
+    private TrainerAdapter trainerAdapter;
     private RecyclerView.LayoutManager trainerLayoutManager;
+
+    @Override
+    public void onItemClick(View view, int position) {
+        assert( false );
+        Toast.makeText(this, "You clicked " + position, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +67,12 @@ public class WorkoutSelector extends AppCompatActivity {
         trainerLayoutManager = new LinearLayoutManager(this);
         trainerRecyclerView.setLayoutManager(trainerLayoutManager);
 
-        // specify an adapter (see also next example)
-        String[] str = {"Hello", "World"};
-        trainerAdapter = new TrainerAdapter( str );
+        // Dpecify an adapter
+        trainerAdapter = new TrainerAdapter();
         trainerRecyclerView.setAdapter(trainerAdapter);
 
+        // Set onClickListener
+        trainerAdapter.setClickListener(this);
     }
 
 

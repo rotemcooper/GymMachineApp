@@ -8,10 +8,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHolder> {
-    private String[] mDataset;
+
+    private static ItemClickListener mClickListener;
+
+    // parent activity will implement this method to respond to click events
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    // allows clicks events to be caught
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
 
     // Provide a reference to the views for each data item
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
         public ImageView trainerPhoto;
         public TextView trainerName;
@@ -22,12 +33,15 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
             trainerPhoto =  (ImageView) v.findViewById(R.id.trainerImage);
             trainerName =  (TextView) v.findViewById(R.id.trainerName);
             trainerText =  (TextView) v.findViewById(R.id.trainerText);
+            v.setOnClickListener(this);
         }
-    }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public TrainerAdapter(String[] myDataset) {
-        mDataset = myDataset;
+        @Override
+        public void onClick(View view) {
+            if (TrainerAdapter.mClickListener != null) {
+                TrainerAdapter.mClickListener.onItemClick(view, getAdapterPosition());
+            }
+        }
     }
 
     // Create new views (invoked by the layout manager)
