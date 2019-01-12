@@ -23,6 +23,7 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
         assert( false );
         //Toast.makeText(this, "You clicked " + position, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("TrainerID", position);
         startActivity(intent);
     }
 

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,13 +14,25 @@
     android:keepScreenOn="true"
     tools:context="com.felhr.serialportexample.MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="446dp"
+        android:layout_height="446dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignBottom="@+id/graph"
+        android:layout_marginBottom="27dp"
+        android:layout_alignParentRight="false"
+        android:layout_alignRight="@+id/graph"
+        android:layout_marginRight="7dp"
+        android:src="@drawable/trainer03" />
+
     <Button
         android:id="@+id/buttonSelector"
         android:layout_width="@dimen/topButtonWidth"
         android:layout_height="@dimen/topButtonHight"
         android:layout_alignTop="@+id/buttonCycle"
-        android:layout_marginStart="24dp"
-        android:layout_toEndOf="@+id/buttonReps"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/buttonStrengthTest"
         android:background="@android:color/darker_gray"
         android:onClick="buttonSelector"
         android:soundEffectsEnabled="true"
@@ -90,12 +103,11 @@
 
     <TextView
         android:id="@+id/textView1"
-
-        android:layout_width="210dp"
+        android:layout_width="160dp"
         android:layout_height="100dp"
-        android:layout_alignTop="@+id/buttonSend"
-        android:layout_marginLeft="720dp"
-        android:layout_toRightOf="@id/editText1"
+        android:layout_alignTop="@+id/buttonCycle"
+        android:layout_marginStart="0dp"
+        android:layout_toEndOf="@+id/buttonSelector"
         android:background="#FFFFFF"
         android:gravity="bottom"
         android:scrollbars="vertical" />
@@ -204,13 +216,14 @@
         android:id="@+id/buttonStrengthTest"
         android:layout_width="@dimen/topButtonWidth"
         android:layout_height="@dimen/topButtonHight"
-        android:layout_alignEnd="@+id/buttonRelPlus"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/buttonCycle"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/buttonReps"
+        android:background="@android:color/holo_green_light"
         android:onClick="strengthTest"
         android:soundEffectsEnabled="true"
         android:text="S-Test"
-        android:textSize="32sp"
-        android:background="@android:color/holo_green_light" />
+        android:textSize="32sp" />
 
     <Button
         android:id="@+id/buttonCycle"
@@ -234,5 +247,7 @@
         android:soundEffectsEnabled="true"
         android:text="1 Reps"
         android:textSize="32sp" />
+
+
 
 </RelativeLayout>

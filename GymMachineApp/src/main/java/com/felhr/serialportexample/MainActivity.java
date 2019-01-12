@@ -538,6 +538,12 @@ public class MainActivity extends AppCompatActivity {
 
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setXAxisBoundsManual(true);
+
+        //------------------------------------------------------------------
+
+        Intent intent = getIntent();
+        int trainerID = intent.getIntExtra("TrainerID", -1);
+        Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
     }
 
     @Override
