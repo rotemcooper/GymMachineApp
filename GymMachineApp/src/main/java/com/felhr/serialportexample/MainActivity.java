@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttonSelector(View view) {
         //Toast.makeText(this, "You clicked Text Message button", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        //Intent intent = new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
         startActivityForResult(intent, 10011);
 
