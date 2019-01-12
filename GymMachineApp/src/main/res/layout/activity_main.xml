@@ -15,16 +15,18 @@
     tools:context="com.felhr.serialportexample.MainActivity">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="446dp"
-        android:layout_height="446dp"
+        android:id="@+id/imageTrainer"
+        android:layout_width="366dp"
+        android:layout_height="402dp"
+        android:scaleType="centerCrop"
+
         android:layout_alignParentTop="false"
         android:layout_alignBottom="@+id/graph"
         android:layout_marginBottom="27dp"
         android:layout_alignParentRight="false"
         android:layout_alignRight="@+id/graph"
-        android:layout_marginRight="7dp"
-        android:src="@drawable/trainer03" />
+        android:layout_marginRight="9dp"
+        />
 
     <Button
         android:id="@+id/buttonSelector"

@@ -56,7 +56,7 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
         return new MyViewHolder(v);
     }
 
-    private static final Integer[] trainerImages = {
+    public static final Integer[] trainerImages = {
             R.drawable.trainer01,
             R.drawable.trainer02,
             R.drawable.trainer03,

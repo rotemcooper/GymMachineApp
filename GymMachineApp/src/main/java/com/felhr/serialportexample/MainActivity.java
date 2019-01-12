@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
@@ -541,9 +542,14 @@ public class MainActivity extends AppCompatActivity {
 
         //------------------------------------------------------------------
 
+        // Display trainer image if trainerID is provided in intent.
         Intent intent = getIntent();
         int trainerID = intent.getIntExtra("TrainerID", -1);
-        Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
+        if( trainerID >= 0 ) {
+            ImageView imageTrainer = (ImageView) findViewById(R.id.imageTrainer);
+            imageTrainer.setImageResource( trainerID );
+        }
     }
 
     @Override
