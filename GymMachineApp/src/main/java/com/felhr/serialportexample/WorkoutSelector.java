@@ -1,5 +1,6 @@
 package com.felhr.serialportexample;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,9 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
     @Override
     public void onItemClick(View view, int position) {
         assert( false );
-        Toast.makeText(this, "You clicked " + position, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "You clicked " + position, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

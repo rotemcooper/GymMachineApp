@@ -14,7 +14,7 @@
     tools:context="com.felhr.serialportexample.MainActivity">
 
     <Button
-        android:id="@+id/buttonReps2"
+        android:id="@+id/buttonSelector"
         android:layout_width="@dimen/topButtonWidth"
         android:layout_height="@dimen/topButtonHight"
         android:layout_alignTop="@+id/buttonCycle"

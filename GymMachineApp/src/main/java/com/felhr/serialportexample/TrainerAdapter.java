@@ -33,6 +33,8 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
             trainerPhoto =  (ImageView) v.findViewById(R.id.trainerImage);
             trainerName =  (TextView) v.findViewById(R.id.trainerName);
             trainerText =  (TextView) v.findViewById(R.id.trainerText);
+
+            // Set the onClickListener
             v.setOnClickListener(this);
         }
 

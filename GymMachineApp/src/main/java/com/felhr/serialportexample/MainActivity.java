@@ -10,13 +10,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
@@ -116,8 +116,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttonSelector(View view) {
-        Intent intent = new Intent(this, WorkoutSelector.class);
-        startActivity(intent);
+        //Toast.makeText(this, "You clicked Text Message button", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        startActivityForResult(intent, 10011);
+
+        //Intent intent = new Intent(this, WorkoutSelector.class);
+        //startActivity(intent);
     }
 
     private void prfRightDirChange( Direction dir ) {
