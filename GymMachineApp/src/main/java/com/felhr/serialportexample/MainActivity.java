@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -117,7 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttonSelector(View view) {
         //Toast.makeText(this, "You clicked Text Message button", Toast.LENGTH_LONG).show();
-        //Intent intent = new Intent(Intent.ACTION_PICK);
+        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://contacts/people/3") );
+        //startActivity(intent);
+
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
         startActivityForResult(intent, 10011);
