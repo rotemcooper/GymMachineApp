@@ -543,23 +543,28 @@ public class MainActivity extends AppCompatActivity {
 
         //------------------------------------------------------------------
 
-        // Display trainer image if trainerID is provided in intent.
+        // Display trainer image and video if trainerID is provided in intent.
+        //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
         Intent intent = getIntent();
         int trainerID = intent.getIntExtra("TrainerID", -1);
-        //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
+        ImageView trainerImageView = (ImageView) findViewById(R.id.imageTrainer);
+        VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
+
         if( trainerID >= 0 ) {
-            ImageView imageTrainer = (ImageView) findViewById(R.id.imageTrainer);
-            imageTrainer.setImageResource( trainerID );
+
+            // Display image
+            trainerImageView.setImageResource( trainerID );
+
+            // Play video
+            //Uri uri = Uri.parse("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4");
+            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.big_buck_bunny);
+            trainerVideoView.setVideoURI(uri);
+            trainerVideoView.start();
         }
-
-        //------------------------------------------------------------------
-
-        //Uri uri = Uri.parse("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4");
-        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.big_buck_bunny);
-
-        VideoView simpleVideoView = (VideoView) findViewById(R.id.videoView); // initiate a video view
-        simpleVideoView.setVideoURI(uri);
-        simpleVideoView.start();
+        else {
+            // Remove video view
+            trainerVideoView.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -135,7 +135,8 @@
         android:onClick="weightPrf"
         android:soundEffectsEnabled="true"
         android:text="Weight"
-        android:textSize="42sp" />
+        android:textSize="42sp"
+        android:background="@drawable/btn_rounded" />
 
     <Button
         android:id="@+id/buttonSpringPref"
@@ -148,7 +149,8 @@
         android:onClick="springPrf"
         android:soundEffectsEnabled="true"
         android:text="Spring"
-        android:textSize="42sp" />
+        android:textSize="42sp"
+        android:background="@drawable/btn_rounded" />
 
     <Button
         android:id="@+id/buttonInvSpringPrf"
@@ -160,7 +162,8 @@
         android:onClick="inversePrf"
         android:soundEffectsEnabled="true"
         android:text="Inverse"
-        android:textSize="42sp" />
+        android:textSize="42sp"
+        android:background="@drawable/btn_rounded" />
 
     <Button
         android:id="@+id/buttonMtnPref"
@@ -172,7 +175,8 @@
         android:onClick="mtnPrf"
         android:soundEffectsEnabled="true"
         android:text="MTN"
-        android:textSize="42sp" />
+        android:textSize="42sp"
+        android:background="@drawable/btn_rounded" />
 
     <Button
         android:id="@+id/buttonPullMinus"
