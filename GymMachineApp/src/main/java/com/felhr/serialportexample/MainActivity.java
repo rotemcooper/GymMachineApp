@@ -557,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Play video
             //Uri uri = Uri.parse("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4");
-            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.big_buck_bunny);
+            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.personal_trainer);
             trainerVideoView.setVideoURI(uri);
             trainerVideoView.start();
         }
