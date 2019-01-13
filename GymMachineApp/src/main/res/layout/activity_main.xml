@@ -16,12 +16,13 @@
 
     <VideoView
         android:id="@+id/videoView"
-        android:layout_width="800dp"
+        android:layout_width="809dp"
         android:layout_height="402dp"
         android:scaleType="centerCrop"
         android:layout_alignBottom="@+id/graph"
         android:layout_marginBottom="27dp"
         android:layout_alignRight="@+id/graph"
+        android:layout_marginRight="9dp"
         />
 
     <ImageView
@@ -85,9 +86,8 @@
         android:id="@+id/buttonRelMinus"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_above="@+id/buttonMtnPref"
+        android:layout_alignBottom="@+id/buttonPullMinus"
         android:layout_alignEnd="@+id/buttonMtnPref"
-        android:layout_marginBottom="50dp"
         android:background="@android:color/holo_blue_light"
         android:onClick="workoutRelMinus"
         android:text="-"
@@ -127,11 +127,10 @@
     <Button
         android:id="@+id/buttonWeightPrf"
         android:layout_width="@dimen/prfButtonWidth"
-        android:layout_height="@dimen/prfButtonHight"
+        android:layout_height="@dimen/prfButtonHeight"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="565dp"
         android:longClickable="false"
         android:onClick="weightPrf"
         android:soundEffectsEnabled="true"
@@ -141,7 +140,7 @@
     <Button
         android:id="@+id/buttonSpringPref"
         android:layout_width="@dimen/prfButtonWidth"
-        android:layout_height="@dimen/prfButtonHight"
+        android:layout_height="@dimen/prfButtonHeight"
         android:layout_alignParentBottom="false"
         android:layout_alignTop="@+id/buttonWeightPrf"
         android:layout_marginLeft="50dp"
@@ -154,7 +153,7 @@
     <Button
         android:id="@+id/buttonInvSpringPrf"
         android:layout_width="@dimen/prfButtonWidth"
-        android:layout_height="@dimen/prfButtonHight"
+        android:layout_height="@dimen/prfButtonHeight"
         android:layout_alignTop="@+id/buttonWeightPrf"
         android:layout_marginLeft="50dp"
         android:layout_toRightOf="@+id/buttonSpringPref"
@@ -166,7 +165,7 @@
     <Button
         android:id="@+id/buttonMtnPref"
         android:layout_width="@dimen/prfButtonWidth"
-        android:layout_height="@dimen/prfButtonHight"
+        android:layout_height="@dimen/prfButtonHeight"
         android:layout_alignTop="@+id/buttonInvSpringPrf"
         android:layout_marginLeft="50dp"
         android:layout_toRightOf="@+id/buttonInvSpringPrf"
@@ -181,7 +180,7 @@
         android:layout_height="120dp"
         android:layout_above="@+id/buttonMtnPref"
         android:layout_alignStart="@+id/buttonWeightPrf"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="80dp"
         android:background="@android:color/holo_blue_light"
         android:onClick="workoutPullMinus"
         android:text="-"
