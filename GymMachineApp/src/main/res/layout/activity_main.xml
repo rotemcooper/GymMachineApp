@@ -14,6 +14,16 @@
     android:keepScreenOn="true"
     tools:context="com.felhr.serialportexample.MainActivity">
 
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="800dp"
+        android:layout_height="402dp"
+        android:scaleType="centerCrop"
+        android:layout_alignBottom="@+id/graph"
+        android:layout_marginBottom="27dp"
+        android:layout_alignRight="@+id/graph"
+        />
+
     <ImageView
         android:id="@+id/imageTrainer"
         android:layout_width="366dp"
@@ -249,7 +259,5 @@
         android:soundEffectsEnabled="true"
         android:text="1 Reps"
         android:textSize="32sp" />
-
-
 
 </RelativeLayout>

@@ -25,6 +25,7 @@ import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
 import android.graphics.Color;
+import android.widget.VideoView;
 
 import java.lang.ref.WeakReference;
 import java.util.Set;
@@ -550,6 +551,14 @@ public class MainActivity extends AppCompatActivity {
             ImageView imageTrainer = (ImageView) findViewById(R.id.imageTrainer);
             imageTrainer.setImageResource( trainerID );
         }
+
+        //------------------------------------------------------------------
+        //Uri uri = Uri.parse("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4");
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bigbuckbunny);
+
+        VideoView simpleVideoView = (VideoView) findViewById(R.id.videoView); // initiate a video view
+        simpleVideoView.setVideoURI(uri);
+        simpleVideoView.start();
     }
 
     @Override
