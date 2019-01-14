@@ -30,7 +30,6 @@
         android:layout_width="366dp"
         android:layout_height="402dp"
         android:scaleType="centerCrop"
-
         android:layout_alignParentTop="false"
         android:layout_alignBottom="@+id/graph"
         android:layout_marginBottom="27dp"
@@ -46,11 +45,11 @@
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/buttonStrengthTest"
-        android:background="@android:color/darker_gray"
         android:onClick="buttonSelector"
         android:soundEffectsEnabled="true"
-        android:text="Workout Selector"
-        android:textSize="22sp" />
+        android:text="Trainer"
+        android:textSize="32sp"
+        android:background="@drawable/btn_rounded" />
 
     <TextView
         android:id="@+id/textView3"
@@ -60,6 +59,7 @@
         android:layout_alignStart="@+id/buttonPullMinus"
         android:text="Pull"
         android:textSize="35sp" />
+
 
     <Button
         android:id="@+id/buttonRelPlus"
@@ -234,22 +234,23 @@
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/buttonReps"
-        android:background="@android:color/holo_green_light"
         android:onClick="strengthTest"
         android:soundEffectsEnabled="true"
         android:text="S-Test"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        android:background="@drawable/btn_rounded" />
 
     <Button
         android:id="@+id/buttonCycle"
         android:layout_width="@dimen/topButtonWidth"
         android:layout_height="@dimen/topButtonHight"
         android:layout_alignParentTop="true"
-        android:background="@android:color/holo_green_dark"
+
         android:onClick="buttonCycle"
         android:soundEffectsEnabled="true"
         android:text="1 Sets"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        android:background="@drawable/btn_rounded" />
 
     <Button
         android:id="@+id/buttonReps"
@@ -257,10 +258,11 @@
         android:layout_height="@dimen/topButtonHight"
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_toEndOf="@+id/buttonCycle"
-        android:background="@android:color/holo_green_light"
+
         android:onClick="buttonReps"
         android:soundEffectsEnabled="true"
         android:text="1 Reps"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        android:background="@drawable/btn_rounded"/>
 
 </RelativeLayout>

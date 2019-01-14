@@ -1,5 +1,8 @@
 package com.felhr.serialportexample;
 
+import android.app.ActionBar;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +14,11 @@ public class StartupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
+
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        if( bar != null ) {
+            bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        }
     }
 
     public void buttonSelfWorkout(View view) {
