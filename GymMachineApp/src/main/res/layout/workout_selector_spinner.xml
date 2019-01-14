@@ -4,7 +4,7 @@
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffc500"
+    android:background="@drawable/btn_rounded"
     android:minWidth="400dp"
     android:paddingTop="20dp"
     android:paddingBottom="20dp"
