@@ -38,7 +38,7 @@
         android:layout_marginRight="9dp"
         />
 
-    <Button
+    <!--Button
         android:id="@+id/buttonSelector"
         android:layout_width="@dimen/topButtonWidth"
         android:layout_height="@dimen/topButtonHight"
@@ -49,7 +49,17 @@
         android:soundEffectsEnabled="true"
         android:text="Trainer"
         android:textSize="32sp"
-        android:background="@drawable/btn_rounded" />
+        android:background="@drawable/btn_rounded" /-->
+
+    <Spinner
+        android:id="@+id/spinnerTrainer"
+        android:layout_width="@dimen/topButtonWidth"
+        android:layout_height="@dimen/topButtonHight"
+        android:layout_alignTop="@+id/buttonCycle"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/buttonStrengthTest"
+        android:background="@drawable/btn_rounded"
+        />
 
     <TextView
         android:id="@+id/textView3"

@@ -14,9 +14,12 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
@@ -30,7 +33,29 @@ import android.widget.VideoView;
 import java.lang.ref.WeakReference;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        String selectedItemText = (String) parent.getItemAtPosition(pos);
+        //Toast.makeText(this, "You clicked " + selectedItemText, Toast.LENGTH_LONG).show();
+
+        switch( selectedItemText ) {
+            case "Video Photo":
+                Toast.makeText(this, "You clicked " + selectedItemText, Toast.LENGTH_LONG).show();
+                break;
+            case "Audio Photo":
+                Toast.makeText(this, "You clicked " + selectedItemText, Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
 
     /*
      * Notifications from UsbService will be received here.
@@ -68,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private GraphView graph;
     private Button cycle;
     private Button reps;
+    private int trainerID = -1;
 
     private final ServiceConnection usbConnection = new ServiceConnection() {
         @Override
@@ -454,6 +480,7 @@ public class MainActivity extends AppCompatActivity {
     private LineGraphSeries<DataPoint> pointsRel;
     private PointsGraphSeries<DataPoint> pointRight;
     private PointsGraphSeries<DataPoint> pointLeft;
+    private Spinner trainerSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -475,6 +502,24 @@ public class MainActivity extends AppCompatActivity {
         pullDisplay = (TextView) findViewById(R.id.textViewPull);
         relDisplay = (TextView) findViewById(R.id.textViewRel);
         Button sendButton = (Button) findViewById(R.id.buttonSend);
+
+        //-----------------------------------------------------------------------
+
+        // Load activity type data with ArrayAdapter using the string array and a spinner layout
+        ArrayAdapter<CharSequence> trainerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.trainerMenu, R.layout.workout_selector_spinner);
+
+        // Specify the layout to use when the list of choices appears
+        trainerAdapter.setDropDownViewResource(R.layout.workout_selector_spinner_dropdown);
+
+        // Apply the adapter to the spinner
+        trainerSpinner = (Spinner) findViewById(R.id.spinnerTrainer);
+        trainerSpinner.setAdapter(trainerAdapter);
+
+        // Set listener
+        trainerSpinner.setOnItemSelectedListener(this);
+
+        //-----------------------------------------------------------------------
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -546,7 +591,7 @@ public class MainActivity extends AppCompatActivity {
         // Display trainer image and video if trainerID is provided in intent.
         //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
         Intent intent = getIntent();
-        int trainerID = intent.getIntExtra("TrainerID", -1);
+        trainerID = intent.getIntExtra("TrainerID", -1);
         ImageView trainerImageView = (ImageView) findViewById(R.id.imageTrainer);
         VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
 
