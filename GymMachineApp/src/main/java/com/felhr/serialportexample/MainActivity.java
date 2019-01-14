@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -103,6 +104,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         relDisplay.setText("" + prf.multRel);
         pointsPull.resetData(prfDataPointsPull());
         pointsRel.resetData(prfDataPointsRel());
+    }
+
+    public void sendTextMessage (View view) {
+        FragmentManager fm = getSupportFragmentManager();
+        SendMessageFragment sendMessage = new SendMessageFragment();
+        sendMessage.show(fm, "fragment_send_message");
+
     }
 
     public void buttonCycle(View view) {

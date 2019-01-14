@@ -61,6 +61,19 @@
         android:background="@drawable/btn_rounded"
         />
 
+    <Button
+        android:id="@+id/buttonSendTextMessage"
+        android:layout_width="@dimen/topButtonWidth"
+        android:layout_height="@dimen/topButtonHight"
+        android:layout_alignTop="@+id/buttonCycle"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/spinnerTrainer"
+        android:onClick="sendTextMessage"
+        android:soundEffectsEnabled="true"
+        android:text="Send Message"
+        android:textSize="@dimen/topButtonTextSize"
+        android:background="@drawable/btn_rounded" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="120dp"
