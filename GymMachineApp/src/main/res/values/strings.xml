@@ -23,10 +23,10 @@
 
     <string-array name="trainerMenu">
         <item>Video Photo</item>
-        <item>Audio Photo</item>
+        <!--item>Audio Photo</item-->
         <item>Video Only</item>
         <item>Photo Only</item>
-        <item>Audio Only</item>
+        <!--item>Audio Only</item-->
         <item>Clear Screen</item>
     </string-array>
 

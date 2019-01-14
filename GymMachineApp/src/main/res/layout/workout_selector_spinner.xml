@@ -9,6 +9,6 @@
     android:paddingTop="20dp"
     android:paddingBottom="20dp"
     android:singleLine="true"
-    android:textSize="40sp"
+    android:textSize="@dimen/topButtonTextSize"
     android:gravity="center"
     />

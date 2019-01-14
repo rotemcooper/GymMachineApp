@@ -145,7 +145,7 @@
         android:onClick="weightPrf"
         android:soundEffectsEnabled="true"
         android:text="Weight"
-        android:textSize="42sp"
+        android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
     <Button
@@ -159,7 +159,7 @@
         android:onClick="springPrf"
         android:soundEffectsEnabled="true"
         android:text="Spring"
-        android:textSize="42sp"
+        android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
     <Button
@@ -172,7 +172,7 @@
         android:onClick="inversePrf"
         android:soundEffectsEnabled="true"
         android:text="Inverse"
-        android:textSize="42sp"
+        android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
     <Button
@@ -185,7 +185,7 @@
         android:onClick="mtnPrf"
         android:soundEffectsEnabled="true"
         android:text="MTN"
-        android:textSize="42sp"
+        android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
     <Button
@@ -247,7 +247,7 @@
         android:onClick="strengthTest"
         android:soundEffectsEnabled="true"
         android:text="S-Test"
-        android:textSize="32sp"
+        android:textSize="@dimen/topButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
     <Button
@@ -255,11 +255,10 @@
         android:layout_width="@dimen/topButtonWidth"
         android:layout_height="@dimen/topButtonHight"
         android:layout_alignParentTop="true"
-
         android:onClick="buttonCycle"
         android:soundEffectsEnabled="true"
         android:text="1 Sets"
-        android:textSize="32sp"
+        android:textSize="@dimen/topButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
     <Button
@@ -268,11 +267,10 @@
         android:layout_height="@dimen/topButtonHight"
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_toEndOf="@+id/buttonCycle"
-
         android:onClick="buttonReps"
         android:soundEffectsEnabled="true"
         android:text="1 Reps"
-        android:textSize="32sp"
+        android:textSize="@dimen/topButtonTextSize"
         android:background="@drawable/btn_rounded"/>
 
 </RelativeLayout>

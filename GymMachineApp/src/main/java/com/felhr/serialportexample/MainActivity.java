@@ -35,27 +35,6 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // Trainer video control spinner selected.
-        trainerDisplayControl = (String) parent.getItemAtPosition(pos);
-        //Toast.makeText(this, "You clicked " + trainerDisplayControl, Toast.LENGTH_LONG).show();
-
-        switch( trainerDisplayControl ) {
-            case "Video Photo":
-                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
-                break;
-            case "Audio Photo":
-                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
-
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
-    }
-
-
     /*
      * Notifications from UsbService will be received here.
      */
@@ -595,29 +574,80 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setTrainerDisplay();
     }
 
-    //------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
 
     // Set up the trainer video, audio and photo based on user selection
     private void setTrainerDisplay() {
         ImageView trainerImageView = (ImageView) findViewById(R.id.imageTrainer);
         VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
-        if( trainerID >= 0 ) {
 
-            // Display image
-            trainerImageView.setImageResource( trainerID );
+        if( trainerID < 0 )  {
+            // Remove trainer photo and video views
+            trainerImageView.setVisibility( View.INVISIBLE );
+            trainerVideoView.setVisibility( View.INVISIBLE );
+            return;
+        }
 
-            // Play video
-            //Uri uri = Uri.parse("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4");
+        // Display image
+        trainerImageView.setImageResource( trainerID );
+
+        // Play video
+        //Uri uri = Uri.parse("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4");
+        if( !trainerVideoView.isPlaying() )
+        {
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.personal_trainer);
             trainerVideoView.setVideoURI(uri);
             trainerVideoView.start();
         }
-        else {
-            // Remove video view
-            trainerImageView.setVisibility( View.INVISIBLE );
-            trainerVideoView.setVisibility( View.GONE );
+
+
+        switch( trainerDisplayControl ) {
+            case "Video Photo":
+                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+                trainerImageView.setVisibility( View.VISIBLE );
+                trainerVideoView.setVisibility( View.VISIBLE );
+                break;
+            case "Audio Photo":
+                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+                trainerImageView.setVisibility( View.VISIBLE );
+                trainerVideoView.setVisibility( View.VISIBLE );
+                break;
+            case "Video Only":
+                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+                trainerImageView.setVisibility( View.INVISIBLE );
+                trainerVideoView.setVisibility( View.VISIBLE );
+                break;
+            case "Photo Only":
+                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+                trainerImageView.setVisibility( View.VISIBLE );
+                trainerVideoView.setVisibility( View.INVISIBLE );
+                break;
+            case "Audio Only":
+                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+                trainerImageView.setVisibility( View.INVISIBLE );
+                trainerVideoView.setVisibility( View.VISIBLE );
+                break;
+            case "Clear Screen":
+                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+                trainerImageView.setVisibility( View.INVISIBLE );
+                trainerVideoView.setVisibility( View.INVISIBLE );
+                break;
         }
     }
+
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        // Trainer video control spinner selected.
+        trainerDisplayControl = (String) parent.getItemAtPosition(pos);
+        //Toast.makeText(this, "You clicked " + trainerDisplayControl, Toast.LENGTH_LONG).show();
+        setTrainerDisplay();
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
+    //-----------------------------------------------------------------------------------------
 
     @Override
     public void onResume() {
