@@ -37,17 +37,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
-        String selectedItemText = (String) parent.getItemAtPosition(pos);
-        //Toast.makeText(this, "You clicked " + selectedItemText, Toast.LENGTH_LONG).show();
+        // Trainer video control spinner selected.
+        trainerDisplayControl = (String) parent.getItemAtPosition(pos);
+        //Toast.makeText(this, "You clicked " + trainerDisplayControl, Toast.LENGTH_LONG).show();
 
-        switch( selectedItemText ) {
+        switch( trainerDisplayControl ) {
             case "Video Photo":
-                Toast.makeText(this, "You clicked " + selectedItemText, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
                 break;
             case "Audio Photo":
-                Toast.makeText(this, "You clicked " + selectedItemText, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -94,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button cycle;
     private Button reps;
     private int trainerID = -1;
+    private String trainerDisplayControl = new String( "Clear Screen" );
 
     private final ServiceConnection usbConnection = new ServiceConnection() {
         @Override
@@ -592,9 +592,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
         Intent intent = getIntent();
         trainerID = intent.getIntExtra("TrainerID", -1);
+        setTrainerDisplay();
+    }
+
+    //------------------------------------------------------------------------
+
+    // Set up the trainer video, audio and photo based on user selection
+    private void setTrainerDisplay() {
         ImageView trainerImageView = (ImageView) findViewById(R.id.imageTrainer);
         VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
-
         if( trainerID >= 0 ) {
 
             // Display image
@@ -608,7 +614,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         else {
             // Remove video view
-            trainerVideoView.setVisibility(View.GONE);
+            trainerImageView.setVisibility( View.INVISIBLE );
+            trainerVideoView.setVisibility( View.GONE );
         }
     }
 
