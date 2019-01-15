@@ -9,6 +9,7 @@
     android:paddingTop="20dp"
     android:paddingBottom="20dp"
     android:singleLine="true"
-    android:textSize="@dimen/topButtonTextSize"
+    android:textSize="@dimen/spinnerTextSize"
+    android:textColor="#ff6700"
     android:gravity="center"
     />

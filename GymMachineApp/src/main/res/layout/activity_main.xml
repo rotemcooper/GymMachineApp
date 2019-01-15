@@ -12,6 +12,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:keepScreenOn="true"
+    android:background="#404040"
     tools:context="com.felhr.serialportexample.MainActivity">
 
     <VideoView

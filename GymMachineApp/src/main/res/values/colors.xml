@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#ff6700</color>
+    <color name="colorPrimaryOrange">#FFA500</color>
+    <color name="colorPrimaryGray">#404040</color>
+    <color name="colorPrimaryGrayPrev">#404040</color>
 
 </resources>
