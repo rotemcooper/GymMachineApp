@@ -41,7 +41,7 @@
     <!--Button
         android:id="@+id/buttonSelector"
         android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHight"
+        android:layout_height="@dimen/topButtonHeight"
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/buttonStrengthTest"
@@ -54,7 +54,7 @@
     <Spinner
         android:id="@+id/spinnerTrainer"
         android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHight"
+        android:layout_height="@dimen/topButtonHeight"
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/buttonStrengthTest"
@@ -64,7 +64,7 @@
     <Button
         android:id="@+id/buttonSendTextMessage"
         android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHight"
+        android:layout_height="@dimen/topButtonHeight"
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/spinnerTrainer"
@@ -253,7 +253,7 @@
     <Button
         android:id="@+id/buttonStrengthTest"
         android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHight"
+        android:layout_height="@dimen/topButtonHeight"
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/buttonReps"
@@ -266,7 +266,7 @@
     <Button
         android:id="@+id/buttonCycle"
         android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHight"
+        android:layout_height="@dimen/topButtonHeight"
         android:layout_alignParentTop="true"
         android:onClick="buttonCycle"
         android:soundEffectsEnabled="true"
@@ -277,7 +277,7 @@
     <Button
         android:id="@+id/buttonReps"
         android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHight"
+        android:layout_height="@dimen/topButtonHeight"
         android:layout_alignTop="@+id/buttonCycle"
         android:layout_toEndOf="@+id/buttonCycle"
         android:onClick="buttonReps"

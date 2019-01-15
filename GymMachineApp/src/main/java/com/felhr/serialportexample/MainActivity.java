@@ -108,9 +108,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void sendTextMessage (View view) {
         FragmentManager fm = getSupportFragmentManager();
-        SendMessageFragment sendMessage = new SendMessageFragment();
+        SendMessageFragment sendMessage = new SendMessageFragment( "Brandon");
         sendMessage.show(fm, "fragment_send_message");
-
     }
 
     public void buttonCycle(View view) {

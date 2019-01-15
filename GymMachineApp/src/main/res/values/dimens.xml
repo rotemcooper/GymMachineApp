@@ -8,7 +8,7 @@
     <dimen name="prfButtonSpace">25dp</dimen>
     <dimen name="prefButtonTextSize">42sp</dimen>
     <dimen name="topButtonWidth">200dp</dimen>
-    <dimen name="topButtonHight">80dp</dimen>
+    <dimen name="topButtonHeight">80dp</dimen>
     <dimen name="topButtonSpace">25dp</dimen>
     <dimen name="topButtonTextSize">32sp</dimen>
 

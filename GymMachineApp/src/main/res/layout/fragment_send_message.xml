@@ -2,19 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/send_message"
     android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:layout_gravity="center" android:orientation="vertical"  >
+    android:layout_gravity="center" android:orientation="vertical">
 
-    <TextView
+    <!--TextView
         android:id="@+id/textViewTrainerName"
         android:text="Trainer name"
+        android:textSize="32sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" /-->
 
     <EditText
         android:id="@+id/editTextMessage"
         android:layout_width="match_parent"
+        android:layout_height="179dp"
+        android:imeOptions="actionDone"
+        android:inputType="textMultiLine"
+        android:textSize="32sp"
+        android:gravity="top|left"/>
+
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:imeOptions="actionDone" />
+        android:layout_gravity="center_horizontal"
+        android:text="Send"
+
+        android:textSize="@dimen/topButtonTextSize" />
+
 
 </LinearLayout>
