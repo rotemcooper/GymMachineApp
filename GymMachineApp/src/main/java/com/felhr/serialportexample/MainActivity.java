@@ -777,6 +777,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 pointLeft.resetData(currentPoint(distLeft, prf.dirLeft));
                                 prf.distRight = distRight;
                                 prf.distLeft = distLeft;
+
+                                if( prf.distRight > prf.distLeft ) {
+                                    graph.setTitle( prf.name + ", " + Integer.toString((int)currentPoint(distRight, prf.dirRight)[0].getY()) + "lb" );
+                                }
+                                else {
+                                    graph.setTitle( prf.name + ", " + Integer.toString((int)currentPoint(distLeft, prf.dirLeft)[0].getY()) + "lb" );
+                                }
                             }
                             catch( NumberFormatException e) {
                                 // Do nothing
