@@ -12,7 +12,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:keepScreenOn="true"
-    android:background="#404040"
+    android:background="@color/ColorBackground"
     tools:context="com.felhr.serialportexample.MainActivity">
 
     <VideoView
@@ -51,29 +51,6 @@
         android:text="Trainer"
         android:textSize="32sp"
         android:background="@drawable/btn_rounded" /-->
-
-    <Spinner
-        android:id="@+id/spinnerTrainer"
-        android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHeight"
-        android:layout_alignTop="@+id/buttonCycle"
-        android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/buttonStrengthTest"
-        android:background="@drawable/btn_rounded"
-        />
-
-    <Button
-        android:id="@+id/buttonSendTextMessage"
-        android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHeight"
-        android:layout_alignTop="@+id/buttonCycle"
-        android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/spinnerTrainer"
-        android:onClick="sendTextMessage"
-        android:soundEffectsEnabled="true"
-        android:text="Send Message"
-        android:textSize="@dimen/topButtonTextSize"
-        android:background="@drawable/btn_rounded" />
 
     <TextView
         android:id="@+id/textView3"
@@ -159,6 +136,7 @@
         android:onClick="weightPrf"
         android:soundEffectsEnabled="true"
         android:text="Weight"
+        android:textColor="@color/colorBar"
         android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
@@ -173,6 +151,7 @@
         android:onClick="springPrf"
         android:soundEffectsEnabled="true"
         android:text="Spring"
+        android:textColor="@color/colorBar"
         android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
@@ -186,6 +165,7 @@
         android:onClick="inversePrf"
         android:soundEffectsEnabled="true"
         android:text="Inverse"
+        android:textColor="@color/colorBar"
         android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
@@ -199,6 +179,7 @@
         android:onClick="mtnPrf"
         android:soundEffectsEnabled="true"
         android:text="MTN"
+        android:textColor="@color/colorBar"
         android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
@@ -252,19 +233,6 @@
         android:textSize="35sp" />
 
     <Button
-        android:id="@+id/buttonStrengthTest"
-        android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHeight"
-        android:layout_alignTop="@+id/buttonCycle"
-        android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/buttonReps"
-        android:onClick="strengthTest"
-        android:soundEffectsEnabled="true"
-        android:text="S-Test"
-        android:textSize="@dimen/topButtonTextSize"
-        android:background="@drawable/btn_rounded" />
-
-    <Button
         android:id="@+id/buttonCycle"
         android:layout_width="@dimen/topButtonWidth"
         android:layout_height="@dimen/topButtonHeight"
@@ -272,6 +240,7 @@
         android:onClick="buttonCycle"
         android:soundEffectsEnabled="true"
         android:text="1 Sets"
+        android:textColor="@color/colorBar"
         android:textSize="@dimen/topButtonTextSize"
         android:background="@drawable/btn_rounded" />
 
@@ -284,7 +253,45 @@
         android:onClick="buttonReps"
         android:soundEffectsEnabled="true"
         android:text="1 Reps"
+        android:textColor="@color/colorBar"
         android:textSize="@dimen/topButtonTextSize"
         android:background="@drawable/btn_rounded"/>
+
+    <Button
+        android:id="@+id/buttonStrengthTest"
+        android:layout_width="@dimen/topButtonWidth"
+        android:layout_height="@dimen/topButtonHeight"
+        android:layout_alignTop="@+id/buttonCycle"
+        android:layout_marginEnd="34dp"
+        android:layout_toStartOf="@+id/spinnerTrainer"
+        android:onClick="strengthTest"
+        android:soundEffectsEnabled="true"
+        android:text="S-Test"
+        android:textColor="@color/colorBar"
+        android:textSize="@dimen/topButtonTextSize"
+        android:background="@drawable/btn_rounded" />
+
+    <Spinner
+        android:id="@+id/spinnerTrainer"
+        android:layout_width="@dimen/topButtonWidth"
+        android:layout_height="@dimen/topButtonHeight"
+        android:layout_alignTop="@+id/buttonCycle"
+        android:layout_marginEnd="34dp"
+        android:layout_toStartOf="@+id/buttonSendTextMessage"
+        android:background="@drawable/btn_rounded"
+        />
+
+    <Button
+        android:id="@+id/buttonSendTextMessage"
+        android:layout_width="@dimen/topButtonWidth"
+        android:layout_height="@dimen/topButtonHeight"
+        android:layout_alignTop="@+id/buttonCycle"
+        android:layout_alignRight="@id/buttonMtnPref"
+        android:onClick="sendTextMessage"
+        android:soundEffectsEnabled="true"
+        android:text="Send Message"
+        android:textColor="@color/colorBar"
+        android:textSize="@dimen/topButtonTextSize"
+        android:background="@drawable/btn_rounded" />
 
 </RelativeLayout>

@@ -480,7 +480,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         //-----------------------------------------------------------------------
-        
+
         mHandler = new MyHandler(this);
 
         dbgDisplay = (TextView) findViewById(R.id.textView1);
@@ -491,8 +491,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 dbgDisplayOn = !dbgDisplayOn;
             }
         });
+        dbgDisplay.setVisibility(View.INVISIBLE);
 
+        // View for sending characters to machine
         editText = (EditText) findViewById(R.id.editText1);
+        editText.setVisibility(View.INVISIBLE);
+
         pullDisplay = (TextView) findViewById(R.id.textViewPull);
         relDisplay = (TextView) findViewById(R.id.textViewRel);
         Button sendButton = (Button) findViewById(R.id.buttonSend);
@@ -501,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Load activity type data with ArrayAdapter using the string array and a spinner layout
         ArrayAdapter<CharSequence> trainerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.trainerMenu, R.layout.workout_selector_spinner);
+                R.array.trainerMenu, R.layout.main_trainer_spinner);
 
         // Specify the layout to use when the list of choices appears
         trainerAdapter.setDropDownViewResource(R.layout.workout_selector_spinner_dropdown);
@@ -608,42 +612,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Play video
         //Uri uri = Uri.parse("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4");
-        if( !trainerVideoView.isPlaying() )
-        {
+        if( !trainerVideoView.isPlaying() ) {
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.personal_trainer);
             trainerVideoView.setVideoURI(uri);
             trainerVideoView.start();
         }
 
-
+        //Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
         switch( trainerDisplayControl ) {
-            case "Video Photo":
-                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+            case "VIDEO+PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
                 break;
-            case "Audio Photo":
-                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+            case "AUDIO+PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
                 break;
-            case "Video Only":
-                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+            case "VIDEO":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
                 break;
-            case "Photo Only":
-                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+            case "PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.INVISIBLE );
                 break;
-            case "Audio Only":
-                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+            case "AUDIO":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
                 break;
-            case "Clear Screen":
-                Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_LONG).show();
+            case "CLEAR":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.INVISIBLE );
                 break;
