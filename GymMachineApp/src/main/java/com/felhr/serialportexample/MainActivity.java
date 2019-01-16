@@ -557,6 +557,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         graph = (GraphView) findViewById(R.id.graph);
         graph.setTitle( prf.name );
         graph.setTitleTextSize( 60 );
+        graph.setTitleColor( Color.WHITE );
+        //graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(40);
+
+        graph.getGridLabelRenderer().setGridColor(0xFFFF7900);
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFFF7900);
+        graph.getGridLabelRenderer().setVerticalLabelsColor(0xFFFF7900);
+        graph.getGridLabelRenderer().setTextSize(50);
+        //graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
 
         // Draw workout profile line for pull
         pointsPull = new LineGraphSeries<DataPoint>(prfDataPointsPull());
@@ -619,7 +627,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             trainerVideoView.start();
         }
 
-        Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
         switch( trainerDisplayControl ) {
             case "VIDEO+PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );

@@ -59,6 +59,7 @@
         android:layout_above="@+id/buttonPullPlus"
         android:layout_alignStart="@+id/buttonPullMinus"
         android:text="Pull"
+        android:textColor="#ffffff"
         android:textSize="35sp" />
 
 
@@ -230,6 +231,7 @@
         android:layout_above="@+id/buttonPullPlus"
         android:layout_alignStart="@+id/buttonRelMinus"
         android:text="Rel"
+        android:textColor="#ffffff"
         android:textSize="35sp" />
 
     <Button
