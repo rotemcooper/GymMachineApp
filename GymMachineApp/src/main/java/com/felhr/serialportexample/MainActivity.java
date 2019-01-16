@@ -558,7 +558,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         graph.setTitle( prf.name );
         graph.setTitleTextSize( 60 );
         graph.setTitleColor( Color.WHITE );
-        //graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(40);
 
         graph.getGridLabelRenderer().setGridColor(0xFFFF7900);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFFF7900);
@@ -579,11 +578,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Draw workout points for right and left cables
         pointRight = new PointsGraphSeries<>(currentPoint(0, Direction.PULL));
         graph.addSeries(pointRight);
-        pointRight.setColor(Color.RED);
+        pointRight.setColor(Color.GREEN);
+        pointRight.setSize( 25 );
 
         pointLeft = new PointsGraphSeries<>(currentPoint(0, Direction.PULL));
         graph.addSeries(pointLeft);
         pointLeft.setColor(Color.BLUE);
+        pointLeft.setSize( 25 );
 
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(200);
