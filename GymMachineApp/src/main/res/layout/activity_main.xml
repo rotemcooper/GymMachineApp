@@ -17,11 +17,11 @@
 
     <VideoView
         android:id="@+id/videoView"
-        android:layout_width="809dp"
-        android:layout_height="402dp"
+        android:layout_width="797dp"
+        android:layout_height="390dp"
         android:scaleType="centerCrop"
         android:layout_alignBottom="@+id/graph"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="39dp"
         android:layout_alignRight="@+id/graph"
         android:layout_marginRight="9dp"
         />
@@ -29,11 +29,10 @@
     <ImageView
         android:id="@+id/imageTrainer"
         android:layout_width="366dp"
-        android:layout_height="402dp"
+        android:layout_height="390dp"
         android:scaleType="centerCrop"
-        android:layout_alignParentTop="false"
         android:layout_alignBottom="@+id/graph"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="39dp"
         android:layout_alignParentRight="false"
         android:layout_alignRight="@+id/graph"
         android:layout_marginRight="9dp"

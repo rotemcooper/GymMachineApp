@@ -586,6 +586,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         pointLeft.setColor(Color.BLUE);
         pointLeft.setSize( 25 );
 
+
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(200);
         graph.getViewport().setMinY(0);

@@ -82,10 +82,10 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
     };
 
     private static final String[] trainerName = {
-            "James", "Maria", "David", "Patricia", "Michael",
-            "Robert", "Jennifer", "Ryan", "Nicole", "Jessica",
+            "Ryan", "Maria", "David", "Patricia", "Brandon",
+            "Andrew and Donna", "Jennifer", "James", "Nicole", "Jessica",
             "William", "Sarah", "Daniel and Karen", "Lisa", "Ashley",
-            "Mark", "Andrew and Donna", "Paul", "Kimberly", "Carol and Ryan",
+            "Mark", "Robert", "Paul", "Kimberly", "Carol and Dylan",
             "Stephanie", "James"
     };
 
