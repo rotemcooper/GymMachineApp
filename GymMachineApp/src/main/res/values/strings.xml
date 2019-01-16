@@ -22,11 +22,11 @@
     </string-array>
 
     <string-array name="trainerMenu">
-        <item>VIDEO+PHOTO</item>
-        <!--item>Audio Photo</item-->
-        <item>VIDEO</item>
         <item>PHOTO</item>
-        <!--item>Audio Only</item-->
+        <item>VIDEO</item>
+        <item>VIDEO+PHOTO</item>
+        <!--item>AUDIO+PHOTO</item-->
+        <!--item>AUDIO</item-->
         <item>CLEAR</item>
     </string-array>
 

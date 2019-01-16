@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button cycle;
     private Button reps;
     private int trainerID = -1;
-    private String trainerDisplayControl = new String( "Clear Screen" );
+    private String trainerDisplayControl = new String( "PHOTO" );
 
     private final ServiceConnection usbConnection = new ServiceConnection() {
         @Override
@@ -515,6 +515,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         trainerSpinner.setAdapter(trainerAdapter);
 
         // Set listener
+        //trainerSpinner.setSelection(0,false);
         trainerSpinner.setOnItemSelectedListener(this);
 
         //-----------------------------------------------------------------------
@@ -618,7 +619,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             trainerVideoView.start();
         }
 
-        //Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
         switch( trainerDisplayControl ) {
             case "VIDEO+PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
@@ -647,11 +648,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         // Trainer video control spinner selected.
         trainerDisplayControl = (String) parent.getItemAtPosition(pos);
-        //Toast.makeText(this, "You clicked " + trainerDisplayControl, Toast.LENGTH_LONG).show();
         setTrainerDisplay();
     }
 
