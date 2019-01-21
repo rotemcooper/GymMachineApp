@@ -216,11 +216,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void workoutPullPlus( int val ) {
-        prf.multPull += val;
+        /*prf.multPull += val;
         pullDisplay.setText("" + prf.multPull);
         pointsPull.resetData(prfDataPointsPull());
         byte[] buf = {(byte) 'p', (byte) '*'};
+        usbService.write(buf); */
+        byte[] buf = new byte[val+1];
+        buf[0] = 'p';
+        for( int i=0; i<val; i++ ) {
+            buf[i+1] = '*';
+        }
         usbService.write(buf);
+        prf.multPull += val;
+        pullDisplay.setText("" + prf.multPull);
+        pointsPull.resetData(prfDataPointsPull());
     }
     public void workoutPullPlus(View view) {
         workoutPullPlus( 1 );
@@ -229,8 +238,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void workoutPullMinus( int val ) {
         byte[] buf = new byte[val+1];
         buf[0] = 'p';
-        //{(byte) 'p', (byte) '/'};
-        //usbService.write(buf);
         for( int i=0; i<val; i++ ) {
             buf[i+1] = '/';
         }
@@ -245,11 +252,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void workoutRelPlus( int val ) {
-        prf.multRel += val;
+        /*prf.multRel += val;
         relDisplay.setText("" + prf.multRel);
         pointsRel.resetData(prfDataPointsRel());
         byte[] buf = {(byte) 'r', (byte) '*'};
+        usbService.write(buf); */
+        byte[] buf = new byte[val+1];
+        buf[0] = 'r';
+        for( int i=0; i<val; i++ ) {
+            buf[i+1] = '*';
+        }
         usbService.write(buf);
+        prf.multRel += val;
+        relDisplay.setText("" + prf.multRel);
+        pointsRel.resetData(prfDataPointsRel());
     }
     public void workoutRelPlus(View view) {
         workoutRelPlus( 1 );
@@ -262,10 +278,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             buf[i+1] = '/';
         }
         usbService.write(buf);
-        //byte[] buf = {(byte) 'r', (byte) '/'};
-        //for( int i=0; i<val; i++ ) {
-        //    usbService.write(buf);
-        //}
         prf.multRel -= val;
         if (prf.multRel < 1) prf.multRel = 1;
         relDisplay.setText("" + prf.multRel);
