@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter.ItemClickListener {
 
     private Spinner activityTypeSpinner;
@@ -25,6 +27,12 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
         //Toast.makeText(this, "You clicked " + position, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("TrainerID",  TrainerAdapter.trainerImages[position]);
+
+        ArrayList<WorkoutPrf> workout = new ArrayList<WorkoutPrf>();
+        workout.add( new WorkoutPrf("Spring", 0,0,1,2, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Weight", 0,0,2,3, WorkoutPrf.SPRING_TBL ) );
+        workout.add( new WorkoutPrf("Weight", 0,0,3,4, WorkoutPrf.INV_SPRING_TBL ) );
+        intent.putExtra("Workout", workout);
 
         startActivity(intent);
     }

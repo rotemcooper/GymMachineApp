@@ -1,6 +1,8 @@
 package com.felhr.serialportexample;
 
-public class WorkoutPrf {
+import java.io.Serializable;
+
+public class WorkoutPrf implements Serializable {
 
     public enum Direction {
         PULL,

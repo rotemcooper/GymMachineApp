@@ -33,6 +33,7 @@ import android.graphics.Color;
 import android.widget.VideoView;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -182,27 +183,41 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void weightPrf(View view) {
+        setPrf( weightPref );
+      /*
         byte[] buf = {(byte) 'w'};
         usbService.write(buf);
-        prfChange( weightPref );
+        prfChange( weightPref );*/
     }
 
     public void springPrf(View view) {
+        setPrf( springPref );
+        /*
         byte[] buf = {(byte) 's'};
         usbService.write(buf);
-        prfChange( springPref );
+        prfChange( springPref );*/
     }
 
     public void inversePrf(View view) {
+        setPrf( invSpringPref );
+        /*
         byte[] buf = {(byte) 'i'};
         usbService.write(buf);
-        prfChange( invSpringPref );
+        prfChange( invSpringPref );*/
     }
 
     public void mtnPrf(View view) {
+        setPrf( mtnPref );
+        /*
         byte[] buf = {(byte) 'm'};
         usbService.write(buf);
-        prfChange( mtnPref );
+        prfChange( mtnPref );*/
+    }
+
+    public void setPrf(WorkoutPrf prfPrm) {
+        byte[] buf = {(byte) Character.toLowerCase(prfPrm.name.charAt(0)) };
+        usbService.write(buf);
+        prfChange( prfPrm );
     }
 
     public void workoutPlus(View view) {
@@ -293,6 +308,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private WorkoutPrf mtnPref;
     private WorkoutPrf strengthTestPrf;
     private WorkoutPrf prf;
+    ArrayList<WorkoutPrf> workout;
+
     private int        cyclesMax;
     private int        cycleCnt;
     private int        repsMax;
@@ -416,6 +433,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         prf = weightPref;
 
+        Intent intent = getIntent();
+        if (intent.hasExtra("Workout")) {
+            workout = (ArrayList<WorkoutPrf>) getIntent().getSerializableExtra("Workout");
+        } else {
+            workout = new ArrayList<WorkoutPrf>();
+        }
+
+        if( workout.size() > 2 ) {
+            prf = workout.get(2);
+            //prf.tbl = WorkoutPrf.SPRING_TBL;
+            //setPrf( springPref );
+            //Toast.makeText(this, "pref= " + prf.name, Toast.LENGTH_LONG).show();
+        }
+
         cyclesMax = 1;
         cycleCnt = 1;
         cycle = (Button) findViewById(R.id.buttonCycle);
@@ -475,8 +506,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Display trainer image and video if trainerID is provided in intent.
         //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
-        Intent intent = getIntent();
+
         trainerID = intent.getIntExtra("TrainerID", -1);
+
+
+
         setTrainerDisplay();
     }
 
