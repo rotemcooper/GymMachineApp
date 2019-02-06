@@ -13,12 +13,14 @@ public class WorkoutPrf implements Serializable {
     private final int addRelInit;
     private final int multPullInit;
     private final int multRelInit;
+    private final int repsInit;
 
     String name;
     int addPull;
     int addRel;
     int multPull;
     int multRel;
+    int reps;
     int[] tbl;
     int distRight;
     int distLeft;
@@ -30,12 +32,30 @@ public class WorkoutPrf implements Serializable {
                 int addRelInitPrm,
                 int multPullInitPrm,
                 int multRelInitPrm,
-                int[] Tbl) {
+                int[] Tbl )
+    {
+        this( Name,
+                addPullInitPrm,
+                addRelInitPrm,
+                multPullInitPrm,
+                multRelInitPrm,
+                0,
+                Tbl );
+    }
+
+    WorkoutPrf( String Name,
+                int addPullInitPrm,
+                int addRelInitPrm,
+                int multPullInitPrm,
+                int multRelInitPrm,
+                int repsInitPrm,
+                int[] Tbl ) {
         name = Name;
         addPullInit = addPullInitPrm;
         addRelInit = addRelInitPrm;
         multPullInit = multPullInitPrm;
         multRelInit = multRelInitPrm;
+        repsInit = repsInitPrm;
         tbl = Tbl;
         distRight = 0;
         distLeft = 0;
@@ -49,7 +69,9 @@ public class WorkoutPrf implements Serializable {
         addRel = addRelInit;
         multPull = multPullInit;
         multRel = multRelInit;
+        reps = repsInit;
     }
+
 
     //----------------------------------------------------------------------------
 
