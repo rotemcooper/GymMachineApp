@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //startActivity(intent);
     }
 
-    private void prfRightDirChange( Direction dir ) {
-        if( prf.dirRight == Direction.REL && dir == Direction.PULL ) {
+    private void prfRightDirChange( WorkoutPrf.Direction dir ) {
+        if( prf.dirRight == WorkoutPrf.Direction.REL && dir == WorkoutPrf.Direction.PULL ) {
             if( cyclesMax > 1 ) {
                 repCnt++;
                 if( repCnt > repsMax ) {
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         prf.dirRight = dir;
     }
 
-    private void prfChange( workoutPrf prfPrm ) {
+    private void prfChange( WorkoutPrf prfPrm ) {
         prf = prfPrm;
         graph.setTitle( prf.name );
         pullDisplay.setText("" + prf.multPull);
@@ -286,13 +286,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void workoutRelMinus(View view) {
         workoutRelMinus( 1 );
     }
-
+/*
     public enum Direction {
         PULL,
         REL
     }
 
-    private class workoutPrf {
+    private class WorkoutPrf {
         private final int addPullInit;
         private final int addRelInit;
         private final int multPullInit;
@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Direction dirLeft;
 
 
-        workoutPrf( String Name,
+        WorkoutPrf( String Name,
                     int addPullInitPrm,
                     int addRelInitPrm,
                     int multPullInitPrm,
@@ -336,13 +336,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             multRel = multRelInit;
         }
     }
+    */
 
-    private workoutPrf weightPref;
-    private workoutPrf springPref;
-    private workoutPrf invSpringPref;
-    private workoutPrf mtnPref;
-    private workoutPrf strengthTestPrf;
-    private workoutPrf prf;
+    private WorkoutPrf weightPref;
+    private WorkoutPrf springPref;
+    private WorkoutPrf invSpringPref;
+    private WorkoutPrf mtnPref;
+    private WorkoutPrf strengthTestPrf;
+    private WorkoutPrf prf;
     private int        cyclesMax;
     private int        cycleCnt;
     private int        repsMax;
@@ -457,12 +458,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return dp;
     }
 
-    private DataPoint[] currentPoint(int point, Direction dir) {
+    private DataPoint[] currentPoint(int point, WorkoutPrf.Direction dir) {
         if (point < 0) point = 0;
         int pointChart = point;
         if (pointChart >= prf.tbl.length) pointChart = prf.tbl.length - 1;
         int mult = prf.multPull;
-        if ( dir == Direction.REL ) mult = prf.multRel;
+        if ( dir == WorkoutPrf.Direction.REL ) mult = prf.multRel;
         DataPoint[] dp = {new DataPoint(point, torqueToPound(prf.tbl[pointChart] * mult))};
         return dp;
     }
@@ -544,11 +545,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        weightPref = new workoutPrf("Weight", 0,0,4,4, weight_tbl);
-        springPref = new workoutPrf("Spring", 0,0,4,4, spring_tbl);
-        invSpringPref = new workoutPrf("Inverse Spring", 0,0,2,2, inv_spring_tbl);
-        mtnPref = new workoutPrf("Mountain", 0,0,4,4, mtn_tbl);
-        strengthTestPrf = new workoutPrf("Strength Test", 0,0,4,4, strength_test_tbl);
+        weightPref = new WorkoutPrf("Weight", 0,0,4,4, weight_tbl);
+        springPref = new WorkoutPrf("Spring", 0,0,4,4, spring_tbl);
+        invSpringPref = new WorkoutPrf("Inverse Spring", 0,0,2,2, inv_spring_tbl);
+        mtnPref = new WorkoutPrf("Mountain", 0,0,4,4, mtn_tbl);
+        strengthTestPrf = new WorkoutPrf("Strength Test", 0,0,4,4, strength_test_tbl);
 
         prf = weightPref;
 
@@ -588,12 +589,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         pointsRel.setDrawBackground(true);
 
         // Draw workout points for right and left cables
-        pointRight = new PointsGraphSeries<>(currentPoint(0, Direction.PULL));
+        pointRight = new PointsGraphSeries<>(currentPoint(0, WorkoutPrf.Direction.PULL));
         graph.addSeries(pointRight);
         pointRight.setColor(Color.GREEN);
         pointRight.setSize( 25 );
 
-        pointLeft = new PointsGraphSeries<>(currentPoint(0, Direction.PULL));
+        pointLeft = new PointsGraphSeries<>(currentPoint(0, WorkoutPrf.Direction.PULL));
         graph.addSeries(pointLeft);
         pointLeft.setColor(Color.BLUE);
         pointLeft.setSize( 25 );
@@ -772,18 +773,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             try {
                                 int distRight = Integer.parseInt(val[0]);
                                 if( distRight > prf.distRight ) {
-                                    prfRightDirChange( Direction.PULL );
+                                    prfRightDirChange( WorkoutPrf.Direction.PULL );
                                 }
                                 else if( distRight < prf.distRight ) {
-                                    prfRightDirChange( Direction.REL );
+                                    prfRightDirChange( WorkoutPrf.Direction.REL );
                                 }
 
                                 int distLeft = Integer.parseInt(val[1]);
                                 if( distLeft > prf.distLeft ) {
-                                    prf.dirLeft = Direction.PULL;
+                                    prf.dirLeft = WorkoutPrf.Direction.PULL;
                                 }
                                 else if( distLeft < prf.distLeft ) {
-                                    prf.dirLeft = Direction.REL;
+                                    prf.dirLeft = WorkoutPrf.Direction.REL;
                                 }
                                 pointRight.resetData(currentPoint(distRight, prf.dirRight));
                                 pointLeft.resetData(currentPoint(distLeft, prf.dirLeft));
