@@ -13,7 +13,7 @@ public class WorkoutPrf implements Serializable {
     private final int addRelInit;
     private final int multPullInit;
     private final int multRelInit;
-    private final int repsInit;
+    public final int repsMax;
 
     String name;
     int addPull;
@@ -48,14 +48,14 @@ public class WorkoutPrf implements Serializable {
                 int addRelInitPrm,
                 int multPullInitPrm,
                 int multRelInitPrm,
-                int repsInitPrm,
+                int repsMaxPrm,
                 int[] Tbl ) {
         name = Name;
         addPullInit = addPullInitPrm;
         addRelInit = addRelInitPrm;
         multPullInit = multPullInitPrm;
         multRelInit = multRelInitPrm;
-        repsInit = repsInitPrm;
+        repsMax = repsMaxPrm;
         tbl = Tbl;
         distRight = 0;
         distLeft = 0;
@@ -69,7 +69,11 @@ public class WorkoutPrf implements Serializable {
         addRel = addRelInit;
         multPull = multPullInit;
         multRel = multRelInit;
-        reps = repsInit;
+        reps = 0;
+    }
+
+    boolean isRepsMax() {
+        return ( repsMax > 0 && reps >= repsMax );
     }
 
 

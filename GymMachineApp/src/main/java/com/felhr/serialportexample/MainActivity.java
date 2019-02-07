@@ -34,6 +34,7 @@ import android.widget.VideoView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -147,6 +148,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void prfRightDirChange( WorkoutPrf.Direction dir ) {
         if( prf.dirRight == WorkoutPrf.Direction.REL && dir == WorkoutPrf.Direction.PULL ) {
+            prf.reps++;
+            if( prf.isRepsMax() ) {
+                if( workoutItr.hasNext() ) {
+                    prf = workoutItr.next();
+                    setPrf( prf );
+                }
+            }
             if( cyclesMax > 1 ) {
                 repCnt++;
                 if( repCnt > repsMax ) {
@@ -215,8 +223,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void setPrf(WorkoutPrf prfPrm) {
-        byte[] buf = {(byte) Character.toLowerCase(prfPrm.name.charAt(0)) };
-        usbService.write(buf);
+        if (usbService != null) {
+            byte[] buf = {(byte) Character.toLowerCase(prfPrm.name.charAt(0)) };
+            usbService.write(buf);
+        }
         prfChange( prfPrm );
     }
 
@@ -308,7 +318,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private WorkoutPrf mtnPref;
     private WorkoutPrf strengthTestPrf;
     private WorkoutPrf prf;
-    ArrayList<WorkoutPrf> workout;
+    ArrayList<WorkoutPrf> workoutList;
+    ListIterator<WorkoutPrf> workoutItr;
 
     private int        cyclesMax;
     private int        cycleCnt;
@@ -431,21 +442,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mtnPref = new WorkoutPrf("Mountain", 0,0,4,4, WorkoutPrf.MTN_TBL);
         strengthTestPrf = new WorkoutPrf("Strength Test", 0,0,4,4, WorkoutPrf.SPRING_TBL);
 
-        prf = weightPref;
+        //------------------------------------------------------------------------------
 
+        // Set the trainer ID if provided in intent (default is -1).
+        //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
         Intent intent = getIntent();
-        if (intent.hasExtra("Workout")) {
-            workout = (ArrayList<WorkoutPrf>) getIntent().getSerializableExtra("Workout");
-        } else {
-            workout = new ArrayList<WorkoutPrf>();
-        }
+        trainerID = intent.getIntExtra("TrainerID", -1);
 
-        if( workout.size() > 2 ) {
-            prf = workout.get(2);
-            //prf.tbl = WorkoutPrf.SPRING_TBL;
-            //setPrf( springPref );
-            //Toast.makeText(this, "pref= " + prf.name, Toast.LENGTH_LONG).show();
+        // Set Workout profile based on intent if provided. Else set to default.
+        if (intent.hasExtra("Workout")) {
+            workoutList = (ArrayList<WorkoutPrf>) getIntent().getSerializableExtra("Workout");
         }
+        else {
+            workoutList = new ArrayList<WorkoutPrf>();
+            workoutList.add(weightPref);
+        }
+        workoutItr = workoutList.listIterator();
+        prf = workoutItr.next();
+
+        //------------------------------------------------------------------------------
 
         cyclesMax = 1;
         cycleCnt = 1;
@@ -504,13 +519,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //------------------------------------------------------------------
 
-        // Display trainer image and video if trainerID is provided in intent.
-        //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
-
-        trainerID = intent.getIntExtra("TrainerID", -1);
-
-
-
+        // Display trainer image/video as needed
         setTrainerDisplay();
     }
 
