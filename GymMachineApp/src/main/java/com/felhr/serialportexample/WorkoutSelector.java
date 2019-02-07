@@ -29,9 +29,9 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
         intent.putExtra("TrainerID",  TrainerAdapter.trainerImages[position]);
 
         ArrayList<WorkoutPrf> workout = new ArrayList<WorkoutPrf>();
-        workout.add( new WorkoutPrf("Weight", 0,0,1,2, 2, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Spring", 0,0,2,3, 3, WorkoutPrf.SPRING_TBL ) );
-        workout.add( new WorkoutPrf("Inverse Spring", 0,0,3,4, 4, WorkoutPrf.INV_SPRING_TBL ) );
+        workout.add( new WorkoutPrf("Weight", 0,0,2,3, 2, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Spring", 50,50,2,3, 3, WorkoutPrf.SPRING_TBL ) );
+        workout.add( new WorkoutPrf("Inverse Spring", 0,0,2,3, 4, WorkoutPrf.INV_SPRING_TBL ) );
         intent.putExtra("Workout", workout);
 
         startActivity(intent);

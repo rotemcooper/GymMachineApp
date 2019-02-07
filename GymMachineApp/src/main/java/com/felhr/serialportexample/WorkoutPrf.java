@@ -69,11 +69,11 @@ public class WorkoutPrf implements Serializable {
         addRel = addRelInit;
         multPull = multPullInit;
         multRel = multRelInit;
-        reps = 0;
+        reps = 1;
     }
 
     boolean isRepsMax() {
-        return ( repsMax > 0 && reps >= repsMax );
+        return ( repsMax > 0 && reps > repsMax );
     }
 
 

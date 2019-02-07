@@ -15,7 +15,9 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -95,6 +97,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
+    private void myToast( String text ) {
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        ViewGroup group = (ViewGroup) toast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(45);
+        toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
 
     public void strengthTest(View view) {
         byte[] buf = {(byte) 't'};
@@ -148,13 +159,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void prfRightDirChange( WorkoutPrf.Direction dir ) {
         if( prf.dirRight == WorkoutPrf.Direction.REL && dir == WorkoutPrf.Direction.PULL ) {
+
             prf.reps++;
+
             if( prf.isRepsMax() ) {
                 if( workoutItr.hasNext() ) {
                     prf = workoutItr.next();
                     setPrf( prf );
                 }
+                else {
+                    myToast( "Workout Complete");
+                }
+                //rotemc
             }
+            reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
+                    Integer.toString(prf.repsMax) );
+
             if( cyclesMax > 1 ) {
                 repCnt++;
                 if( repCnt > repsMax ) {
@@ -241,11 +261,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void workoutPullPlus( int val ) {
-        /*prf.multPull += val;
-        pullDisplay.setText("" + prf.multPull);
-        pointsPull.resetData(prfDataPointsPull());
-        byte[] buf = {(byte) 'p', (byte) '*'};
-        usbService.write(buf); */
         byte[] buf = new byte[val+1];
         buf[0] = 'p';
         for( int i=0; i<val; i++ ) {
@@ -521,6 +536,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Display trainer image/video as needed
         setTrainerDisplay();
+
+        reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
+                Integer.toString(prf.repsMax) );
     }
 
     //-----------------------------------------------------------------------------------------
