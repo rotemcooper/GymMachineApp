@@ -1,5 +1,7 @@
 package com.felhr.serialportexample;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 public class WorkoutPrf implements Serializable {
@@ -15,7 +17,9 @@ public class WorkoutPrf implements Serializable {
     private final int multRelInit;
     public final int repsMax;
 
-    String name;
+    public final String name;
+    public final String videoUri;
+
     int addPull;
     int addRel;
     int multPull;
@@ -35,6 +39,7 @@ public class WorkoutPrf implements Serializable {
                 int[] Tbl )
     {
         this( Name,
+                null,
                 addPullInitPrm,
                 addRelInitPrm,
                 multPullInitPrm,
@@ -44,6 +49,7 @@ public class WorkoutPrf implements Serializable {
     }
 
     WorkoutPrf( String Name,
+                String videoUriPrm,
                 int addPullInitPrm,
                 int addRelInitPrm,
                 int multPullInitPrm,
@@ -51,6 +57,8 @@ public class WorkoutPrf implements Serializable {
                 int repsMaxPrm,
                 int[] Tbl ) {
         name = Name;
+        videoUri = videoUriPrm;
+
         addPullInit = addPullInitPrm;
         addRelInit = addRelInitPrm;
         multPullInit = multPullInitPrm;

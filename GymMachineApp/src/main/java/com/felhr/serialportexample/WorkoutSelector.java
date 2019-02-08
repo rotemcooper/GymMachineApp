@@ -2,6 +2,7 @@ package com.felhr.serialportexample;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,10 +29,12 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("TrainerID",  TrainerAdapter.trainerImages[position]);
 
+        String videoUri = new String("android.resource://" + getPackageName() + "/" + R.raw.personal_trainer);
+
         ArrayList<WorkoutPrf> workout = new ArrayList<WorkoutPrf>();
-        workout.add( new WorkoutPrf("Weight", 0,0,2,3, 2, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Spring", 50,50,2,3, 3, WorkoutPrf.SPRING_TBL ) );
-        workout.add( new WorkoutPrf("Inverse Spring", 0,0,2,3, 4, WorkoutPrf.INV_SPRING_TBL ) );
+        workout.add( new WorkoutPrf("Weight", videoUri, 0,0,2,3, 2, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Spring", null, 50,50,2,3, 3, WorkoutPrf.SPRING_TBL ) );
+        workout.add( new WorkoutPrf("Inverse Spring", videoUri, 0,0,2,3, 4, WorkoutPrf.INV_SPRING_TBL ) );
         intent.putExtra("Workout", workout);
 
         startActivity(intent);

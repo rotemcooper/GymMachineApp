@@ -549,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
 
         if( trainerID < 0 )  {
-            // Remove trainer photo and video views
+            // No trainer provided,remove trainer photo and video views
             trainerImageView.setVisibility( View.INVISIBLE );
             trainerVideoView.setVisibility( View.INVISIBLE );
             return;
@@ -559,10 +559,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         trainerImageView.setImageResource( trainerID );
 
         // Play video
-        //Uri uri = Uri.parse("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4");
-        if( !trainerVideoView.isPlaying() ) {
-            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.personal_trainer);
-            trainerVideoView.setVideoURI(uri);
+        if( prf.videoUri != null && !trainerVideoView.isPlaying() ) {
+            trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
             trainerVideoView.start();
         }
 
