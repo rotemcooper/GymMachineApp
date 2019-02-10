@@ -34,9 +34,9 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
         String brandon3 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon3);
 
         ArrayList<WorkoutPrf> workout = new ArrayList<WorkoutPrf>();
-        workout.add( new WorkoutPrf("Weight", brandon1, 0,0,1,2, 8, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Weight", brandon2, 0,0,2,6, 6, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Spring", brandon3, 200,200,3,4, 4, WorkoutPrf.SPRING_TBL ) );
+        workout.add( new WorkoutPrf("Weight", brandon1, 0,0,1,2, 4, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Weight", brandon2, 0,0,4,6, 4, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Spring", brandon3, 100,100,3,4, 4, WorkoutPrf.SPRING_TBL ) );
         intent.putExtra("Workout", workout);
 
         startActivity(intent);

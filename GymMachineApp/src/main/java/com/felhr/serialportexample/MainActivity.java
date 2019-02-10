@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             switch (intent.getAction()) {
                 case UsbService.ACTION_USB_PERMISSION_GRANTED: // USB PERMISSION GRANTED
                     Toast.makeText(context, "USB Ready", Toast.LENGTH_SHORT).show();
-                    setPrf( prf );
                     break;
                 case UsbService.ACTION_USB_PERMISSION_NOT_GRANTED: // USB PERMISSION NOT GRANTED
                     Toast.makeText(context, "USB Permission not granted", Toast.LENGTH_SHORT).show();
@@ -90,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             byte[] buf = {(byte) 's', (byte) '0', (byte) 'i', (byte) '0',
                           (byte) 'm', (byte) '0', (byte) 'w', (byte) '0' };
             usbService.write(buf);
+            setPrf( prf );
         }
 
         @Override
@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
-    private void myToast( String text ) {
-        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+    private void myToast( String text, int length ) {
+        Toast toast = Toast.makeText(this, text, length);
         ViewGroup group = (ViewGroup) toast.getView();
         TextView messageTextView = (TextView) group.getChildAt(0);
         messageTextView.setTextSize(45);
@@ -165,11 +165,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             if( prf.isRepsMax() ) {
                 if( workoutItr.hasNext() ) {
-                    prf = workoutItr.next();
-                    setPrf( prf );
+                    setPrf( workoutItr.next(), false );
                 }
                 else {
-                    myToast( "Workout Complete");
+                    myToast( "Workout Complete", Toast.LENGTH_LONG);
                 }
                 //rotemc
             }
@@ -243,25 +242,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         prfChange( mtnPref );*/
     }
 
-    private static byte int3(int x) { return (byte)('0' + (byte)(x >> 24)); }
-    private static byte int2(int x) { return (byte)('0' + (byte)(x >> 16)); }
-    private static byte int1(int x) { return (byte)('0' + (byte)(x >>  8)); }
-    private static byte int0(int x) { return (byte)('0' + (byte)(x >>  0)); }
+    private static byte dig3(int x) { return (byte)('0' + (x/100)%10); }
+    private static byte dig2(int x) { return (byte)('0' + (x/10)%10); }
+    private static byte dig1(int x) { return (byte)('0' + x%10); }
 
-    public void setPrf(WorkoutPrf prfPrm) {
-        prfChange( prfPrm );
-        setTrainerDisplay( true );
-
+    public void setPrf(WorkoutPrf p ) {setPrf (p, true); }
+    public void setPrf(WorkoutPrf p, boolean isForcePrfChange ) {
         if (usbService != null) {
-
-            byte[] buf = {(byte) Character.toLowerCase(prf.name.charAt(0)),
-                    (byte) 'p', (byte) '*', int2(prf.multPull), int1(prf.multPull), int0(prf.multPull),
-                    (byte) 'r', (byte) '*', int2(prf.multRel), int1(prf.multRel), int0(prf.multRel),
-                    (byte) 'p', (byte) '+', int2(prf.addPull), int1(prf.addPull), int0(prf.addPull),
-                    (byte) 'r', (byte) '+', int2(prf.addRel), int1(prf.addRel), int0(prf.addRel) };
+            if( p != prf || isForcePrfChange ) {
+                byte[] buff = {(byte) Character.toLowerCase(p.name.charAt(0)) };
+                usbService.write(buff);
+            }
+            byte[] buf = {
+                    (byte) 'p', (byte) '*', dig3(p.multPull), dig2(p.multPull), dig1(p.multPull),
+                    (byte) 'r', (byte) '*', dig3(p.multRel), dig2(p.multRel), dig1(p.multRel),
+                    (byte) 'p', (byte) '+', dig3(p.addPull), dig2(p.addPull), dig1(p.addPull),
+                    (byte) 'r', (byte) '+', dig3(p.addRel), dig2(p.addRel), dig1(p.addRel) };
             usbService.write(buf);
-
-            myToast( new String(buf) );
+            myToast( new String(buf), Toast.LENGTH_LONG );
+            prfChange( p );
+            setTrainerDisplay( true );
         }
     }
 
