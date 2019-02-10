@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             switch (intent.getAction()) {
                 case UsbService.ACTION_USB_PERMISSION_GRANTED: // USB PERMISSION GRANTED
                     Toast.makeText(context, "USB Ready", Toast.LENGTH_SHORT).show();
+                    setPrf( prf );
                     break;
                 case UsbService.ACTION_USB_PERMISSION_NOT_GRANTED: // USB PERMISSION NOT GRANTED
                     Toast.makeText(context, "USB Permission not granted", Toast.LENGTH_SHORT).show();
@@ -242,12 +243,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         prfChange( mtnPref );*/
     }
 
+    private static byte int3(int x) { return (byte)('0' + (byte)(x >> 24)); }
+    private static byte int2(int x) { return (byte)('0' + (byte)(x >> 16)); }
+    private static byte int1(int x) { return (byte)('0' + (byte)(x >>  8)); }
+    private static byte int0(int x) { return (byte)('0' + (byte)(x >>  0)); }
+
     public void setPrf(WorkoutPrf prfPrm) {
-        if (usbService != null) {
-            byte[] buf = {(byte) Character.toLowerCase(prfPrm.name.charAt(0)) };
-            usbService.write(buf);
-        }
         prfChange( prfPrm );
+        setTrainerDisplay( true );
+
+        if (usbService != null) {
+
+            byte[] buf = {(byte) Character.toLowerCase(prf.name.charAt(0)),
+                    (byte) 'p', (byte) '*', int2(prf.multPull), int1(prf.multPull), int0(prf.multPull),
+                    (byte) 'r', (byte) '*', int2(prf.multRel), int1(prf.multRel), int0(prf.multRel),
+                    (byte) 'p', (byte) '+', int2(prf.addPull), int1(prf.addPull), int0(prf.addPull),
+                    (byte) 'r', (byte) '+', int2(prf.addRel), int1(prf.addRel), int0(prf.addRel) };
+            usbService.write(buf);
+
+            myToast( new String(buf) );
+        }
     }
 
     public void workoutPlus(View view) {
@@ -535,7 +550,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //------------------------------------------------------------------
 
         // Display trainer image/video as needed
-        setTrainerDisplay();
+        setPrf( prf );
+        //setTrainerDisplay( true );
 
         reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
                 Integer.toString(prf.repsMax) );
@@ -544,7 +560,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //-----------------------------------------------------------------------------------------
 
     // Set up the trainer video, audio and photo based on user selection
-    private void setTrainerDisplay() {
+    private void setTrainerDisplay( boolean isNewSegment ) {
         ImageView trainerImageView = (ImageView) findViewById(R.id.imageTrainer);
         VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
 
@@ -559,7 +575,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         trainerImageView.setImageResource( trainerID );
 
         // Play video
-        if( prf.videoUri != null && !trainerVideoView.isPlaying() ) {
+        if( prf.videoUri != null && (isNewSegment || !trainerVideoView.isPlaying()) ) {
             trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
             trainerVideoView.start();
         }
@@ -596,7 +612,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         // Trainer video control spinner selected.
         trainerDisplayControl = (String) parent.getItemAtPosition(pos);
-        setTrainerDisplay();
+        setTrainerDisplay( false );
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

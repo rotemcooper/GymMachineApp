@@ -29,12 +29,14 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("TrainerID",  TrainerAdapter.trainerImages[position]);
 
-        String videoUri = new String("android.resource://" + getPackageName() + "/" + R.raw.personal_trainer);
+        String brandon1 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon1);
+        String brandon2 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon2);
+        String brandon3 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon3);
 
         ArrayList<WorkoutPrf> workout = new ArrayList<WorkoutPrf>();
-        workout.add( new WorkoutPrf("Weight", videoUri, 0,0,2,3, 2, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Spring", null, 50,50,2,3, 3, WorkoutPrf.SPRING_TBL ) );
-        workout.add( new WorkoutPrf("Inverse Spring", videoUri, 0,0,2,3, 4, WorkoutPrf.INV_SPRING_TBL ) );
+        workout.add( new WorkoutPrf("Weight", brandon1, 0,0,1,2, 8, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Weight", brandon2, 0,0,2,6, 6, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Spring", brandon3, 200,200,3,4, 4, WorkoutPrf.SPRING_TBL ) );
         intent.putExtra("Workout", workout);
 
         startActivity(intent);
