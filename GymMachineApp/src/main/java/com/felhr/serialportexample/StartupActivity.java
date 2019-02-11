@@ -1,7 +1,5 @@
 package com.felhr.serialportexample;
 
-import android.app.ActionBar;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +25,7 @@ public class StartupActivity extends AppCompatActivity {
     }
 
     public void buttonGuidedWorkout(View view) {
-        Intent intent = new Intent(this, WorkoutSelector.class);
+        Intent intent = new Intent(this, WorkoutSelectorActivity.class);
         startActivity(intent);
     }
 }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter.ItemClickListener {
+public class WorkoutSelectorActivity extends AppCompatActivity implements TrainerAdapter.ItemClickListener {
 
     private Spinner activityTypeSpinner;
     private Spinner workoutAreaSpinner;
@@ -24,7 +24,7 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
 
     @Override
     public void onItemClick(View view, int position) {
-        assert( false );
+
         //Toast.makeText(this, "You clicked " + position, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("TrainerID",  TrainerAdapter.trainerImages[position]);
@@ -46,6 +46,8 @@ public class WorkoutSelector extends AppCompatActivity implements TrainerAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_selector);
+
+        Toast.makeText(this, "WorkoutSelectorActivity", Toast.LENGTH_LONG).show();
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         if( bar != null ) {

@@ -147,19 +147,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         repCnt = 0;
     }
 
-    public void buttonSelector(View view) {
-        //Toast.makeText(this, "You clicked Text Message button", Toast.LENGTH_LONG).show();
-        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://contacts/people/3") );
-        //startActivity(intent);
-
-        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-        startActivityForResult(intent, 10011);
-
-        //Intent intent = new Intent(this, WorkoutSelector.class);
-        //startActivity(intent);
-    }
-
     private void prfRightDirChange( WorkoutPrf.Direction dir ) {
         if( prf.dirRight == WorkoutPrf.Direction.REL && dir == WorkoutPrf.Direction.PULL ) {
 
