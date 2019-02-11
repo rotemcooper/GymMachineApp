@@ -15,6 +15,7 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private EditText editText;
     private MyHandler mHandler;
     private GraphView graph;
+    private RecyclerView workoutRecyclerView;
     private Button cycle;
     private Button reps;
     private int trainerID = -1;
@@ -470,14 +472,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         springPref = new WorkoutPrf("Spring", 0,0,4,4, WorkoutPrf.SPRING_TBL);
         invSpringPref = new WorkoutPrf("Inverse Spring", 0,0,2,2, WorkoutPrf.INV_SPRING_TBL);
         mtnPref = new WorkoutPrf("Mountain", 0,0,4,4, WorkoutPrf.MTN_TBL);
-        strengthTestPrf = new WorkoutPrf("Strength Test", 0,0,4,4, WorkoutPrf.SPRING_TBL);
+        strengthTestPrf = new WorkoutPrf("Strength Test", 0,0,4,4, WorkoutPrf.STRENGTH_TEST_TBL);
 
         //------------------------------------------------------------------------------
 
         // Set the trainer ID if provided in intent (default is -1).
         //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
+        workoutRecyclerView = (RecyclerView) findViewById(R.id.workoutRecycler);
         Intent intent = getIntent();
         trainerID = intent.getIntExtra("TrainerID", -1);
+        if( trainerID == -1 ) {
+            workoutRecyclerView.setVisibility( View.INVISIBLE );
+        }
 
         // Set Workout profile based on intent if provided. Else set to default.
         if (intent.hasExtra("Workout")) {
