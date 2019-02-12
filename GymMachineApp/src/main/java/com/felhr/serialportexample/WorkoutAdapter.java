@@ -24,9 +24,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     WorkoutAdapter(Context parent, ArrayList<WorkoutPrf> workoutList ) {
         this.workoutList = workoutList;
         Toast.makeText(parent, "List size " + workoutList.size() , Toast.LENGTH_LONG).show();
-
-
-        //ew String(workoutList.size())
     }
 
     // Parent activity will implement this method to respond to click events
@@ -43,15 +40,12 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Views of each row
         public GraphView graph;
-        public ImageView photo;
-        public TextView text;
-
         public MyViewHolder(View v) {
             super(v);
-            text = (TextView) v.findViewById(R.id.textView8);
-            photo =  (ImageView) v.findViewById(R.id.workoutImage);
+            //text = (TextView) v.findViewById(R.id.textView8);
+            //photo =  (ImageView) v.findViewById(R.id.workoutImage);
 
-            //graph = (GraphView) v.findViewById(R.id.frameGraph);
+            graph = (GraphView) v.findViewById(R.id.frameGraph);
 
             // Set the onClickListener
             v.setOnClickListener(this);
@@ -109,12 +103,12 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(WorkoutAdapter.MyViewHolder holder, int position) {
-
+/*
         holder.text.setText( "Workout this is a lot of text" );
         holder.photo.setImageResource( R.drawable.trainer01 );
-/*
+*/
         // Get element from your dataset at this position
-        WorkoutPrf prf = workoutList.get( position );
+        WorkoutPrf prf = workoutList.get( position%(workoutList.size()) );
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );
@@ -134,7 +128,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         // Draw workout profile line for release
         LineGraphSeries<DataPoint> pointsRel = new LineGraphSeries<DataPoint>(prfDataPointsRel(prf));
         holder.graph.addSeries(pointsRel);
-        pointsRel.setDrawBackground(true); */
+        pointsRel.setDrawBackground(true);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
