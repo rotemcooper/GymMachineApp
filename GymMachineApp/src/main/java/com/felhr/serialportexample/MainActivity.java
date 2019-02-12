@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button reps;
     private int trainerID = -1;
     private String trainerDisplayControl = new String( "PHOTO" );
+    private WorkoutAdapter workoutAdapter;
 
     private final ServiceConnection usbConnection = new ServiceConnection() {
         @Override
@@ -475,6 +476,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Set Workout profile based on intent if provided. Else set to default.
         if (intent.hasExtra("Workout")) {
             workoutList = (ArrayList<WorkoutPrf>) getIntent().getSerializableExtra("Workout");
+            // Specify workout adapter
+            workoutAdapter = new WorkoutAdapter(workoutList);
+            workoutRecyclerView.setAdapter(workoutAdapter);
         }
         else {
             workoutList = new ArrayList<WorkoutPrf>();
