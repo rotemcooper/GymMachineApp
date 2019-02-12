@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -19,6 +21,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
     WorkoutAdapter( ArrayList<WorkoutPrf> workoutList ) {
         this.workoutList = workoutList;
+
+        //ew String(workoutList.size())
     }
 
     // Parent activity will implement this method to respond to click events
@@ -35,9 +39,11 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Views of each row
         public GraphView graph;
+        public TextView text;
 
         public MyViewHolder(View v) {
             super(v);
+            text = (TextView) v.findViewById(R.id.textView8);
             graph = (GraphView) v.findViewById(R.id.frameGraph);
 
             // Set the onClickListener
@@ -96,6 +102,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(WorkoutAdapter.MyViewHolder holder, int position) {
+        holder.text.setText( "Workout" );
+
         // Get element from your dataset at this position
         WorkoutPrf prf = workoutList.get( position );
 

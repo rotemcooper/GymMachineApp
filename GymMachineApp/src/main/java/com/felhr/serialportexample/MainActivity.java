@@ -479,6 +479,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             // Specify workout adapter
             workoutAdapter = new WorkoutAdapter(workoutList);
             workoutRecyclerView.setAdapter(workoutAdapter);
+            Toast.makeText(this, "List size" + workoutList.size() , Toast.LENGTH_LONG).show();
         }
         else {
             workoutList = new ArrayList<WorkoutPrf>();
