@@ -15,6 +15,7 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private MyHandler mHandler;
     private GraphView graph;
     private RecyclerView workoutRecyclerView;
+    private RecyclerView.LayoutManager workoutLayoutManager;
     private Button cycle;
     private Button reps;
     private int trainerID = -1;
@@ -476,10 +478,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Set Workout profile based on intent if provided. Else set to default.
         if (intent.hasExtra("Workout")) {
             workoutList = (ArrayList<WorkoutPrf>) getIntent().getSerializableExtra("Workout");
+
+            workoutLayoutManager = new LinearLayoutManager(this);
+            workoutRecyclerView.setLayoutManager(workoutLayoutManager);
+
             // Specify workout adapter
-            workoutAdapter = new WorkoutAdapter(workoutList);
+            workoutAdapter = new WorkoutAdapter(this, workoutList);
             workoutRecyclerView.setAdapter(workoutAdapter);
-            Toast.makeText(this, "List size" + workoutList.size() , Toast.LENGTH_LONG).show();
         }
         else {
             workoutList = new ArrayList<WorkoutPrf>();

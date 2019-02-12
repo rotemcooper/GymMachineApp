@@ -1,10 +1,12 @@
 package com.felhr.serialportexample;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +21,10 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     private static WorkoutAdapter.ItemClickListener mClickListener;
     private ArrayList<WorkoutPrf> workoutList;
 
-    WorkoutAdapter( ArrayList<WorkoutPrf> workoutList ) {
+    WorkoutAdapter(Context parent, ArrayList<WorkoutPrf> workoutList ) {
         this.workoutList = workoutList;
+        Toast.makeText(parent, "List size " + workoutList.size() , Toast.LENGTH_LONG).show();
+
 
         //ew String(workoutList.size())
     }
@@ -39,12 +43,15 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Views of each row
         public GraphView graph;
+        public ImageView photo;
         public TextView text;
 
         public MyViewHolder(View v) {
             super(v);
             text = (TextView) v.findViewById(R.id.textView8);
-            graph = (GraphView) v.findViewById(R.id.frameGraph);
+            photo =  (ImageView) v.findViewById(R.id.workoutImage);
+
+            //graph = (GraphView) v.findViewById(R.id.frameGraph);
 
             // Set the onClickListener
             v.setOnClickListener(this);
@@ -65,7 +72,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.workout_recycler_frame, parent, false);
 
-        return new WorkoutAdapter.MyViewHolder(v);
+        return new MyViewHolder(v);
     }
 
     private double torqueToPound( int x ) {
@@ -102,8 +109,10 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(WorkoutAdapter.MyViewHolder holder, int position) {
-        holder.text.setText( "Workout" );
 
+        holder.text.setText( "Workout this is a lot of text" );
+        holder.photo.setImageResource( R.drawable.trainer01 );
+/*
         // Get element from your dataset at this position
         WorkoutPrf prf = workoutList.get( position );
 
@@ -125,13 +134,13 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         // Draw workout profile line for release
         LineGraphSeries<DataPoint> pointsRel = new LineGraphSeries<DataPoint>(prfDataPointsRel(prf));
         holder.graph.addSeries(pointsRel);
-        pointsRel.setDrawBackground(true);
+        pointsRel.setDrawBackground(true); */
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return workoutList.size();
+        return 10;//workoutList.size();
     }
 
 
