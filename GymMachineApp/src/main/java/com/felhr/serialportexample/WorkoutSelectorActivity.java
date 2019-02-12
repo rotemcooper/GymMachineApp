@@ -93,7 +93,7 @@ public class WorkoutSelectorActivity extends AppCompatActivity implements Traine
         trainerLayoutManager = new LinearLayoutManager(this);
         trainerRecyclerView.setLayoutManager(trainerLayoutManager);
 
-        // Dpecify an adapter
+        // Specify an adapter
         trainerAdapter = new TrainerAdapter();
         trainerRecyclerView.setAdapter(trainerAdapter);
 

@@ -11,19 +11,19 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.MyViewHo
 
     private static ItemClickListener mClickListener;
 
-    // parent activity will implement this method to respond to click events
+    // Parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    // allows clicks events to be caught
+    // Allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
-    // Provide a reference to the views for each data item
+    // Provide a reference to the views for each data item (row)
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // each data item is just a string in this case
+        // Views of each row
         public ImageView trainerPhoto;
         public TextView trainerName;
         public TextView trainerText;
