@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (intent.hasExtra("Workout")) {
             workoutList = (ArrayList<WorkoutPrf>) getIntent().getSerializableExtra("Workout");
 
-            workoutLayoutManager = new LinearLayoutManager(this);
+            workoutLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             workoutRecyclerView.setLayoutManager(workoutLayoutManager);
 
             // Specify workout adapter

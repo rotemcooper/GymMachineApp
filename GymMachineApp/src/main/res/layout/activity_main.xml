@@ -299,11 +299,11 @@
         android:id="@+id/workoutRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="#ffffff"
-        tools:layout_editor_absoluteX="68dp"
-        android:layout_alignParentTop="true"
 
+        android:background="#ffffff"
+
+
+        android:layout_alignTop="@+id/buttonWeightPrf"
          />
 
 </RelativeLayout>
