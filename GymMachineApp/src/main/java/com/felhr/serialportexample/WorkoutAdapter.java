@@ -118,7 +118,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         holder.graph.setTitle( prf.name );
 
         holder.graph.setTitleTextSize( 40 );
-        holder.graph.setTitleColor( Color.BLACK );
+        holder.graph.setTitleColor( Color.WHITE );
         holder.graph.getGridLabelRenderer().setGridColor(0xFFFF7900);
         holder.graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFFF7900);
         holder.graph.getGridLabelRenderer().setVerticalLabelsColor(0xFFFF7900);

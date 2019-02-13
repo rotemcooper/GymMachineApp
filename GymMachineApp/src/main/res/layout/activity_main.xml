@@ -299,7 +299,8 @@
         android:id="@+id/workoutRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:layout_alignTop="@+id/buttonWeightPrf"/>
+        android:layout_below="@id/graph"
+        android:background="@color/ColorBackground"
+        />
 
 </RelativeLayout>
