@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, WorkoutAdapter.ItemClickListener {
 
     /*
      * Notifications from UsbService will be received here.
@@ -489,6 +489,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             // Specify workout adapter
             workoutAdapter = new WorkoutAdapter(this, workoutList);
             workoutRecyclerView.setAdapter(workoutAdapter);
+
+            // Set onClickListener
+            workoutAdapter.setClickListener(this);
         }
         else {
             workoutList = new ArrayList<WorkoutPrf>();
@@ -613,6 +616,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 trainerVideoView.setVisibility( View.INVISIBLE );
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        //rotemc
+        myToast( "Workout list position " + position, Toast.LENGTH_LONG);
+        setPrf( workoutList.get(position), true );
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

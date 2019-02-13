@@ -32,13 +32,6 @@ public class WorkoutSelectorActivity extends AppCompatActivity implements Traine
         String brandon1 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon1);
         String brandon2 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon2);
         String brandon3 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon3);
-        String brandon4 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon1);
-        String brandon5 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon2);
-        String brandon6 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon3);
-        String brandon7 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon1);
-        String brandon8 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon2);
-        String brandon9 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon3);
-        String brandon10 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon1);
 
         ArrayList<WorkoutPrf> workout = new ArrayList<WorkoutPrf>();
         workout.add( new WorkoutPrf("Weight1", brandon1, 0,0,1,2, 4, WorkoutPrf.WEIGHT_TBL ) );
@@ -52,9 +45,7 @@ public class WorkoutSelectorActivity extends AppCompatActivity implements Traine
         workout.add( new WorkoutPrf("Spring9", brandon3, 100,100,3,4, 4, WorkoutPrf.SPRING_TBL ) );
         workout.add( new WorkoutPrf("Weight10", brandon1, 0,0,1,2, 4, WorkoutPrf.WEIGHT_TBL ) );
 
-
         intent.putExtra("Workout", workout);
-
         startActivity(intent);
     }
 

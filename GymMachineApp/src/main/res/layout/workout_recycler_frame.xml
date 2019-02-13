@@ -28,6 +28,8 @@
         android:id="@+id/frameGraph"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         />
 
 
