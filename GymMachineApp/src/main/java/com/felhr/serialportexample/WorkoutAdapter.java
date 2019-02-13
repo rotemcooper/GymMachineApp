@@ -39,11 +39,11 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Provide a reference to the views for each data item (row)
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Views of each row
-        //public TextView text;
+        public TextView text;
         public GraphView graph;
         public MyViewHolder(View v) {
             super(v);
-            //text = (TextView) v.findViewById(R.id.textView8);
+            text = (TextView) v.findViewById(R.id.textView8);
             //photo =  (ImageView) v.findViewById(R.id.workoutImage);
 
             graph = (GraphView) v.findViewById(R.id.frameGraph);
@@ -112,7 +112,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         // Get element from your dataset at this position
         WorkoutPrf prf = workoutList.get( position );
 
-//        holder.text.setText( prf.name );
+        holder.text.setText( " " + position );
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );
