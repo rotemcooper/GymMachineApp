@@ -469,6 +469,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Set the trainer ID if provided in intent (default is -1).
         //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
         workoutRecyclerView = (RecyclerView) findViewById(R.id.workoutRecycler);
+        // Improve performance (if changes in content do not change the layout
+        // size of the RecyclerView)
+        workoutRecyclerView.setHasFixedSize(true);
+
         Intent intent = getIntent();
         trainerID = intent.getIntExtra("TrainerID", -1);
         if( trainerID == -1 ) {

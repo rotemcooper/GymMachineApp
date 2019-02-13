@@ -112,7 +112,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );
-        holder.graph.setTitleTextSize( 60 );
+        holder.graph.setTitleTextSize( 40 );
         holder.graph.setTitleColor( Color.BLACK );
         holder.graph.getGridLabelRenderer().setGridColor(0xFFFF7900);
         holder.graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFFF7900);
@@ -120,6 +120,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         //holder.graph.getGridLabelRenderer().setTextSize(50);
         //graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
 
+        holder.graph.removeAllSeries();
         // Draw workout profile line for pull
         LineGraphSeries<DataPoint> pointsPull = new LineGraphSeries<DataPoint>(prfDataPointsPull(prf));
         holder.graph.addSeries(pointsPull);
@@ -129,12 +130,16 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         LineGraphSeries<DataPoint> pointsRel = new LineGraphSeries<DataPoint>(prfDataPointsRel(prf));
         holder.graph.addSeries(pointsRel);
         pointsRel.setDrawBackground(true);
+
+
+        //pointsPull.resetData(prfDataPointsPull());
+        //pointsRel.resetData(prfDataPointsRel());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return 10;//workoutList.size();
+        return workoutList.size();
     }
 
 
