@@ -39,6 +39,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Provide a reference to the views for each data item (row)
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Views of each row
+        //public TextView text;
         public GraphView graph;
         public MyViewHolder(View v) {
             super(v);
@@ -103,15 +104,19 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(WorkoutAdapter.MyViewHolder holder, int position) {
-/*
-        holder.text.setText( "Workout this is a lot of text" );
-        holder.photo.setImageResource( R.drawable.trainer01 );
-*/
+
+        holder.setIsRecyclable(false);
+
+//        holder.photo.setImageResource( R.drawable.trainer01 );
+
         // Get element from your dataset at this position
-        WorkoutPrf prf = workoutList.get( position%(workoutList.size()) );
+        WorkoutPrf prf = workoutList.get( position );
+
+//        holder.text.setText( prf.name );
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );
+
         holder.graph.setTitleTextSize( 40 );
         holder.graph.setTitleColor( Color.BLACK );
         holder.graph.getGridLabelRenderer().setGridColor(0xFFFF7900);
@@ -130,6 +135,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         LineGraphSeries<DataPoint> pointsRel = new LineGraphSeries<DataPoint>(prfDataPointsRel(prf));
         holder.graph.addSeries(pointsRel);
         pointsRel.setDrawBackground(true);
+
+        holder.graph.getViewport().setMinX(0);
+        holder.graph.getViewport().setMaxX(200);
+        holder.graph.getViewport().setMinY(0);
+        holder.graph.getViewport().setMaxY(80);
+
+        holder.graph.getViewport().setYAxisBoundsManual(true);
+        holder.graph.getViewport().setXAxisBoundsManual(true);
 
 
         //pointsPull.resetData(prfDataPointsPull());

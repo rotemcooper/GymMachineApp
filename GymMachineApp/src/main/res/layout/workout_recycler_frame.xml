@@ -2,7 +2,9 @@
 <!-- RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/trainer_recycler_row">
 
@@ -14,14 +16,13 @@
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:src="@drawable/trainer01"
-        />
-    <TextView
+        /-->
+    <!--TextView
         android:id="@+id/textView8"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Workout this is a lot of text"
         android:textColor="#000000"
-        android:textSize="35sp" /-->
+        /-->
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/frameGraph"
