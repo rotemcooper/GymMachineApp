@@ -29,6 +29,10 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
                 // do something when the button is clicked
                 //Toast.makeText(v.getContext(), "Clicked", Toast.LENGTH_LONG).show();
                 v.setBackgroundColor( 0xffffffff );
+
+                //if (WorkoutAdapter.mClickListener != null) {
+                //    WorkoutAdapter.mClickListener.onItemClick(v, getAdapterPosition());
+                //}
             }
         };
 
@@ -57,6 +61,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
             //photo =  (ImageView) v.findViewById(R.id.workoutImage);
 
             graph = (GraphView) v.findViewById(R.id.frameGraph);
+            //graph.setOnClickListener( clickListener );
+            graph.setOnClickListener( this );
 
             // Set the onClickListener
             v.setOnClickListener(this);
@@ -64,6 +70,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
         @Override
         public void onClick(View view) {
+            graph.setBackgroundColor( 0xffffffff );
             if (WorkoutAdapter.mClickListener != null) {
                 WorkoutAdapter.mClickListener.onItemClick(view, getAdapterPosition());
             }
@@ -128,7 +135,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         // Create and title the graph
         holder.graph.setTitle( prf.name );
 
-        holder.graph.setOnClickListener( clickListener );
+        //holder.graph.setOnClickListener( clickListener );
 
         holder.graph.setTitleTextSize( 40 );
         holder.graph.setTitleColor( Color.WHITE );
