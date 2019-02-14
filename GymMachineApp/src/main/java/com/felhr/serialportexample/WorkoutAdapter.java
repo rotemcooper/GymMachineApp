@@ -20,10 +20,10 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
     private static WorkoutAdapter.ItemClickListener mClickListener;
     private ArrayList<WorkoutPrf> workoutList;
-    View.OnClickListener clickListener;
+    //View.OnClickListener clickListener;
 
     WorkoutAdapter(Context parent, ArrayList<WorkoutPrf> workoutList ) {
-
+/*
         clickListener = new View.OnClickListener() {
             public void onClick(View v) {
                 // do something when the button is clicked
@@ -35,7 +35,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
                 //}
             }
         };
-
+*/
         this.workoutList = workoutList;
         Toast.makeText(parent, "List size " + workoutList.size() , Toast.LENGTH_LONG).show();
     }
@@ -70,7 +70,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
         @Override
         public void onClick(View view) {
-            graph.setBackgroundColor( 0xffffffff );
+            graph.setBackgroundColor( view.getResources().getColor(R.color.ColorBackgroundHighlight));
             if (WorkoutAdapter.mClickListener != null) {
                 WorkoutAdapter.mClickListener.onItemClick(view, getAdapterPosition());
             }
