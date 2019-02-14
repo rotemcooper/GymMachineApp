@@ -20,8 +20,18 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
     private static WorkoutAdapter.ItemClickListener mClickListener;
     private ArrayList<WorkoutPrf> workoutList;
+    View.OnClickListener clickListener;
 
     WorkoutAdapter(Context parent, ArrayList<WorkoutPrf> workoutList ) {
+
+        clickListener = new View.OnClickListener() {
+            public void onClick(View v) {
+                // do something when the button is clicked
+                //Toast.makeText(v.getContext(), "Clicked", Toast.LENGTH_LONG).show();
+                v.setBackgroundColor( 0xffffffff );
+            }
+        };
+
         this.workoutList = workoutList;
         Toast.makeText(parent, "List size " + workoutList.size() , Toast.LENGTH_LONG).show();
     }
@@ -111,11 +121,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
         // Get element from your dataset at this position
         WorkoutPrf prf = workoutList.get( position );
+        //prf.state = WorkoutPrf.State.SELECTED
 
         holder.text.setText( " " + position );
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );
+
+        holder.graph.setOnClickListener( clickListener );
 
         holder.graph.setTitleTextSize( 40 );
         holder.graph.setTitleColor( Color.WHITE );

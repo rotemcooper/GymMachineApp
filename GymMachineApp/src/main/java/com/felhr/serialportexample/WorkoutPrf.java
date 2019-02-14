@@ -11,6 +11,13 @@ public class WorkoutPrf implements Serializable {
         REL
     }
 
+    public enum State {
+        INIT,
+        SELECTED,
+        COMPLETED
+    }
+    public State state;
+
     private final int addPullInit;
     private final int addRelInit;
     private final int multPullInit;
@@ -30,6 +37,7 @@ public class WorkoutPrf implements Serializable {
     int distLeft;
     Direction dirRight;
     Direction dirLeft;
+
 
     WorkoutPrf( String Name,
                 int addPullInitPrm,
@@ -78,6 +86,7 @@ public class WorkoutPrf implements Serializable {
         multPull = multPullInit;
         multRel = multRelInit;
         reps = 1;
+        state = State.INIT;
     }
 
     boolean isRepsMax() {
