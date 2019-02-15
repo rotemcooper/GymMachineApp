@@ -20,22 +20,9 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
     private static WorkoutAdapter.ItemClickListener mClickListener;
     private ArrayList<WorkoutPrf> workoutList;
-    //View.OnClickListener clickListener;
+    View prevClickedView;
 
     WorkoutAdapter(Context parent, ArrayList<WorkoutPrf> workoutList ) {
-/*
-        clickListener = new View.OnClickListener() {
-            public void onClick(View v) {
-                // do something when the button is clicked
-                //Toast.makeText(v.getContext(), "Clicked", Toast.LENGTH_LONG).show();
-                v.setBackgroundColor( 0xffffffff );
-
-                //if (WorkoutAdapter.mClickListener != null) {
-                //    WorkoutAdapter.mClickListener.onItemClick(v, getAdapterPosition());
-                //}
-            }
-        };
-*/
         this.workoutList = workoutList;
         Toast.makeText(parent, "List size " + workoutList.size() , Toast.LENGTH_LONG).show();
     }
@@ -61,16 +48,23 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
             //photo =  (ImageView) v.findViewById(R.id.workoutImage);
 
             graph = (GraphView) v.findViewById(R.id.frameGraph);
-            //graph.setOnClickListener( clickListener );
-            graph.setOnClickListener( this );
 
-            // Set the onClickListener
-            v.setOnClickListener(this);
+            // Set the onClickListener for graph view
+            //v.setOnClickListener(this);
+            graph.setOnClickListener( this );
         }
 
         @Override
         public void onClick(View view) {
+            // Clear background of previously clicked view
+            if( prevClickedView != null ) {
+                prevClickedView.setBackgroundColor( view.getResources().getColor(R.color.ColorBackground));
+            }
+            prevClickedView = view;
+
+            // Highlight currently clicked view
             graph.setBackgroundColor( view.getResources().getColor(R.color.ColorBackgroundHighlight));
+
             if (WorkoutAdapter.mClickListener != null) {
                 WorkoutAdapter.mClickListener.onItemClick(view, getAdapterPosition());
             }
@@ -80,7 +74,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Create new views (invoked by the layout manager)
     @Override
     public WorkoutAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
+        // Create a new view
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.workout_recycler_frame, parent, false);
 
@@ -126,11 +120,10 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
 //        holder.photo.setImageResource( R.drawable.trainer01 );
 
-        // Get element from your dataset at this position
+        // Get element from data-set at this position
         WorkoutPrf prf = workoutList.get( position );
-        //prf.state = WorkoutPrf.State.SELECTED
 
-        holder.text.setText( " " + position );
+        holder.text.setText( " " + (position+1) );
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );

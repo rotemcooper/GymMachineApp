@@ -8,6 +8,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/trainer_recycler_row">
 
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/frameGraph"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
 
     <TextView
         android:id="@+id/textView8"
@@ -19,21 +26,13 @@
         android:layout_marginRight="20dp"
         />
 
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/frameGraph"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        />
-
-    <ImageView
+    <!--ImageView
         android:id="@+id/workoutImage"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        />
+        /-->
 
 
 </FrameLayout>
