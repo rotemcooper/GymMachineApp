@@ -528,6 +528,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
          // Create and title the graph
         graph = (GraphView) findViewById(R.id.graph);
+
+        graph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
+                trainerVideoView.pause();
+                buttonVideoStart.setVisibility( View.VISIBLE );
+                //rotemc
+            }
+        });
+
+
         graph.setTitle( prf.name );
         graph.setTitleTextSize( 60 );
         graph.setTitleColor( Color.WHITE );
