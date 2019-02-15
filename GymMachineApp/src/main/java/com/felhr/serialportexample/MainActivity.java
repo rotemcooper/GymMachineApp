@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private RecyclerView.LayoutManager workoutLayoutManager;
     private Button cycle;
     private Button reps;
+    private Button buttonVideoStart;
     private int trainerID = -1;
     private String trainerDisplayControl = new String( "PHOTO" );
     private WorkoutAdapter workoutAdapter;
@@ -200,6 +201,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         repCnt = 0;
         cycle.setText( Integer.toString(cyclesMax) +  " Sets" );
         reps.setText( Integer.toString(cyclesMax) +  " Reps" );
+    }
+
+    public void videoStart(View view) {
+//rotemc
+        VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
+        if( prf.videoUri != null /*&& !trainerVideoView.isPlaying()*/ ) {
+            trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
+            trainerVideoView.start();
+            buttonVideoStart.setVisibility( View.INVISIBLE );
+        }
     }
 
     public void weightPrf(View view) {
@@ -509,6 +520,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         repsMax = 1;
         repCnt = 0;
         reps = (Button) findViewById(R.id.buttonReps);
+        buttonVideoStart = (Button) findViewById(R.id.buttonVideoStart);
+        buttonVideoStart.setVisibility( View.INVISIBLE );
 
         pullDisplay = (TextView) findViewById(R.id.textViewPull);
         pullDisplay.setText("" + prf.multPull);
@@ -577,43 +590,51 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             // No trainer provided,remove trainer photo and video views
             trainerImageView.setVisibility( View.INVISIBLE );
             trainerVideoView.setVisibility( View.INVISIBLE );
+            buttonVideoStart.setVisibility( View.INVISIBLE );
             return;
         }
-
+//rotemc
         // Display image
         trainerImageView.setImageResource( trainerID );
 
         // Play video
-        if( prf.videoUri != null && (isNewSegment || !trainerVideoView.isPlaying()) ) {
+        trainerVideoView.pause();
+  /*      if( prf.videoUri != null && (isNewSegment || !trainerVideoView.isPlaying()) ) {
             trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
             trainerVideoView.start();
-        }
+        } */
 
         //Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
         switch( trainerDisplayControl ) {
             case "VIDEO+PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
+                buttonVideoStart.setVisibility( View.VISIBLE );
                 break;
             case "AUDIO+PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
+                buttonVideoStart.setVisibility( View.VISIBLE );
                 break;
             case "VIDEO":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
+                buttonVideoStart.setVisibility( View.VISIBLE );
                 break;
             case "PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.INVISIBLE );
+                buttonVideoStart.setVisibility( View.INVISIBLE );
                 break;
             case "AUDIO":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
+                buttonVideoStart.setVisibility( View.VISIBLE );
                 break;
             case "CLEAR":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.INVISIBLE );
+                buttonVideoStart.setVisibility( View.INVISIBLE );
                 break;
         }
     }
@@ -621,7 +642,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(View view, int position) {
         //rotemc
-        myToast( "Workout list position " + position, Toast.LENGTH_LONG);
+        myToast( "Workout list position " + position, Toast.LENGTH_SHORT);
         setPrf( workoutList.get(position), true );
     }
 

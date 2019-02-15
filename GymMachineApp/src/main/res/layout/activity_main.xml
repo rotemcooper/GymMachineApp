@@ -303,4 +303,19 @@
         android:background="@color/ColorBackground"
         />
 
+    <Button
+        android:id="@+id/buttonVideoStart"
+        android:layout_width="@dimen/prfButtonWidth"
+        android:layout_height="@dimen/prfButtonHeight"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:longClickable="false"
+        android:onClick="videoStart"
+        android:soundEffectsEnabled="true"
+        android:text="Start Video"
+        android:textColor="@color/colorBar"
+        android:textSize="@dimen/prefButtonTextSize"
+        android:background="@drawable/btn_rounded"
+        />
+
 </RelativeLayout>
