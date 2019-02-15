@@ -127,9 +127,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );
-
-        //holder.graph.setOnClickListener( clickListener );
-
         holder.graph.setTitleTextSize( 40 );
         holder.graph.setTitleColor( Color.WHITE );
         holder.graph.getGridLabelRenderer().setGridColor(0xFFFF7900);
@@ -149,17 +146,13 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         holder.graph.addSeries(pointsRel);
         pointsRel.setDrawBackground(true);
 
+        // Set x and y range
         holder.graph.getViewport().setMinX(0);
         holder.graph.getViewport().setMaxX(200);
         holder.graph.getViewport().setMinY(0);
         holder.graph.getViewport().setMaxY(80);
-
         holder.graph.getViewport().setYAxisBoundsManual(true);
         holder.graph.getViewport().setXAxisBoundsManual(true);
-
-
-        //pointsPull.resetData(prfDataPointsPull());
-        //pointsRel.resetData(prfDataPointsRel());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
