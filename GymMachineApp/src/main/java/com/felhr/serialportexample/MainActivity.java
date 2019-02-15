@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             if( prf.isRepsMax() ) {
                 if( workoutItr.hasNext() ) {
+                    myToast( "Segment Complete", Toast.LENGTH_LONG);
                     setPrf( workoutItr.next(), false );
                 }
                 else {
@@ -206,11 +207,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void videoStart(View view) {
 //rotemc
         VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
-        if( prf.videoUri != null /*&& !trainerVideoView.isPlaying()*/ ) {
-            trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
-            trainerVideoView.start();
-            buttonVideoStart.setVisibility( View.INVISIBLE );
-        }
+        trainerVideoView.start();
+        buttonVideoStart.setVisibility( View.INVISIBLE );
     }
 
     public void weightPrf(View view) {
@@ -262,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     (byte) 'p', (byte) '+', dig3(p.addPull), dig2(p.addPull), dig1(p.addPull),
                     (byte) 'r', (byte) '+', dig3(p.addRel), dig2(p.addRel), dig1(p.addRel) };
             usbService.write(buf);
-            myToast( new String(buf), Toast.LENGTH_LONG );
+            //myToast( new String(buf), Toast.LENGTH_LONG );
             prfChange( p );
             setTrainerDisplay( true );
         }
@@ -598,11 +596,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         trainerImageView.setImageResource( trainerID );
 
         // Play video
-        trainerVideoView.pause();
-  /*      if( prf.videoUri != null && (isNewSegment || !trainerVideoView.isPlaying()) ) {
+
+        if( prf.videoUri != null /*&& (isNewSegment || !trainerVideoView.isPlaying())*/ ) {
             trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
-            trainerVideoView.start();
-        } */
+            trainerVideoView.pause();
+            trainerVideoView.seekTo( 1);
+        }
 
         //Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
         switch( trainerDisplayControl ) {
@@ -642,7 +641,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(View view, int position) {
         //rotemc
-        myToast( "Workout list position " + position, Toast.LENGTH_SHORT);
+        //myToast( "Workout list position " + position, Toast.LENGTH_SHORT);
         setPrf( workoutList.get(position), true );
     }
 
