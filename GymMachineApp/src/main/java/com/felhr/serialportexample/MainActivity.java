@@ -157,12 +157,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             prf.reps++;
 
             if( prf.isRepsMax() ) {
-                if( workoutItr.hasNext() ) {
-                    myToast( "Segment Complete", Toast.LENGTH_LONG);
-                    setPrf( workoutItr.next(), false );
+                //if( workoutItr.hasNext() ) {
+                if( workoutListPos+1 < workoutList.size() ) {
+                    myToast( "Segment Completed\n Select next segment below", Toast.LENGTH_LONG);
+                    //setPrf( workoutItr.next(), false );
                 }
                 else {
-                    myToast( "Workout Complete", Toast.LENGTH_LONG);
+                    myToast( "Excellent job!\nYou completed the workout", Toast.LENGTH_LONG);
                 }
                 //rotemc
             }
@@ -350,6 +351,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private WorkoutPrf strengthTestPrf;
     private WorkoutPrf prf;
     ArrayList<WorkoutPrf> workoutList;
+    int workoutListPos;
     ListIterator<WorkoutPrf> workoutItr;
 
     private int        cyclesMax;
@@ -654,6 +656,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(View view, int position) {
         //rotemc
         //myToast( "Workout list position " + position, Toast.LENGTH_SHORT);
+        workoutListPos = position;
         setPrf( workoutList.get(position), true );
     }
 
