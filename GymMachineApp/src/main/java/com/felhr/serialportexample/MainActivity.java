@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ViewGroup group = (ViewGroup) toast.getView();
         TextView messageTextView = (TextView) group.getChildAt(0);
         messageTextView.setTextSize(45);
+        TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+        if( v != null) v.setGravity(Gravity.CENTER);
         toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
         toast.show();
     }
@@ -658,6 +660,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //myToast( "Workout list position " + position, Toast.LENGTH_SHORT);
         workoutListPos = position;
         setPrf( workoutList.get(position), true );
+        reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
+                Integer.toString(prf.repsMax) );
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
