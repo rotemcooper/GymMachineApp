@@ -161,17 +161,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             prf.reps++;
             if( prf.isRepsMax() ) {
                 if( workoutListView != null ) {
-                    if( prf.reps == prf.repsMax+1 ) {
-                        setsCnt++;
-                        cycle.setText( "Sets " + Integer.toString(setsCnt) + ":" + Integer.toString(setsMax) );
-                    }
+
                     TextView text = (TextView) workoutListView.findViewById(R.id.textView8);
                     String num = text.getText().toString();
                     if( !num.contains("\u2714") ) {
                         text.setText( num + "\u2714");
                     }
 
-                    if( workoutListPos+1 < workoutList.size() ) {
+                    if( prf.reps == prf.repsMax+1 ) {
+                        if( setsCnt < workoutList.size() ) {
+                            setsCnt++;
+                            cycle.setText( "Sets " + Integer.toString(setsCnt) + ":" + Integer.toString(setsMax) );
+                        }
+                    }
+
+                    if( setsCnt /*workoutListPos+1*/ < workoutList.size() ) {
                         myToast( "Segment Completed\n Select next segment below", Toast.LENGTH_LONG);
                         //setPrf( workoutItr.next(), false );
                     }
