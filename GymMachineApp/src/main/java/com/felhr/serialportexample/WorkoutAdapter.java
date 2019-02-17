@@ -74,7 +74,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
             clickedView = view;
 
             // Highlight currently clicked view
-            graph.setBackgroundColor( view.getResources().getColor(R.color.ColorBackgroundHighlight));
+            //graph.setBackgroundColor( view.getResources().getColor(R.color.ColorBackgroundHighlight));
+            graph.setBackground( view.getResources().getDrawable(R.drawable.btn_rounded));
 
             clickedListPosition = getAdapterPosition();
             if (WorkoutAdapter.mClickListener != null) {
@@ -172,7 +173,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         // Remember and highlight the last clicked view
         if( position == clickedListPosition ) {
             clickedView = holder.graph;
-            clickedView.setBackgroundColor( clickedView.getResources().getColor(R.color.ColorBackgroundHighlight));
+            //clickedView.setBackgroundColor( clickedView.getResources().getColor(R.color.ColorBackgroundHighlight));
+            clickedView.setBackground( clickedView.getResources().getDrawable(R.drawable.btn_rounded));
 
             // If this is the first time we are here, call onClick()
             if( !isCalled && position == 0 ) {

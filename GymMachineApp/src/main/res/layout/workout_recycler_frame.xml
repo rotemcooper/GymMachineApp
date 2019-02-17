@@ -6,7 +6,10 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/trainer_recycler_row">
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    >
+    <!--android:background="@drawable/btn_rounded"-->
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/frameGraph"

@@ -302,6 +302,7 @@
         android:layout_below="@id/graph"
         android:background="@color/ColorBackground"
         />
+        <!--android:background="@drawable/btn_rounded"-->
 
     <Button
         android:id="@+id/buttonVideoStart"
