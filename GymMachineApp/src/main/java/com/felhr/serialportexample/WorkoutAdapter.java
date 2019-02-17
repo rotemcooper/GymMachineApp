@@ -2,6 +2,7 @@ package com.felhr.serialportexample;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,12 +47,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Views of each row
         public View frameView;
-        public TextView text;
+        public TextView segNum;
+        public TextView checkMark;
         public GraphView graph;
         public MyViewHolder(View v) {
             super(v);
             frameView = v;
-            text = (TextView) v.findViewById(R.id.textView8);
+            segNum = (TextView) v.findViewById(R.id.textSegNum);
+            checkMark = (TextView) v.findViewById(R.id.textCheckMark);
             //photo =  (ImageView) v.findViewById(R.id.workoutImage);
 
             graph = (GraphView) v.findViewById(R.id.frameGraph);
@@ -132,13 +135,10 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         WorkoutPrf prf = workoutList.get( position );
 
         // Indicate segment number and whether it is completed
+        holder.segNum.setText( " " + (position+1) );
         if( prf.reps > prf.repsMax ) {
-            holder.text.setText( " " + (position+1) + "\u2714" );
+            holder.checkMark.setVisibility( View.VISIBLE );
         }
-        else {
-            holder.text.setText( " " + (position+1) );
-        }
-        //holder.text.setText( "\u2713 \u2714 \u2705 " );
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );

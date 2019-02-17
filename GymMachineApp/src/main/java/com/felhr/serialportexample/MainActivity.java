@@ -141,8 +141,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             setsMax = 1;
         }
         setsCnt = 1;
+        setsCntDisplay = 1;
         //cycle.setText( Integer.toString(setsMax) +  " Sets" );
-        cycle.setText( "Sets " + Integer.toString(setsCnt) + ":" + Integer.toString(setsMax) );
+        cycle.setText( "Sets " + Integer.toString(setsCntDisplay) + ":" + Integer.toString(setsMax) );
 
     }
     
@@ -162,20 +163,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             if( prf.isRepsMax() ) {
                 if( workoutListView != null ) {
 
-                    TextView text = (TextView) workoutListView.findViewById(R.id.textView8);
-                    String num = text.getText().toString();
-                    if( !num.contains("\u2714") ) {
-                        text.setText( num + "\u2714");
-                    }
+                    TextView checkMark = (TextView) workoutListView.findViewById(R.id.textCheckMark);
+                    checkMark.setVisibility( View.VISIBLE );
 
                     if( prf.reps == prf.repsMax+1 ) {
-                        if( setsCnt < workoutList.size() ) {
+                    //    if( setsCnt < workoutList.size() ) {
                             setsCnt++;
-                            cycle.setText( "Sets " + Integer.toString(setsCnt) + ":" + Integer.toString(setsMax) );
-                        }
+                        setsCntDisplay = Math.min( setsCnt, workoutList.size() );
+                    //    }
                     }
 
-                    if( setsCnt /*workoutListPos+1*/ < workoutList.size() ) {
+                    if( setsCnt <= workoutList.size() ) {
                         myToast( "Segment Completed\n Select next segment below", Toast.LENGTH_LONG);
                         //setPrf( workoutItr.next(), false );
                     }
@@ -195,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         workoutPullPlus( 1 );
                         workoutRelPlus( 1 );
                     }
+                    setsCntDisplay = setsCnt;
                 }
             }
             reps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
@@ -212,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setsMax = workoutList.size();
         //rotemc setsCnt = 1;
         reps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
-        cycle.setText( "Sets " + Integer.toString(setsCnt) + ":" + Integer.toString(setsMax) );
+        cycle.setText( "Sets " + Integer.toString(setsCntDisplay) + ":" + Integer.toString(setsMax) );
     }
 
     public void videoStart(View view) {
@@ -350,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private int        setsMax;
     private int        setsCnt;
+    private int        setsCntDisplay;
     //private int        repsMax;
     //private int        repCnt;
 
@@ -509,6 +509,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         setsMax = 1;
         setsCnt = 1;
+        setsCntDisplay = 1;
         cycle = (Button) findViewById(R.id.buttonCycle);
 
         //repsMax = 1;
@@ -657,8 +658,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         workoutListView = view;
         workoutListPos = position;
         setPrf( workoutList.get(position), true );
-        reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
-                Integer.toString(prf.repsMax) );
+        reps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
+        cycle.setText( "Sets " + Integer.toString(setsCntDisplay) + ":" + Integer.toString(setsMax) );
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
