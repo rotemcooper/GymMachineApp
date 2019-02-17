@@ -159,6 +159,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             prf.reps++;
 
             if( prf.isRepsMax() ) {
+                if( workoutListView != null ) {
+                    TextView text = (TextView) workoutListView.findViewById(R.id.textView8);
+                    String num = text.getText().toString();
+                    if( !num.contains("\u2714") ) {
+                        text.setText( num + "\u2714");
+                    }
+                }
                 //if( workoutItr.hasNext() ) {
                 if( workoutListPos+1 < workoutList.size() ) {
                     myToast( "Segment Completed\n Select next segment below", Toast.LENGTH_LONG);
@@ -354,6 +361,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private WorkoutPrf prf;
     ArrayList<WorkoutPrf> workoutList;
     int workoutListPos;
+    View workoutListView;
     ListIterator<WorkoutPrf> workoutItr;
 
     private int        cyclesMax;
@@ -658,6 +666,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(View view, int position) {
         //rotemc
         //myToast( "Workout list position " + position, Toast.LENGTH_SHORT);
+        workoutListView = view;
         workoutListPos = position;
         setPrf( workoutList.get(position), true );
         reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +

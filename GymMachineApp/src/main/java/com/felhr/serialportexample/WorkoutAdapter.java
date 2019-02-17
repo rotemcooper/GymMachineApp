@@ -20,6 +20,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
     private static WorkoutAdapter.ItemClickListener mClickListener;
     private ArrayList<WorkoutPrf> workoutList;
+    int clickedListPosition=0;
     View prevClickedView;
 
     WorkoutAdapter(Context parent, ArrayList<WorkoutPrf> workoutList ) {
@@ -40,10 +41,12 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Provide a reference to the views for each data item (row)
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Views of each row
+        public View frameView;
         public TextView text;
         public GraphView graph;
         public MyViewHolder(View v) {
             super(v);
+            frameView = v;
             text = (TextView) v.findViewById(R.id.textView8);
             //photo =  (ImageView) v.findViewById(R.id.workoutImage);
 
@@ -57,6 +60,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         @Override
         public void onClick(View view) {
             // Clear background of previously clicked view
+
             if( prevClickedView != null ) {
                 prevClickedView.setBackgroundColor( view.getResources().getColor(R.color.ColorBackground));
             }
@@ -65,8 +69,9 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
             // Highlight currently clicked view
             graph.setBackgroundColor( view.getResources().getColor(R.color.ColorBackgroundHighlight));
 
+            clickedListPosition = getAdapterPosition();
             if (WorkoutAdapter.mClickListener != null) {
-                WorkoutAdapter.mClickListener.onItemClick(view, getAdapterPosition());
+                WorkoutAdapter.mClickListener.onItemClick(frameView, getAdapterPosition());
             }
         }
     }
@@ -118,12 +123,22 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
         holder.setIsRecyclable(false);
 
-//        holder.photo.setImageResource( R.drawable.trainer01 );
+        if( position == clickedListPosition ) {
+            prevClickedView = holder.graph;
+            prevClickedView.setBackgroundColor( prevClickedView.getResources().getColor(R.color.ColorBackgroundHighlight));
+        }
 
         // Get element from data-set at this position
         WorkoutPrf prf = workoutList.get( position );
 
-        holder.text.setText( " " + (position+1) );
+        // Indicate segment number and whether it is completed
+        if( prf.reps > prf.repsMax ) {
+            holder.text.setText( " " + (position+1) + "\u2714" );
+        }
+        else {
+            holder.text.setText( " " + (position+1) );
+        }
+        //holder.text.setText( "\u2713 \u2714 \u2705 " );
 
         // Create and title the graph
         holder.graph.setTitle( prf.name );
