@@ -25,13 +25,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     boolean isCalled = false;
     Context parent;
 
-    public void forcedOnClick() {
-        if (WorkoutAdapter.mClickListener != null) {
-            Toast.makeText(parent, "forcedOnClick", Toast.LENGTH_LONG).show();
-            WorkoutAdapter.mClickListener.onItemClick(clickedView, clickedListPosition);
-        }
-    }
-
     WorkoutAdapter(Context parent, ArrayList<WorkoutPrf> workoutList ) {
         this.workoutList = workoutList;
         this.parent = parent;
@@ -46,12 +39,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Allows clicks events to be caught
     public void setClickListener(WorkoutAdapter.ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
-        //rotemc Toast.makeText(parent, "setClickListener1", Toast.LENGTH_LONG).show();
-
-        /*rotemc if( clickedView != null ) {
-            mClickListener.onItemClick(clickedView, 0);
-            Toast.makeText(parent, "setClickListener2", Toast.LENGTH_LONG).show();
-        }*/
+        //Toast.makeText(parent, "setClickListener1", Toast.LENGTH_LONG).show();
     }
 
     // Provide a reference to the views for each data item (row)
@@ -87,7 +75,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
             clickedListPosition = getAdapterPosition();
             if (WorkoutAdapter.mClickListener != null) {
-                Toast.makeText(parent, "onClick " + getAdapterPosition(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(parent, "onClick " + getAdapterPosition(), Toast.LENGTH_LONG).show();
                 WorkoutAdapter.mClickListener.onItemClick(frameView, getAdapterPosition());
             }
         }
@@ -181,13 +169,15 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         holder.graph.getViewport().setYAxisBoundsManual(true);
         holder.graph.getViewport().setXAxisBoundsManual(true);
 
+        // Remember and highlight the last clicked view
         if( position == clickedListPosition ) {
             clickedView = holder.graph;
             clickedView.setBackgroundColor( clickedView.getResources().getColor(R.color.ColorBackgroundHighlight));
-            //Toast.makeText(parent, "onBindViewHolder", Toast.LENGTH_LONG).show();
-            if( position == 0 && !isCalled ) {
+
+            // If this is the first time we are here, call onClick()
+            if( !isCalled && position == 0 ) {
                 isCalled = true;
-                Toast.makeText(parent, "onBindViewHolder", Toast.LENGTH_LONG).show();
+                //Toast.makeText(parent, "onBindViewHolder", Toast.LENGTH_LONG).show();
                 holder.onClick( holder.graph );
             }
         }
