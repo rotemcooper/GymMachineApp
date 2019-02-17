@@ -22,7 +22,7 @@ public class WorkoutPrf implements Serializable {
     private final int addRelInit;
     private final int multPullInit;
     private final int multRelInit;
-    public final int repsMax;
+    public int repsMax;
 
     public final String name;
     public final String videoUri;

@@ -21,11 +21,21 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     private static WorkoutAdapter.ItemClickListener mClickListener;
     private ArrayList<WorkoutPrf> workoutList;
     int clickedListPosition=0;
-    View prevClickedView;
+    View clickedView;
+    boolean isCalled = false;
+    Context parent;
+
+    public void forcedOnClick() {
+        if (WorkoutAdapter.mClickListener != null) {
+            Toast.makeText(parent, "forcedOnClick", Toast.LENGTH_LONG).show();
+            WorkoutAdapter.mClickListener.onItemClick(clickedView, clickedListPosition);
+        }
+    }
 
     WorkoutAdapter(Context parent, ArrayList<WorkoutPrf> workoutList ) {
         this.workoutList = workoutList;
-        Toast.makeText(parent, "List size " + workoutList.size() , Toast.LENGTH_LONG).show();
+        this.parent = parent;
+        //Toast.makeText(parent, "List size " + workoutList.size() , Toast.LENGTH_LONG).show();
     }
 
     // Parent activity will implement this method to respond to click events
@@ -36,6 +46,12 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     // Allows clicks events to be caught
     public void setClickListener(WorkoutAdapter.ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
+        //rotemc Toast.makeText(parent, "setClickListener1", Toast.LENGTH_LONG).show();
+
+        /*rotemc if( clickedView != null ) {
+            mClickListener.onItemClick(clickedView, 0);
+            Toast.makeText(parent, "setClickListener2", Toast.LENGTH_LONG).show();
+        }*/
     }
 
     // Provide a reference to the views for each data item (row)
@@ -61,16 +77,17 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         public void onClick(View view) {
             // Clear background of previously clicked view
 
-            if( prevClickedView != null ) {
-                prevClickedView.setBackgroundColor( view.getResources().getColor(R.color.ColorBackground));
+            if( clickedView != null ) {
+                clickedView.setBackgroundColor( view.getResources().getColor(R.color.ColorBackground));
             }
-            prevClickedView = view;
+            clickedView = view;
 
             // Highlight currently clicked view
             graph.setBackgroundColor( view.getResources().getColor(R.color.ColorBackgroundHighlight));
 
             clickedListPosition = getAdapterPosition();
             if (WorkoutAdapter.mClickListener != null) {
+                Toast.makeText(parent, "onClick " + getAdapterPosition(), Toast.LENGTH_LONG).show();
                 WorkoutAdapter.mClickListener.onItemClick(frameView, getAdapterPosition());
             }
         }
@@ -123,11 +140,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
 
         holder.setIsRecyclable(false);
 
-        if( position == clickedListPosition ) {
-            prevClickedView = holder.graph;
-            prevClickedView.setBackgroundColor( prevClickedView.getResources().getColor(R.color.ColorBackgroundHighlight));
-        }
-
         // Get element from data-set at this position
         WorkoutPrf prf = workoutList.get( position );
 
@@ -168,6 +180,17 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         holder.graph.getViewport().setMaxY(80);
         holder.graph.getViewport().setYAxisBoundsManual(true);
         holder.graph.getViewport().setXAxisBoundsManual(true);
+
+        if( position == clickedListPosition ) {
+            clickedView = holder.graph;
+            clickedView.setBackgroundColor( clickedView.getResources().getColor(R.color.ColorBackgroundHighlight));
+            //Toast.makeText(parent, "onBindViewHolder", Toast.LENGTH_LONG).show();
+            if( position == 0 && !isCalled ) {
+                isCalled = true;
+                Toast.makeText(parent, "onBindViewHolder", Toast.LENGTH_LONG).show();
+                holder.onClick( holder.graph );
+            }
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -175,7 +198,5 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
     public int getItemCount() {
         return workoutList.size();
     }
-
-
 }
 

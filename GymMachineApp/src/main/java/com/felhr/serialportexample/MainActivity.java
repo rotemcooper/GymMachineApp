@@ -145,11 +145,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
     
     public void buttonReps(View view) {
-        repsMax++;
-        if( repsMax > 10 ) {
-            repsMax = 1;
+        prf.repsMax++;
+        if( prf.repsMax > 10 ) {
+            prf.repsMax = 1;
         }
-        reps.setText( Integer.toString(repsMax) +  " Reps" );
+        reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
+                Integer.toString(prf.repsMax) );
+
+        //rotemc reps.setText( Integer.toString(repsMax) +  " Reps" );
         repCnt = 0;
     }
 
@@ -180,9 +183,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Integer.toString(prf.repsMax) );
 
             if( cyclesMax > 1 ) {
-                repCnt++;
-                if( repCnt > repsMax ) {
-                    repCnt = 1;
+                //repCnt++;
+                prf.reps++;
+                if( prf.reps > prf.repsMax ) {
+                    prf.reps = 1;
                     cycleCnt++;
                     if( cycleCnt > cyclesMax ) {
                         workoutPullMinus( cycleCnt-2 );
@@ -208,10 +212,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         pointsRel.resetData(prfDataPointsRel());
         cyclesMax = 1;
         cycleCnt = 1;
-        repsMax = 1;
-        repCnt = 0;
-        cycle.setText( Integer.toString(cyclesMax) +  " Sets" );
-        reps.setText( Integer.toString(cyclesMax) +  " Reps" );
+        //repsMax = 1;
+        //repCnt = 0;
+        reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
+                Integer.toString(prf.repsMax) );
+        //cycle.setText( Integer.toString(cyclesMax) +  " Sets" );
+        //reps.setText( Integer.toString(cyclesMax) +  " Reps" );
     }
 
     public void videoStart(View view) {
@@ -508,11 +514,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             workoutRecyclerView.setLayoutManager(workoutLayoutManager);
 
             // Specify workout adapter
-            workoutAdapter = new WorkoutAdapter(this, workoutList);
+           /* rotemc workoutAdapter = new WorkoutAdapter(this, workoutList);
             workoutRecyclerView.setAdapter(workoutAdapter);
 
             // Set onClickListener
-            workoutAdapter.setClickListener(this);
+            workoutAdapter.setClickListener(this);*/
         }
         else {
             workoutList = new ArrayList<WorkoutPrf>();
@@ -597,8 +603,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setPrf( prf );
         //setTrainerDisplay( true );
 
-        reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
-                Integer.toString(prf.repsMax) );
+        //reps.setText( "Reps " + Integer.toString(prf.reps) + ":" +
+        //        Integer.toString(prf.repsMax) );
+
+        // Generate forced click for first item selection
+        /*rotemc if( workoutAdapter != null ) {
+            workoutAdapter.forcedOnClick();
+        }*/
+        // Specify workout adapter
+        if( workoutLayoutManager != null ) {
+            workoutAdapter = new WorkoutAdapter(this, workoutList);
+            workoutRecyclerView.setAdapter(workoutAdapter);
+
+            // Set onClickListener
+            workoutAdapter.setClickListener(this);
+        }
+
     }
 
     //-----------------------------------------------------------------------------------------
@@ -665,7 +685,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(View view, int position) {
         //rotemc
-        //myToast( "Workout list position " + position, Toast.LENGTH_SHORT);
+        myToast( "onItemClick " + position, Toast.LENGTH_SHORT);
         workoutListView = view;
         workoutListPos = position;
         setPrf( workoutList.get(position), true );
