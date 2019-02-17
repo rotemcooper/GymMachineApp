@@ -52,7 +52,7 @@ public class WorkoutPrf implements Serializable {
                 addRelInitPrm,
                 multPullInitPrm,
                 multRelInitPrm,
-                0,
+                1,
                 Tbl );
     }
 

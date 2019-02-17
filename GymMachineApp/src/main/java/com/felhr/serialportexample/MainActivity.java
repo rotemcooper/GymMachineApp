@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void buttonCycle(View view) {
         setsMax++;
-        if( setsMax > 8 ) {
+        if( setsMax > 9 ) {
             setsMax = 1;
         }
         setsCnt = 1;
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     
     public void buttonReps(View view) {
         prf.repsMax++;
-        if( prf.repsMax > 10 ) {
+        if( prf.repsMax > 9 ) {
             prf.repsMax = 1;
         }
         reps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
