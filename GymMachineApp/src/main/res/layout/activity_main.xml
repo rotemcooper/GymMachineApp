@@ -313,7 +313,7 @@
         android:longClickable="false"
         android:onClick="videoStart"
         android:soundEffectsEnabled="true"
-        android:text="Start Video"
+        android:text="Touch to start"
         android:textColor="@color/colorBar"
         android:textSize="@dimen/prefButtonTextSize"
         android:background="@drawable/btn_rounded"

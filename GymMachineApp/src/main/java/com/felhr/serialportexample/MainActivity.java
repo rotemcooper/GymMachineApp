@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button reps;
     private Button buttonVideoStart;
     private int trainerID = -1;
-    private String trainerDisplayControl = new String( "PHOTO" );
+    private String trainerDisplayControl = new String( "VIDEO" );
     private WorkoutAdapter workoutAdapter;
 
     private final ServiceConnection usbConnection = new ServiceConnection() {
@@ -529,10 +529,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
-                trainerVideoView.pause();
-                buttonVideoStart.setVisibility( View.VISIBLE );
-                //rotemc
+                if( trainerVideoView.isPlaying() ) {
+                    trainerVideoView.pause();
+                    buttonVideoStart.setVisibility( View.VISIBLE );
+                }
+                else {
+                    trainerVideoView.start();
+                    buttonVideoStart.setVisibility( View.INVISIBLE );
+                }
             }
         });
 
