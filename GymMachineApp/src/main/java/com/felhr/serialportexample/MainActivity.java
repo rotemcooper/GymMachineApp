@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             usbService.write(buf);
             //myToast( new String(buf), Toast.LENGTH_LONG );
             prfChange( p );
-            setTrainerDisplay( true );
+            setTrainerDisplay();
         }
     }
 
@@ -492,11 +492,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             workoutRecyclerView.setLayoutManager(workoutLayoutManager);
 
             // Specify workout adapter
-           /* rotemc workoutAdapter = new WorkoutAdapter(this, workoutList);
+            workoutAdapter = new WorkoutAdapter(this, workoutList);
             workoutRecyclerView.setAdapter(workoutAdapter);
 
             // Set onClickListener
-            workoutAdapter.setClickListener(this);*/
+            workoutAdapter.setClickListener(this);
         }
         else {
             workoutList = new ArrayList<WorkoutPrf>();
@@ -585,21 +585,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Display trainer image/video as needed
         setPrf( prf );
-
-        // Specify workout adapter
-        if( workoutLayoutManager != null ) {
-            workoutAdapter = new WorkoutAdapter(this, workoutList);
-            workoutRecyclerView.setAdapter(workoutAdapter);
-
-            // Set onClickListener
-            workoutAdapter.setClickListener(this);
-        }
     }
 
     //-----------------------------------------------------------------------------------------
 
     // Set up the trainer video, audio and photo based on user selection
-    private void setTrainerDisplay( boolean isNewSegment ) {
+    private void setTrainerDisplay() {
         ImageView trainerImageView = (ImageView) findViewById(R.id.imageTrainer);
         VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
 
@@ -611,12 +602,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             buttonVideoStart.setVisibility( View.INVISIBLE );
             return;
         }
-//rotemc
+
         // Set up the trainer image
         trainerImageView.setImageResource( trainerID );
 
         // Set up the trainer video
-        if( prf.videoUri != null /*&& (isNewSegment || !trainerVideoView.isPlaying())*/ ) {
+        if( prf.videoUri != null ) {
             trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
             trainerVideoView.pause();
             trainerVideoView.seekTo( 1);
@@ -671,7 +662,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         // Trainer video control spinner selected.
         trainerDisplayControl = (String) parent.getItemAtPosition(pos);
-        setTrainerDisplay( false );
+        setTrainerDisplay();
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

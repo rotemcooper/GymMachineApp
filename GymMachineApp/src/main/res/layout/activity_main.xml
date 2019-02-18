@@ -24,6 +24,7 @@
         android:layout_marginBottom="39dp"
         android:layout_alignRight="@+id/graph"
         android:layout_marginRight="9dp"
+        android:visibility="invisible"
         />
 
     <ImageView
@@ -36,20 +37,8 @@
         android:layout_alignParentRight="false"
         android:layout_alignRight="@+id/graph"
         android:layout_marginRight="9dp"
+        android:visibility="invisible"
         />
-
-    <!--Button
-        android:id="@+id/buttonSelector"
-        android:layout_width="@dimen/topButtonWidth"
-        android:layout_height="@dimen/topButtonHeight"
-        android:layout_alignTop="@+id/buttonCycle"
-        android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/buttonStrengthTest"
-        android:onClick="buttonSelector"
-        android:soundEffectsEnabled="true"
-        android:text="Trainer"
-        android:textSize="32sp"
-        android:background="@drawable/btn_rounded" /-->
 
     <TextView
         android:id="@+id/textView3"
