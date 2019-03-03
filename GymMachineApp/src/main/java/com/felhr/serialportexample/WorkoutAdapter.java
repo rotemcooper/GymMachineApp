@@ -67,7 +67,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.MyViewHo
         @Override
         public void onClick(View view) {
             // Clear background of previously clicked view
-
             if( clickedView != null ) {
                 clickedView.setBackgroundColor( view.getResources().getColor(R.color.ColorBackground));
             }

@@ -21,6 +21,7 @@
         android:layout_width="180dp"
         android:layout_height="match_parent"
         android:textColor="@color/colorBar"
+        android:background="#1fffffff"
         android:gravity="right|top"
         android:layout_toRightOf="@+id/textSegNum"
         android:textSize="50sp"

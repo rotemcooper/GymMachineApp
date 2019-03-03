@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -129,7 +130,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void strengthTest(View view) {
         byte[] buf = {(byte) 't'};
         usbService.write(buf);
-        prf = strengthTestPrf;
+        if( workoutListView == null ) {
+            prf = strengthTestPrf;
+        }
         prf.multPull = 15;
         prf.multRel = 15;
         graph.setTitle( prf.name );
@@ -165,45 +168,48 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         buttonReps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
     }
 
-    private void prfRightDirChange( WorkoutPrf.Direction dir ) {
-        if( prf.dirRight == WorkoutPrf.Direction.REL && dir == WorkoutPrf.Direction.PULL ) {
+    private void RepsInc(){
+        prf.reps++;
+        if( prf.isRepsMax() ) {
+            if( workoutListView != null ) {
 
-            prf.reps++;
-            if( prf.isRepsMax() ) {
-                if( workoutListView != null ) {
+                TextView checkMark = (TextView) workoutListView.findViewById(R.id.textCheckMark);
+                checkMark.setVisibility( View.VISIBLE );
 
-                    TextView checkMark = (TextView) workoutListView.findViewById(R.id.textCheckMark);
-                    checkMark.setVisibility( View.VISIBLE );
-
-                    if( prf.reps == prf.repsMax+1 ) {
-                        setsCnt++;
-                        setsCntDisplay = Math.min( setsCnt, workoutList.size() );
-                    }
-
-                    if( setsCnt <= workoutList.size() ) {
-                        myToast( "Segment Completed\n Select next segment below", Toast.LENGTH_LONG);
-                        //setPrf( workoutItr.next(), false );
-                    }
-                    else {
-                        myToast( "Excellent job!\nYou completed the workout", Toast.LENGTH_LONG);
-                    }
-                }
-                else if( setsMax > 1 ) {
-                    prf.reps = 1;
+                if( prf.reps == prf.repsMax+1 ) {
                     setsCnt++;
-                    if( setsCnt > setsMax ) {
-                        workoutPullMinus( setsCnt-2 );
-                        workoutRelMinus( setsCnt-2 );
-                        setsCnt = 1;
-                    }
-                    else {
-                        workoutPullPlus( 1 );
-                        workoutRelPlus( 1 );
-                    }
-                    setsCntDisplay = setsCnt;
+                    setsCntDisplay = Math.min( setsCnt, workoutList.size() );
+                }
+
+                if( setsCnt <= workoutList.size() ) {
+                    myToast( "Segment Completed\n Select next segment below", Toast.LENGTH_LONG);
+                    //setPrf( workoutItr.next(), false );
+                }
+                else {
+                    myToast( "Excellent job!\nYou completed the workout", Toast.LENGTH_LONG);
                 }
             }
-            buttonReps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
+            else if( setsMax > 1 ) {
+                prf.reps = 1;
+                setsCnt++;
+                if( setsCnt > setsMax ) {
+                    workoutPullMinus( setsCnt-2 );
+                    workoutRelMinus( setsCnt-2 );
+                    setsCnt = 1;
+                }
+                else {
+                    workoutPullPlus( 1 );
+                    workoutRelPlus( 1 );
+                }
+                setsCntDisplay = setsCnt;
+            }
+        }
+        buttonReps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
+    }
+
+    private void prfRightDirChange( WorkoutPrf.Direction dir ) {
+        if( prf.dirRight == WorkoutPrf.Direction.REL && dir == WorkoutPrf.Direction.PULL ) {
+            RepsInc();
         }
         prf.dirRight = dir;
     }
@@ -456,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         springPref = new WorkoutPrf("Spring", 0,0,4,4, WorkoutPrf.SPRING_TBL);
         invSpringPref = new WorkoutPrf("Inverse Spring", 0,0,2,2, WorkoutPrf.INV_SPRING_TBL);
         mtnPref = new WorkoutPrf("Mountain", 0,0,4,4, WorkoutPrf.MTN_TBL);
-        strengthTestPrf = new WorkoutPrf("Strength Test", 0,0,4,4, WorkoutPrf.STRENGTH_TEST_TBL);
+        strengthTestPrf = new WorkoutPrf("SQ Test", 0,0,4,4, WorkoutPrf.STRENGTH_TEST_TBL);
 
         //------------------------------------------------------------------------------
 
@@ -599,6 +605,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
             trainerVideoView.pause();
             trainerVideoView.seekTo( 1);
+            trainerVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    RepsInc();
+                }
+            });
         }
 
         //Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
@@ -714,7 +727,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             dbgDisplay.append(data);
         }
 
-        if( prf == strengthTestPrf ) {
+        //rotemc if( prf == strengthTestPrf ) {
+        if( prf.usbChar == 't' ) {
             if( data.contains("test torque=") ) {
                 testFinished = false;
                 String[] params = data.split("test torque=", 0);
@@ -724,7 +738,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                       prf.multPull = torque/10;
                       pullDisplay.setText("" + prf.multPull);
                       pointsPull.resetData(prfDataPointsPull());
-                      graph.setTitle( "Strength Test, " + Integer.toString(prf.multPull) + "lb" );
+                      graph.setTitle( prf.name + " " + Integer.toString(prf.multPull) /*+ "lb"*/ );
                     }
                     catch( NumberFormatException e) {
                       //Do nothing
@@ -733,8 +747,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             else if( data.contains("Strength test done") ) {
                 if( !testFinished ) {
+                    RepsInc();
                     String str = new String( "Test Done");
-                    Toast.makeText(this, str, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this, str, Toast.LENGTH_LONG).show();
+                    myToast( str, Toast.LENGTH_LONG);
                     testFinished = true;
                     graph.setTitle( str );
                     graph.setTitle( str );
