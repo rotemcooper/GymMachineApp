@@ -1,5 +1,6 @@
 package com.felhr.serialportexample;
 
+import android.media.midi.MidiOutputPort;
 import android.net.Uri;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ public class WorkoutPrf implements Serializable {
     int multRel;
     int reps;
     int[] tbl;
+    final byte usbChar;
     int distRight;
     int distLeft;
     Direction dirRight;
@@ -73,6 +75,25 @@ public class WorkoutPrf implements Serializable {
         multRelInit = multRelInitPrm;
         repsMax = repsMaxPrm;
         tbl = Tbl;
+        if( tbl == WEIGHT_TBL ) {
+            usbChar = 'w';
+        }
+        else if( tbl == SPRING_TBL ) {
+            usbChar = 's';
+        }
+        else if( tbl == INV_SPRING_TBL ) {
+            usbChar = 'i';
+        }
+        else if( tbl == MTN_TBL ) {
+            usbChar = 'm';
+        }
+        else if( tbl == STRENGTH_TEST_TBL ) {
+            usbChar = 't';
+        }
+        else {
+            usbChar = 'w'; // default
+        }
+
         distRight = 0;
         distLeft = 0;
         dirRight = Direction.PULL;

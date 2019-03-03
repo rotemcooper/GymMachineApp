@@ -29,21 +29,49 @@ public class WorkoutSelectorActivity extends AppCompatActivity implements Traine
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("TrainerID",  TrainerAdapter.trainerImages[position]);
 
-        String brandon1 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon1);
-        String brandon2 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon2);
-        String brandon3 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon3);
+        String brandon1 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon1_warmup1);
+        String brandon2 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon2_warmup2);
+        String brandon3 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon3_warmup3);
+        String brandon4 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon4_warmup4);
+        String brandon5 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon5_sqtest_tricep);
+        String brandon6 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon6_sqtest_back);
+        String brandon7 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon7_chest_press);
+        String brandon8 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon8_tricep);
+        String brandon9 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon9_lat_pulldown);
+        String brandon10 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon10_sqtest_bicep);
+        String brandon11 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon11_bicep_curls_standing);
+        String brandon12 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon12_squat_staggered);
+        String brandon13 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon13_squat_inplace);
+        String brandon14 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon14_deadlift);
 
         ArrayList<WorkoutPrf> workout = new ArrayList<WorkoutPrf>();
-        workout.add( new WorkoutPrf("Weight1", brandon1, 0,0,1,2, 3, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Weight2", brandon2, 0,0,4,6, 4, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Spring3", brandon3, 100,100,3,4, 5, WorkoutPrf.SPRING_TBL ) );
-        workout.add( new WorkoutPrf("Weight4", brandon1, 0,0,1,2, 3, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Weight5", brandon2, 0,0,4,6, 4, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Spring6", brandon3, 100,100,3,4, 5, WorkoutPrf.SPRING_TBL ) );
-        workout.add( new WorkoutPrf("Weight7", brandon1, 0,0,1,2, 4, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Weight8", brandon2, 0,0,4,6, 4, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Spring9", brandon3, 100,100,3,4, 4, WorkoutPrf.SPRING_TBL ) );
-        workout.add( new WorkoutPrf("Weight10", brandon1, 0,0,1,2, 4, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Warm-up 1", brandon1, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Warm-up 2", brandon2, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Warm-up 3", brandon3, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Warm-up 4", brandon4, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("SQ Triceps", brandon5, 0,0,8,8, 2, WorkoutPrf.STRENGTH_TEST_TBL ) );
+        workout.add( new WorkoutPrf("SQ Back", brandon6, 0,0,8,8, 2, WorkoutPrf.STRENGTH_TEST_TBL ) );
+
+        workout.add( new WorkoutPrf("Chest Press", brandon7, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Standing Tricep", brandon8, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Lat Pulldown", brandon9, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Chest Press", brandon7, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Standing Tricep", brandon8, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Lat Pulldown", brandon9, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Chest Press", brandon7, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Standing Tricep", brandon8, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Lat Pulldown", brandon9, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+
+        workout.add( new WorkoutPrf("SQ Bicep", brandon10, 0,0,8,8, 2, WorkoutPrf.STRENGTH_TEST_TBL ) );
+
+        workout.add( new WorkoutPrf("Bicep Curls", brandon11, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Staggered Squat", brandon12, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("In-place Squat", brandon13, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Dead-lift", brandon14, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Bicep Curls", brandon11, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Staggered Squat", brandon12, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("In-place Squat", brandon13, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Dead-lift", brandon14, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
 
         intent.putExtra("Workout", workout);
         startActivity(intent);

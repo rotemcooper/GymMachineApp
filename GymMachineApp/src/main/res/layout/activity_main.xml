@@ -256,7 +256,7 @@
         android:layout_toStartOf="@+id/spinnerTrainer"
         android:onClick="strengthTest"
         android:soundEffectsEnabled="true"
-        android:text="S-Test"
+        android:text="SQ Test"
         android:textColor="@color/colorBar"
         android:textSize="@dimen/topButtonTextSize"
         android:background="@drawable/btn_rounded" />

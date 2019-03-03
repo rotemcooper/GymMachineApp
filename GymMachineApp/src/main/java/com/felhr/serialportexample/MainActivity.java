@@ -251,7 +251,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void setPrf(WorkoutPrf p, boolean isForcePrfChange ) {
         if (usbService != null) {
             if( p != prf || isForcePrfChange ) {
-                byte[] buff = {(byte) Character.toLowerCase(p.name.charAt(0)) };
+                //byte[] buff = {(byte) Character.toLowerCase(p.name.charAt(0)) };
+                byte[] buff = { p.usbChar };
                 usbService.write(buff);
             }
             byte[] buf = {
