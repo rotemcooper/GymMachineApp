@@ -710,6 +710,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if( usbService != null ) {
             usbService.setHandler( null );
         }
+
+        if( async != null ) {
+            async.stop();
+        }
+
         unregisterReceiver(mUsbReceiver);
         unbindService(usbConnection);
     }
@@ -860,6 +865,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private class MyAsync extends AsyncTask<Void, Integer, Void>
     {
+        private boolean stop = false;
+        public void stop() {
+            stop = true;
+        }
+
         VideoView trainerVideoView;
         public void videoUpdate( VideoView videoView ) {
             this.trainerVideoView = videoView;
@@ -877,9 +887,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         //}
                     } catch (Exception e) {
                     }
-            } while ( true );
+            } while ( !stop );
 
-            //return null;
+            return null;
         }
 
         @Override
@@ -890,7 +900,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             if( trainerVideoView != null ) {
                 videoProgressbar.setProgress( (trainerVideoView.getCurrentPosition()*10000) / trainerVideoView.getDuration() );
             }
-
         }
     }
 }
