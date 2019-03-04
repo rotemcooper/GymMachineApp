@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -25,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private EditText editText;
     private MyHandler mHandler;
     private GraphView graph;
+    private ProgressBar videoProgressbar;
+    private VideoView trainerVideoView;
+    private int trainerVideoDuration;
     private RecyclerView workoutRecyclerView;
     private RecyclerView.LayoutManager workoutLayoutManager;
     private Button buttonSets;
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private int        setsMax;
     private int        setsCnt;
     private int        setsCntDisplay;
+    MyAsync async;
 
     private final ServiceConnection usbConnection = new ServiceConnection() {
         @Override
@@ -468,6 +474,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Set the trainer ID if provided in intent (default is -1).
         //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
         workoutRecyclerView = (RecyclerView) findViewById(R.id.workoutRecycler);
+        trainerVideoView = (VideoView) findViewById(R.id.videoView);
+        videoProgressbar = (ProgressBar) findViewById(R.id.videoProgressbar);
+        videoProgressbar.setProgress(0);
+        videoProgressbar.setMax(10000);
 
         // Improve performance (if changes in content do not change the layout
         // size of the RecyclerView)
@@ -492,6 +502,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             // Set onClickListener
             workoutAdapter.setClickListener(this);
+
+            // Start task to update trainer video progressbar
+            async = new MyAsync();
+            async.execute();
         }
         else {
             workoutList = new ArrayList<WorkoutPrf>();
@@ -593,6 +607,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             trainerImageView.setVisibility( View.INVISIBLE );
             trainerVideoView.setVisibility( View.INVISIBLE );
             buttonVideoStart.setVisibility( View.INVISIBLE );
+            videoProgressbar.setVisibility( View.INVISIBLE );
             return;
         }
 
@@ -604,6 +619,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             trainerVideoView.setVideoURI(Uri.parse(prf.videoUri));
             trainerVideoView.pause();
             trainerVideoView.seekTo( 1);
+            trainerVideoDuration = trainerVideoView.getDuration();
             trainerVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
                 @Override
@@ -611,6 +627,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     RepsInc();
                 }
             });
+
+            //new MyAsync().execute();
+            async.videoUpdate( trainerVideoView );
         }
 
         //Toast.makeText(this, trainerDisplayControl, Toast.LENGTH_SHORT).show();
@@ -618,31 +637,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case "VIDEO+PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
+                videoProgressbar.setVisibility( View.VISIBLE );
                 buttonVideoStart.setVisibility( View.VISIBLE );
                 break;
             case "AUDIO+PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
+                videoProgressbar.setVisibility( View.VISIBLE );
                 buttonVideoStart.setVisibility( View.VISIBLE );
                 break;
             case "VIDEO":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
+                videoProgressbar.setVisibility( View.VISIBLE );
                 buttonVideoStart.setVisibility( View.VISIBLE );
                 break;
             case "PHOTO":
                 trainerImageView.setVisibility( View.VISIBLE );
                 trainerVideoView.setVisibility( View.INVISIBLE );
+                videoProgressbar.setVisibility( View.INVISIBLE );
                 buttonVideoStart.setVisibility( View.INVISIBLE );
                 break;
             case "AUDIO":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.VISIBLE );
+                videoProgressbar.setVisibility( View.VISIBLE );
                 buttonVideoStart.setVisibility( View.VISIBLE );
                 break;
             case "CLEAR":
                 trainerImageView.setVisibility( View.INVISIBLE );
                 trainerVideoView.setVisibility( View.INVISIBLE );
+                videoProgressbar.setVisibility( View.INVISIBLE );
                 buttonVideoStart.setVisibility( View.INVISIBLE );
                 break;
         }
@@ -830,6 +855,42 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Toast.makeText(mActivity.get(), "DSR_CHANGE", Toast.LENGTH_LONG).show();
                     break;
             }
+        }
+    }
+
+    private class MyAsync extends AsyncTask<Void, Integer, Void>
+    {
+        VideoView trainerVideoView;
+        public void videoUpdate( VideoView videoView ) {
+            this.trainerVideoView = videoView;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            do {
+                try {
+                        publishProgress((int) (50) );
+                        Thread.sleep(50);
+                        //if(videoProgressbar.getProgress() >= 100) {
+                        //    break;
+                        //}
+                    } catch (Exception e) {
+                    }
+            } while ( true );
+
+            //return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            //System.out.println(values[0]);
+            //videoProgressbar.setProgress(values[0]);
+            if( trainerVideoView != null ) {
+                videoProgressbar.setProgress( (trainerVideoView.getCurrentPosition()*10000) / trainerVideoView.getDuration() );
+            }
+
         }
     }
 }

@@ -308,4 +308,14 @@
         android:background="@drawable/btn_rounded"
         />
 
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_alignTop="@+id/videoView"
+        android:layout_alignRight="@+id/videoView"
+        android:layout_width="797dp"
+        android:layout_height="10dp"
+        android:id="@+id/videoProgressbar"
+        android:visibility="invisible"
+        />
+
 </RelativeLayout>
