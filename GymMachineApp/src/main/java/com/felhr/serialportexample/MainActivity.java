@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -136,7 +138,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void strengthTest(View view) {
         byte[] buf = {(byte) 't'};
         usbService.write(buf);
-        if( workoutListView == null ) {
+        //if( workoutListView == null ) {
+        if( prf.usbChar != 't' ) {
             prf = strengthTestPrf;
         }
         prf.multPull = 15;
@@ -866,28 +869,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private class MyAsync extends AsyncTask<Void, Integer, Void>
     {
         private boolean stop = false;
+        VideoView trainerVideoView;
+
         public void stop() {
             stop = true;
         }
 
-        VideoView trainerVideoView;
         public void videoUpdate( VideoView videoView ) {
             this.trainerVideoView = videoView;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-
             do {
                 try {
-                        publishProgress((int) (50) );
+                        publishProgress();
                         Thread.sleep(50);
-                        //if(videoProgressbar.getProgress() >= 100) {
-                        //    break;
-                        //}
                     } catch (Exception e) {
                     }
-            } while ( !stop );
+            } while( !stop );
 
             return null;
         }
@@ -895,8 +895,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            //System.out.println(values[0]);
-            //videoProgressbar.setProgress(values[0]);
             if( trainerVideoView != null ) {
                 videoProgressbar.setProgress( (trainerVideoView.getCurrentPosition()*10000) / trainerVideoView.getDuration() );
             }

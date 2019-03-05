@@ -311,7 +311,6 @@
     <ProgressBar
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_alignBottom="@+id/videoView"
-
         android:layout_alignRight="@+id/videoView"
         android:layout_width="797dp"
         android:layout_height="10dp"
