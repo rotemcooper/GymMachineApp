@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void RepsInc(){
         prf.reps++;
+
         if( prf.isRepsMax() ) {
             if( workoutListView != null ) {
                 TextView checkMark = (TextView) workoutListView.findViewById(R.id.textCheckMark);

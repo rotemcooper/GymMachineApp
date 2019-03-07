@@ -45,12 +45,12 @@ public class WorkoutSelectorActivity extends AppCompatActivity implements Traine
         String brandon14 = new String("android.resource://" + getPackageName() + "/" + R.raw.brandon14_deadlift);
 
         ArrayList<WorkoutPrf> workout = new ArrayList<WorkoutPrf>();
-        workout.add( new WorkoutPrf("Warm-up 1", brandon1, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Warm-up 2", brandon2, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Warm-up 3", brandon3, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("Warm-up 4", brandon4, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
-        workout.add( new WorkoutPrf("SQ Triceps", brandon5, 0,0,8,8, 2, WorkoutPrf.STRENGTH_TEST_TBL ) );
-        workout.add( new WorkoutPrf("SQ Back", brandon6, 0,0,8,8, 2, WorkoutPrf.STRENGTH_TEST_TBL ) );
+        workout.add( new WorkoutPrf("Warm-up 1", WorkoutPrf.Type.WARMUP, brandon1, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Warm-up 2", WorkoutPrf.Type.WARMUP, brandon2, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Warm-up 3", WorkoutPrf.Type.WARMUP, brandon3, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("Warm-up 4", WorkoutPrf.Type.WARMUP, brandon4, 0,0,1,1, 1, WorkoutPrf.WEIGHT_TBL ) );
+        workout.add( new WorkoutPrf("SQ Triceps", WorkoutPrf.Type.SQ_TRICEP, brandon5, 0,0,8,8, 2, WorkoutPrf.STRENGTH_TEST_TBL ) );
+        workout.add( new WorkoutPrf("SQ Back", WorkoutPrf.Type.SQ_BACK, brandon6, 0,0,8,8, 2, WorkoutPrf.STRENGTH_TEST_TBL ) );
 
         workout.add( new WorkoutPrf("Chest Press", brandon7, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );
         workout.add( new WorkoutPrf("Standing Tricep", brandon8, 0,0,2,2, 15, WorkoutPrf.WEIGHT_TBL ) );

@@ -17,7 +17,17 @@ public class WorkoutPrf implements Serializable {
         SELECTED,
         COMPLETED
     }
+
+    public enum Type {
+        WARMUP,
+        WORKOUT,
+        SQ_BICEP,
+        SQ_TRICEP,
+        SQ_BACK,
+    }
+
     public State state;
+    public Type type;
 
     private final int addPullInit;
     private final int addRelInit;
@@ -66,15 +76,36 @@ public class WorkoutPrf implements Serializable {
                 int multRelInitPrm,
                 int repsMaxPrm,
                 int[] Tbl ) {
-        name = Name;
-        videoUri = videoUriPrm;
+        this( Name,
+                Type.WORKOUT,
+                videoUriPrm,
+                addPullInitPrm,
+                addRelInitPrm,
+                multPullInitPrm,
+                multRelInitPrm,
+                1,
+                Tbl );
+    }
 
-        addPullInit = addPullInitPrm;
-        addRelInit = addRelInitPrm;
-        multPullInit = multPullInitPrm;
-        multRelInit = multRelInitPrm;
-        repsMax = repsMaxPrm;
-        tbl = Tbl;
+    WorkoutPrf( String name,
+                Type type,
+                String videoUri,
+                int addPullInit,
+                int addRelInit,
+                int multPullInit,
+                int multRelInit,
+                int repsMax,
+                int[] tbl ) {
+        this.name = name;
+        this.type = type;
+        this.videoUri = videoUri;
+
+        this.addPullInit = addPullInit;
+        this.addRelInit = addRelInit;
+        this.multPullInit = multPullInit;
+        this.multRelInit = multRelInit;
+        this.repsMax = repsMax;
+        this.tbl = tbl;
         if( tbl == WEIGHT_TBL ) {
             usbChar = 'w';
         }
