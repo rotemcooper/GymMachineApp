@@ -695,17 +695,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setPrf( workoutList.get(position), true );
         //rotemc
         if(person.pullBias() > 0) {
-            workoutPullPlus( person.pullBias() );
+            //workoutPullPlus( person.pullBias() );
         }
         else {
-            workoutPullMinus( -person.pullBias() );
+           // workoutPullMinus( -person.pullBias() );
         }
 
         if(person.relBias() > 0) {
-            workoutRelPlus( person.relBias() );
+          //  workoutRelPlus( person.relBias() );
         }
         else {
-            workoutRelMinus( -person.relBias() );
+         //   workoutRelMinus( -person.relBias() );
         }
 
         buttonReps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
