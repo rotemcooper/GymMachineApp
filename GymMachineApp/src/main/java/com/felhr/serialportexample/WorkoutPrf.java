@@ -83,7 +83,7 @@ public class WorkoutPrf implements Serializable {
                 addRelInitPrm,
                 multPullInitPrm,
                 multRelInitPrm,
-                1,
+                repsMaxPrm,
                 Tbl );
     }
 
@@ -99,7 +99,6 @@ public class WorkoutPrf implements Serializable {
         this.name = name;
         this.type = type;
         this.videoUri = videoUri;
-
         this.addPullInit = addPullInit;
         this.addRelInit = addRelInit;
         this.multPullInit = multPullInit;

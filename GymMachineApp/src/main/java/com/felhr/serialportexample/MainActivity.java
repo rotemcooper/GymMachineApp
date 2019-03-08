@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private WorkoutPrf mtnPref;
     private WorkoutPrf strengthTestPrf;
     private WorkoutPrf prf;
+    private PersonPrf person;
 
     ArrayList<WorkoutPrf> workoutList;
     int workoutListPos;
@@ -295,11 +296,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void workoutPullPlus( int val ) {
         byte[] buf = new byte[val+1];
         buf[0] = 'p';
-        for( int i=0; i<val; i++ ) {
-            buf[i+1] = '*';
+        for( int i=1; i<val+1; i++ ) {
+            buf[i] = '*';
         }
         usbService.write(buf);
         prf.multPull += val;
+        person.pullBiasInc( val );
         pullDisplay.setText("" + prf.multPull);
         pointsPull.resetData(prfDataPointsPull());
     }
@@ -310,11 +312,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void workoutPullMinus( int val ) {
         byte[] buf = new byte[val+1];
         buf[0] = 'p';
-        for( int i=0; i<val; i++ ) {
-            buf[i+1] = '/';
+        for( int i=1; i<val+1; i++ ) {
+            buf[i] = '/';
         }
         usbService.write(buf);
         prf.multPull -= val;
+        person.pullBiasInc( -val );
         if (prf.multPull < 1) prf.multPull = 1;
         pullDisplay.setText("" + prf.multPull);
         pointsPull.resetData(prfDataPointsPull());
@@ -327,11 +330,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void workoutRelPlus( int val ) {
         byte[] buf = new byte[val+1];
         buf[0] = 'r';
-        for( int i=0; i<val; i++ ) {
-            buf[i+1] = '*';
+        for( int i=1; i<val+1; i++ ) {
+            buf[i] = '*';
         }
         usbService.write(buf);
         prf.multRel += val;
+        person.relBiasInc( val );
         relDisplay.setText("" + prf.multRel);
         pointsRel.resetData(prfDataPointsRel());
     }
@@ -343,11 +347,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void workoutRelMinus( int val ) {
         byte[] buf = new byte[val+1];
         buf[0] = 'r';
-        for( int i=0; i<val; i++ ) {
-            buf[i+1] = '/';
+        for( int i=1; i<val+1; i++ ) {
+            buf[i] = '/';
         }
         usbService.write(buf);
         prf.multRel -= val;
+        person.relBiasInc( -val );
         if (prf.multRel < 1) prf.multRel = 1;
         relDisplay.setText("" + prf.multRel);
         pointsRel.resetData(prfDataPointsRel());
@@ -517,6 +522,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         workoutItr = workoutList.listIterator();
         prf = workoutItr.next();
+        person = new PersonPrf("Talent");
 
         //------------------------------------------------------------------------------
 
@@ -628,7 +634,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    RepsInc();
+                    if( prf.type == WorkoutPrf.Type.WARMUP ) {
+                        RepsInc();
+                    }
                 }
             });
 
@@ -685,6 +693,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         workoutListView = view;
         workoutListPos = position;
         setPrf( workoutList.get(position), true );
+        //rotemc
+        if(person.pullBias() > 0) {
+            workoutPullPlus( person.pullBias() );
+        }
+        else {
+            workoutPullMinus( -person.pullBias() );
+        }
+
+        if(person.relBias() > 0) {
+            workoutRelPlus( person.relBias() );
+        }
+        else {
+            workoutRelMinus( -person.relBias() );
+        }
+
         buttonReps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
         buttonSets.setText( "Sets " + Integer.toString(setsCntDisplay) + ":" + Integer.toString(setsMax) );
     }
