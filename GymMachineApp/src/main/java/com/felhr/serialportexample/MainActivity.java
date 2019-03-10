@@ -227,8 +227,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void prfChange( WorkoutPrf prfPrm ) {
         prf = prfPrm;
         graph.setTitle( prf.name );
-        pullDisplay.setText("" + prf.multPull);
-        relDisplay.setText("" + prf.multRel);
+        pullDisplay.setText( "" + (prf.multPull+person.pullBias()) );
+        relDisplay.setText( "" + (prf.multRel+person.relBias()) );
         pointsPull.resetData(prfDataPointsPull());
         pointsRel.resetData(prfDataPointsRel());
         setsMax = workoutList.size();
@@ -263,23 +263,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static byte dig2(int x) { return (byte)('0' + (x/10)%10); }
     private static byte dig1(int x) { return (byte)('0' + x%10); }
 
-    public void setPrf(WorkoutPrf p ) {setPrf (p, true); }
+    public void setPrf(WorkoutPrf p ) { setPrf (p, true); }
     public void setPrf(WorkoutPrf p, boolean isForcePrfChange ) {
         if (usbService != null) {
+            boolean isResetTrainerDisplay = false;
             if( p != prf || isForcePrfChange ) {
                 //byte[] buff = {(byte) Character.toLowerCase(p.name.charAt(0)) };
                 byte[] buff = { p.usbChar };
                 usbService.write(buff);
+                isResetTrainerDisplay = true;
             }
             byte[] buf = {
-                    (byte) 'p', (byte) '*', dig3(p.multPull), dig2(p.multPull), dig1(p.multPull),
-                    (byte) 'r', (byte) '*', dig3(p.multRel), dig2(p.multRel), dig1(p.multRel),
+                    (byte) 'p', (byte) '*', dig3(p.multPull), dig2(p.multPull), dig1(p.multPull+person.pullBias()),
+                    (byte) 'r', (byte) '*', dig3(p.multRel), dig2(p.multRel), dig1(p.multRel+person.relBias()),
                     (byte) 'p', (byte) '+', dig3(p.addPull), dig2(p.addPull), dig1(p.addPull),
                     (byte) 'r', (byte) '+', dig3(p.addRel), dig2(p.addRel), dig1(p.addRel) };
             usbService.write(buf);
             //myToast( new String(buf), Toast.LENGTH_LONG );
             prfChange( p );
-            setTrainerDisplay();
+            if (isResetTrainerDisplay) {
+                setTrainerDisplay();
+            }
+
         }
     }
 
@@ -301,12 +306,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         usbService.write(buf);
         prf.multPull += val;
-        person.pullBiasInc( val );
         pullDisplay.setText("" + prf.multPull);
         pointsPull.resetData(prfDataPointsPull());
     }
+
     public void workoutPullPlus(View view) {
-        workoutPullPlus( 1 );
+        if( trainerID < 0 ) {
+            workoutPullPlus( 1 );
+        }
+        else {
+            person.pullBiasInc( 1 );
+            setPrf( prf, false );
+        }
     }
 
     private void workoutPullMinus( int val ) {
@@ -317,14 +328,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         usbService.write(buf);
         prf.multPull -= val;
-        person.pullBiasInc( -val );
         if (prf.multPull < 1) prf.multPull = 1;
         pullDisplay.setText("" + prf.multPull);
         pointsPull.resetData(prfDataPointsPull());
     }
 
     public void workoutPullMinus(View view) {
-        workoutPullMinus( 1 );
+        if( trainerID < 0 ) {
+            workoutPullMinus( 1 );
+        }
+        else if( prf.multPull + person.pullBias() > 1 ) {
+            person.pullBiasInc( -1 );
+            setPrf( prf, false );
+        }
     }
 
     private void workoutRelPlus( int val ) {
@@ -335,13 +351,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         usbService.write(buf);
         prf.multRel += val;
-        person.relBiasInc( val );
         relDisplay.setText("" + prf.multRel);
         pointsRel.resetData(prfDataPointsRel());
     }
 
     public void workoutRelPlus(View view) {
-        workoutRelPlus( 1 );
+        if( trainerID < 0 ) {
+            workoutRelPlus( 1 );
+        }
+        else {
+            person.relBiasInc( 1 );
+            setPrf( prf, false );
+        }
     }
 
     private void workoutRelMinus( int val ) {
@@ -352,14 +373,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         usbService.write(buf);
         prf.multRel -= val;
-        person.relBiasInc( -val );
         if (prf.multRel < 1) prf.multRel = 1;
         relDisplay.setText("" + prf.multRel);
         pointsRel.resetData(prfDataPointsRel());
     }
 
     public void workoutRelMinus(View view) {
-        workoutRelMinus( 1 );
+        if( trainerID < 0 ) {
+            workoutRelMinus( 1 );
+        }
+        else if( prf.multRel + person.relBias() > 1 ) {
+            person.relBiasInc( -1 );
+            setPrf( prf, false );
+        }
     }
 
     private double torqueToPound( int x ) {
@@ -376,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             if (len >= prf.tbl.length) {
                 len = prf.tbl.length - 1;
             }
-            dp[i] = new DataPoint(i, torqueToPound(prf.tbl[len] * prf.multPull));
+            dp[i] = new DataPoint(i, torqueToPound(prf.tbl[len] * (prf.multPull+person.pullBias())));
         }
         return dp;
     }
@@ -388,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             if (len >= prf.tbl.length) {
                 len = prf.tbl.length - 1;
             }
-            dp[i] = new DataPoint(i, torqueToPound(prf.tbl[len] * prf.multRel));
+            dp[i] = new DataPoint(i, torqueToPound(prf.tbl[len] * (prf.multRel+person.relBias())));
         }
         return dp;
     }
@@ -397,8 +423,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (point < 0) point = 0;
         int pointChart = point;
         if (pointChart >= prf.tbl.length) pointChart = prf.tbl.length - 1;
-        int mult = prf.multPull;
-        if ( dir == WorkoutPrf.Direction.REL ) mult = prf.multRel;
+        int mult = prf.multPull + person.pullBias();
+        if ( dir == WorkoutPrf.Direction.REL ) mult = prf.multRel + person.relBias();
         DataPoint[] dp = {new DataPoint(point, torqueToPound(prf.tbl[pointChart] * mult))};
         return dp;
     }
@@ -421,6 +447,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Handler to be passed to UsbService
         mHandler = new MyHandler(this);
+
+        // Person that is training
+        person = new PersonPrf("Talent");
 
         //-----------------------------------------------------------------------
 
@@ -498,7 +527,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        graph.setTitle( prf.name );
+        //graph.setTitle( prf.name );
         graph.setTitleTextSize( 60 );
         graph.setTitleColor( Color.WHITE );
 
@@ -557,7 +586,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //------------------------------------------------------------------------------
 
-        // Ser Trainer VideoView and progress bar
+        // Set Trainer VideoView and progress bar
         trainerVideoView = (VideoView) findViewById(R.id.videoView);
         videoProgressbar = (ProgressBar) findViewById(R.id.videoProgressbar);
         videoProgressbar.setProgress(0);
@@ -604,9 +633,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             workoutList = new ArrayList<WorkoutPrf>();
             workoutList.add(weightPref);
         }
-
-        // Person that is training
-        person = new PersonPrf("Talent");
 
         // Display trainer image/video as needed
         workoutItr = workoutList.listIterator();
@@ -704,19 +730,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         workoutListPos = position;
         setPrf( workoutList.get(position), true );
         //rotemc
-        if(person.pullBias() > 0) {
-            //workoutPullPlus( person.pullBias() );
+        /*if(person.pullBias() > 0) {
+            workoutPullPlus( person.pullBias() );
         }
         else {
-           // workoutPullMinus( -person.pullBias() );
+            //workoutPullMinus( -person.pullBias() );
         }
 
         if(person.relBias() > 0) {
-          //  workoutRelPlus( person.relBias() );
+            workoutRelPlus( person.relBias() );
         }
         else {
-         //   workoutRelMinus( -person.relBias() );
+            //workoutRelMinus( -person.relBias() );
         }
+        */
 
         buttonReps.setText( "Reps " + Integer.toString(prf.reps) + ":" + Integer.toString(prf.repsMax) );
         buttonSets.setText( "Sets " + Integer.toString(setsCntDisplay) + ":" + Integer.toString(setsMax) );
