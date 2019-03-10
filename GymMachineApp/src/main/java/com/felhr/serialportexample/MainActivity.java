@@ -419,10 +419,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         }
 
-        //-----------------------------------------------------------------------
-
+        // Handler to be passed to UsbService
         mHandler = new MyHandler(this);
 
+        //-----------------------------------------------------------------------
+
+        // Debug Views to send and to show Rx USB/serial messages
         dbgDisplay = (TextView) findViewById(R.id.textView1);
         dbgDisplayOn = false;
         dbgDisplay.setOnClickListener(new View.OnClickListener() {
@@ -433,33 +435,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
         dbgDisplay.setVisibility(View.INVISIBLE);
 
-        // View for sending characters to machine
+         // View for sending characters to machine
         editText = (EditText) findViewById(R.id.editText1);
         editText.setVisibility(View.INVISIBLE);
 
-        pullDisplay = (TextView) findViewById(R.id.textViewPull);
-        relDisplay = (TextView) findViewById(R.id.textViewRel);
         Button sendButton = (Button) findViewById(R.id.buttonSend);
-
-        //-----------------------------------------------------------------------
-
-        // Load activity type data with ArrayAdapter using the string array and a spinner layout
-        ArrayAdapter<CharSequence> trainerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.trainerMenu, R.layout.main_trainer_spinner);
-
-        // Specify the layout to use when the list of choices appears
-        trainerAdapter.setDropDownViewResource(R.layout.workout_selector_spinner_dropdown);
-
-        // Apply the adapter to the spinner
-        trainerSpinner = (Spinner) findViewById(R.id.spinnerTrainer);
-        trainerSpinner.setAdapter(trainerAdapter);
-
-        // Set listener
-        //trainerSpinner.setSelection(0,false);
-        trainerSpinner.setOnItemSelectedListener(this);
-
-        //-----------------------------------------------------------------------
-
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -472,6 +452,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        //-----------------------------------------------------------------------
+
+        // Default workout profiles
         weightPref = new WorkoutPrf("Weight", 0,0,4,4, WorkoutPrf.WEIGHT_TBL );
         springPref = new WorkoutPrf("Spring", 0,0,4,4, WorkoutPrf.SPRING_TBL);
         invSpringPref = new WorkoutPrf("Inverse Spring", 0,0,2,2, WorkoutPrf.INV_SPRING_TBL);
@@ -480,73 +463,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //------------------------------------------------------------------------------
 
-        // Set the trainer ID if provided in intent (default is -1).
-        //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
-        workoutRecyclerView = (RecyclerView) findViewById(R.id.workoutRecycler);
-        trainerVideoView = (VideoView) findViewById(R.id.videoView);
-        videoProgressbar = (ProgressBar) findViewById(R.id.videoProgressbar);
-        videoProgressbar.setProgress(0);
-        videoProgressbar.setMax(10000);
-
-        // Improve performance (if changes in content do not change the layout
-        // size of the RecyclerView)
-        workoutRecyclerView.setHasFixedSize(true);
-
-        Intent intent = getIntent();
-        trainerID = intent.getIntExtra("TrainerID", -1);
-        if( trainerID == -1 ) {
-            workoutRecyclerView.setVisibility( View.INVISIBLE );
-        }
-
-        // Set Workout profile based on intent if provided. Else set to default.
-        if (intent.hasExtra("Workout")) {
-            workoutList = (ArrayList<WorkoutPrf>) getIntent().getSerializableExtra("Workout");
-
-            workoutLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            workoutRecyclerView.setLayoutManager(workoutLayoutManager);
-
-            // Specify workout adapter
-            workoutAdapter = new WorkoutAdapter(this, workoutList);
-            workoutRecyclerView.setAdapter(workoutAdapter);
-
-            // Set onClickListener
-            workoutAdapter.setClickListener(this);
-
-            // Start task to update trainer video progressbar
-            async = new MyAsync();
-            async.execute();
-        }
-        else {
-            workoutList = new ArrayList<WorkoutPrf>();
-            workoutList.add(weightPref);
-        }
-        workoutItr = workoutList.listIterator();
-        prf = workoutItr.next();
-        person = new PersonPrf("Talent");
-
-        //------------------------------------------------------------------------------
+        // Set up the display assuming default workout profile
+        prf = weightPref;
 
         setsMax = 1;
         setsCnt = 1;
         setsCntDisplay = 1;
-        buttonSets = (Button) findViewById(R.id.buttonSets);
 
+        buttonSets = (Button) findViewById(R.id.buttonSets);
         buttonReps = (Button) findViewById(R.id.buttonReps);
+
         buttonVideoStart = (Button) findViewById(R.id.buttonVideoStart);
         buttonVideoStart.setVisibility( View.INVISIBLE );
 
         pullDisplay = (TextView) findViewById(R.id.textViewPull);
-        pullDisplay.setText("" + prf.multPull);
         relDisplay = (TextView) findViewById(R.id.textViewRel);
+        pullDisplay.setText("" + prf.multPull);
         relDisplay.setText("" + prf.multRel);
 
          // Create and title the graph
         graph = (GraphView) findViewById(R.id.graph);
-
         graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 VideoView trainerVideoView = (VideoView) findViewById(R.id.videoView);
                 if( trainerVideoView.isPlaying() ) {
                     trainerVideoView.pause();
@@ -600,7 +539,78 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //------------------------------------------------------------------
 
+        // Set the Trainer display control spinner
+
+        // Load the data items into ArrayAdapter
+        ArrayAdapter<CharSequence> trainerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.trainerMenu, R.layout.main_trainer_spinner);
+
+        // Specify the layout to use when the list of choices appears
+        trainerAdapter.setDropDownViewResource(R.layout.workout_selector_spinner_dropdown);
+
+        // Apply the adapter to the spinner
+        trainerSpinner = (Spinner) findViewById(R.id.spinnerTrainer);
+        trainerSpinner.setAdapter(trainerAdapter);
+
+        // Set listener
+        trainerSpinner.setOnItemSelectedListener(this);
+
+        //------------------------------------------------------------------------------
+
+        // Ser Trainer VideoView and progress bar
+        trainerVideoView = (VideoView) findViewById(R.id.videoView);
+        videoProgressbar = (ProgressBar) findViewById(R.id.videoProgressbar);
+        videoProgressbar.setProgress(0);
+        videoProgressbar.setMax(10000);
+
+        //-----------------------------------------------------------------------
+
+        // Set the workout RecyclerView
+        workoutRecyclerView = (RecyclerView) findViewById(R.id.workoutRecycler);
+        // Improve performance for fixed size RecyclerViews
+        workoutRecyclerView.setHasFixedSize(true);
+
+        //-----------------------------------------------------------------------
+
+        // Based on information provided in the Intent set the display for self or guided view.
+        Intent intent = getIntent();
+
+        // If trainer ID is provided
+        trainerID = intent.getIntExtra("TrainerID", -1);
+        //Toast.makeText(this, String.valueOf(trainerID), Toast.LENGTH_LONG).show();
+        if( trainerID == -1 ) {
+            workoutRecyclerView.setVisibility( View.INVISIBLE );
+        }
+
+        if (intent.hasExtra("Workout")) {
+            // Workout list is provided -> guided training
+            workoutList = (ArrayList<WorkoutPrf>) getIntent().getSerializableExtra("Workout");
+            workoutLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            workoutRecyclerView.setLayoutManager(workoutLayoutManager);
+
+            // Specify workout adapter
+            workoutAdapter = new WorkoutAdapter(this, workoutList);
+            workoutRecyclerView.setAdapter(workoutAdapter);
+
+            // Set onClickListener
+            workoutAdapter.setClickListener(this);
+
+            // Start task to update trainer video progressbar
+            async = new MyAsync();
+            async.execute();
+        }
+        else {
+            // No workout list is provided -> self training
+            workoutList = new ArrayList<WorkoutPrf>();
+            workoutList.add(weightPref);
+        }
+
+        // Person that is training
+        person = new PersonPrf("Talent");
+
         // Display trainer image/video as needed
+        workoutItr = workoutList.listIterator();
+        prf = workoutItr.next();
         setPrf( prf );
     }
 
