@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     };
 
     private void myToast( String text, int length ) {
+        playSound( R.raw.definite );
         Toast toast = Toast.makeText(this, text, length);
         ViewGroup group = (ViewGroup) toast.getView();
         TextView messageTextView = (TextView) group.getChildAt(0);
@@ -133,6 +134,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if( v != null) v.setGravity(Gravity.CENTER);
         toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    private void playSound(int resId) {
+        MediaPlayer mp = MediaPlayer.create(MainActivity.this, resId);
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.reset();
+                mediaPlayer.release();
+            }
+        });
+        mp.start();
     }
 
 
